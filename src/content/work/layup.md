@@ -1,10 +1,10 @@
 ---
-title: Markdown Mystery Tour
+title: Lay Up Project
 publishDate: 2020-03-02 00:00:00
-img: /assets/stock-1.jpg
-img_alt: Iridescent ripples of a bright blue and pink liquid
+img: /assets/layup.png
+img_alt: Layup webpage photo
 description: |
-  We designed a whodunnit-style game to introduce Markdown formatting. Suspense — suspicion — syntax!
+  Simple Web page for the development of a project for a fashion brand
 tags:
   - Design
   - Dev
