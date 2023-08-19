@@ -33,8 +33,10 @@ The development of the app was divided in 3 sprints. In the first sprint we had 
 </div>
 
 - Charger list for public and private chargers of vehicles and bikes
-
-<img class="images" height="500" width="300" alt="Charger map location in Google Maps" src="/assets/greenwheel/bikeslist.png"/>
+<div class="pair">
+  <img  height="500" width="300" alt="Charger map location in Google Maps" src="/assets/greenwheel/chargerlist.png"/>
+  <img  height="500" width="300" alt="Charger map location in Google Maps" src="/assets/greenwheel/bikeslist.png"/>
+</div>
 
 - Chat for users
 
