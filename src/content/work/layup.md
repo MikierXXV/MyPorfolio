@@ -54,23 +54,11 @@ tags:
     .images {
       margin-left: 0rem;
     }
-    .pair {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      margin-bottom: 2rem;
-    }
   }
 
   @media (min-width: 689px) {
     .images {
       margin-left: 0rem;
-      margin-bottom: 2rem;
-    }
-    .pair {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
       margin-bottom: 2rem;
     }
   }
