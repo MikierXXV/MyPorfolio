@@ -28,8 +28,8 @@ The development of the app was divided in 3 sprints. In the first sprint we had 
 
 - Charger description for public and private chargers of vehicles and bikes
 <div class="pair">
-  <img class="images" height="500" width="300" alt="Charger map location in Google Maps" src="/assets/greenwheel/chargerdescript.png"/>
-  <img class="images" height="500" width="300" alt="Charger map location in Google Maps" src="/assets/greenwheel/bikedescript.png"/>
+  <img  height="500" width="300" alt="Charger map location in Google Maps" src="/assets/greenwheel/chargerdescript.png"/>
+  <img  height="500" width="300" alt="Charger map location in Google Maps" src="/assets/greenwheel/bikedescript.png"/>
 </div>
 
 - Charger list for public and private chargers of vehicles and bikes
@@ -59,7 +59,7 @@ The development of the app was divided in 3 sprints. In the first sprint we had 
 
   @media (min-width: 689px) {
     .images {
-      margin-left: 7rem;
+      margin-left: 10rem;
     }
     .pair {
       display: flex;
