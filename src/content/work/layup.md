@@ -17,7 +17,7 @@ tags:
 
 
 <h2 class="center"> Introduction </h2>
-<p>The development of the website is part from the project realised in the Jedi's course of HTML, CSS and JS. This was one of the first contacts with the web development. It is about a web page focus on a fashon topic with innovative designs from Victor. Due to some changes in Heroku's policies, there are some parts that aren't working, but here you can access to the place. </p>
+<p>The development of the website is part from the project realised in the Jedi's course of HTML, CSS and JS. This was one of the first contacts with the web development. It is about a web page focus on a fashon topic with innovative designs from Victor. Due to some changes in Heroku's policies, there are some parts that aren't working, but here you can access to the place: <a href="https://mikierxxv.github.io/LAYUP/" title="layup">LAYUP site</a></p>
 
 <h2 class="center"> Development </h2>
 <p>This web page is developed with HTML, CSS, JS and Boostrap. The principals functionalities of the site were the e-commerce and the login page for users, but as commented before the backend hosted is not supported. In the E-commerce the user can select the diferents products by adding the quantity on the item selected by clicking the plus or minus button, and can add it to the chart clicking to the add button. Also the login. Also the login page can't register or log in due the same problem.</p>
