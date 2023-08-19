@@ -8,15 +8,63 @@ description: |
 tags:
   - Design
   - Dev
-  - Branding
+  - Frontend 
+  - Flutter
+  - Dart
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur posuere commodo venenatis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam non ligula vel metus efficitur hendrerit. In hac habitasse platea dictumst. Praesent et mauris ut mi dapibus semper. Curabitur tortor justo, efficitur sit amet pretium cursus, porta eget odio. Cras ac venenatis dolor. Donec laoreet posuere malesuada. Curabitur nec mi tempor, placerat leo sit amet, tincidunt est. Quisque pellentesque venenatis magna, eget tristique nibh pulvinar in. Vestibulum vitae volutpat arcu. Aenean ut malesuada odio, sit amet pellentesque odio. Suspendisse nunc elit, blandit nec hendrerit non, aliquet at magna. Donec id leo ut nulla sagittis sodales.
+## Introduction
+In this project, developed in a team of 7 people, we had to develop a mobile app that shows and reserve cars chargers and bikes. The languages used were Flutter for the frontend and Python for the backend. The app was developed as a project for PES subject in the FIB (Facultat d'Informàtica de Barcelona). We had distributted our team in 2 groups, one for the frontend and the other for the backend. I was part of the frontend team.
 
-Integer vitae nibh elit. Suspendisse eget urna eu neque bibendum pharetra. Sed interdum lectus sem, in pulvinar magna dignissim vel. Quisque maximus at urna nec laoreet. Suspendisse potenti. Vestibulum rhoncus sem ut mi pellentesque, in vestibulum erat blandit. Aliquam sodales dui ac maximus consectetur. Duis quis est vehicula, imperdiet nisl nec, fermentum erat. Duis tortor diam, pharetra eu euismod in, vehicula non eros. Curabitur facilisis dui at erat ultrices gravida. In at nunc ultricies, pulvinar mi vel, sagittis mauris. Praesent pharetra posuere purus ac imperdiet. Nulla facilisi.
 
-Sed pulvinar porttitor mi in ultricies. Etiam non dolor gravida eros pulvinar pellentesque et dictum ex. Proin eu ornare ligula, sed condimentum dui. Vivamus tincidunt tellus mi, sed semper ipsum pharetra a. Suspendisse sollicitudin at sapien nec volutpat. Etiam justo urna, laoreet ac lacus sed, ultricies facilisis dolor. Integer posuere, metus vel viverra gravida, risus elit ornare magna, id feugiat erat risus ullamcorper libero. Proin vitae diam auctor, laoreet lorem vitae, varius tellus.
+## Development
+The development of the app was divided in 3 sprints. In the first sprint we had to chose the necessary tools to began the development. Also we had created the firsts mockups of the app and proceeded to develop the main functionalities related to the map and the use of the public and private chargers. In the second one, we had to do some refactor of the code and add the functionalities related to the bikes. Finally, in the last sprint add the functionalities related to the xat, the rated system and the user profile.
 
-Mauris sed eros in ex maximus volutpat. Suspendisse potenti. Donec lacinia justo consectetur sagittis tempor. Proin ullamcorper nisi vitae auctor rhoncus. Sed tristique aliquam augue. Pellentesque vitae fringilla ligula. Nulla arcu elit, efficitur eu nunc malesuada, eleifend tincidunt orci. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer mattis orci in bibendum ultricies. Quisque a dui erat. Phasellus et vulputate ipsum. Proin metus ex, lobortis nec ornare eget, bibendum ut sapien. Aliquam in dolor lobortis, aliquam tellus a, congue augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-Aenean pretium purus augue, ut bibendum erat convallis quis. Cras condimentum quis velit ac mollis. Suspendisse non purus fringilla, venenatis nisl porta, finibus odio. Curabitur aliquet metus faucibus libero interdum euismod. Morbi sed magna nisl. Morbi odio nibh, facilisis vel sapien eu, tempus tincidunt erat. Nullam erat velit, sagittis at purus quis, tristique scelerisque tortor. Pellentesque lacinia tortor id est aliquam viverra. Vestibulum et diam ac ipsum mollis fringilla.
+## Sections developed by me
+- Charger Map for public and private chargers of vehicles and bikes
+  
+<img class="images" height="500" width="300"  alt="Charger map location in Google Maps" src="/assets/greenwheel/chargemap.png"/>
+
+- Charger description for public and private chargers of vehicles and bikes
+<div class="pair">
+  <img class="images" height="500" width="300" alt="Charger map location in Google Maps" src="/assets/greenwheel/chargerdescript.png"/>
+  <img class="images" height="500" width="300" alt="Charger map location in Google Maps" src="/assets/greenwheel/bikedescript.png"/>
+</div>
+
+- Charger list for public and private chargers of vehicles and bikes
+
+<img class="images" height="500" width="300" alt="Charger map location in Google Maps" src="/assets/greenwheel/bikeslist.png"/>
+
+- Chat for users
+
+<img class="images" height="500" width="300" alt="Charger map location in Google Maps" src="/assets/greenwheel/chat.png"/>
+
+- Chat list 
+
+<img class="images" height="500" width="300" alt="Charger map location in Google Maps" src="/assets/greenwheel/chatlist.png"/>
+
+<style> 
+
+  @media screen (max-width: 470px) {
+    .images {
+      margin-left: 0rem;
+    }
+    .pair {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+
+  @media (min-width: 689px) {
+    .images {
+      margin-left: 7rem;
+    }
+    .pair {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+</style>
