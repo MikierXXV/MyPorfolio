@@ -6,30 +6,72 @@ img_alt: Layup webpage photo
 description: |
   Simple Web page for the development of a project for a fashion brand
 tags:
-  - Design
-  - Dev
-  - User Testing
+  - JS
+  - HTML
+  - CSS
+  - Bootstrap
+  - JSON
+  - Frontend
+  - GitHub Pages
 ---
 
-## Level-two heading
 
-> Tell me and I forget. Teach me and I remember. Involve me and I learn.
+<h2 class="center"> Introduction </h2>
+<p>The development of the website is part from the project realised in the Jedi's course of HTML, CSS and JS. This was one of the first contacts with the web development. It is about a web page focus on a fashon topic with innovative designs from Victor. Due to some changes in Heroku's policies, there are some parts that aren't working, but here you can access to the place. </p>
 
-Lorem ipsum dolor sit amet, <a href="https://astro.build/">Astro</a> makes people happy. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin nibh nisl condimentum id venenatis a condimentum vitae. Dapibus ultrices in iaculis nunc. Arcu odio ut sem nulla pharetra diam sit amet. Diam quis enim lobortis scelerisque fermentum dui faucibus in ornare.
+<h2 class="center"> Development </h2>
+<p>This web page is developed with HTML, CSS, JS and Boostrap. The principals functionalities of the site were the e-commerce and the login page for users, but as commented before the backend hosted is not supported. In the E-commerce the user can select the diferents products by adding the quantity on the item selected by clicking the plus or minus button, and can add it to the chart clicking to the add button. Also the login. Also the login page can't register or log in due the same problem.</p>
 
-Arcu dui vivamus arcu felis bibendum ut tristique et egestas. Eget gravida cum sociis natoque penatibus. Cras fermentum odio eu feugiat pretium nibh. Proin nibh nisl condimentum id venenatis. Porta nibh venenatis cras sed felis eget velit. Id diam vel quam elementum pulvinar etiam non.
+><p class="center" >Sign in Page</p>
+<p>Simple login page were the user can register. There is a username input, the password and the one to confirm it. If the user exists or there is some error in the inputs an error appears. Moreover, if the user sign up correctly, a successfull pop up is shown.</p>
 
-### Level-three heading
+<img class="images" height="500" width="650"  alt="Sign in Page" src="/assets/layup/register.png"/>
 
-Ultrices tincidunt arcu non sodales neque sodales ut. Sed enim ut sem viverra aliquet eget sit amet. Lacus luctus accumsan tortor posuere ac ut consequat semper viverra. Viverra accumsan in nisl nisi scelerisque eu ultrices. In massa tempor nec feugiat nisl pretium fusce.
+><p class="center" >Log in Page</p>
+<p>Simple login page were the user can register. There is a username input, the password and the one to confirm it. If the user exists or there is some error in the inputs an error appears. Moreover, if the user sign up correctly, a successfull pop up is shown.</p>
 
-### Level-three heading
+<img class="images" height="500" width="650"  alt="Charger map location in Google Maps" src="/assets/layup/login.png"/>
 
-Sed pulvinar porttitor mi in ultricies. Etiam non dolor gravida eros pulvinar pellentesque et dictum ex. Proin eu ornare ligula, sed condimentum dui. Vivamus tincidunt tellus mi, sed semper ipsum pharetra a. Suspendisse sollicitudin at sapien nec volutpat. Etiam justo urna, laoreet ac lacus sed, ultricies facilisis dolor. Integer posuere, metus vel viverra gravida, risus elit ornare magna, id feugiat erat risus ullamcorper libero. Proin vitae diam auctor, laoreet lorem vitae, varius tellus.
+><p class="center" >Design information Page</p>
+<p>In this screen we can appreciate a carousel with some of the clothes of the brand. By clicking the button redirects to the e-commerce page, depending if is chosen the hoodies or the t-shirts.</p>
 
-Aenean pretium purus augue, ut bibendum erat convallis quis. Cras condimentum quis velit ac mollis. Suspendisse non purus fringilla, venenatis nisl porta, finibus odio. Curabitur aliquet metus faucibus libero interdum euismod. Morbi sed magna nisl. Morbi odio nibh, facilisis vel sapien eu, tempus tincidunt erat. Nullam erat velit, sagittis at purus quis, tristique scelerisque tortor. Pellentesque lacinia tortor id est aliquam viverra. Vestibulum et diam ac ipsum mollis fringilla.
+<img class="images" height="500" width="650"  alt="Charger map location in Google Maps" src="/assets/layup/style.png"/>
 
-#### Level-four heading
+><p class="center" >Home and Contact</p>
+<p>In the Home page appears some infomation about the brand, but only with images. For the contact, we have use the footer of each page, so are always present for the user.</p>
 
-- We noted this
-- And also this other point
+<style> 
+  p {
+    text-align: justify;
+    margin-bottom: 2rem;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  @media screen (max-width: 470px) {
+    .images {
+      margin-left: 0rem;
+    }
+    .pair {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+  }
+
+  @media (min-width: 689px) {
+    .images {
+      margin-left: 0rem;
+      margin-bottom: 2rem;
+    }
+    .pair {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+  }
+</style>
