@@ -15,12 +15,51 @@ import PortfolioPreview from '../components/PortfolioPreview.astro';
 // Page section components
 import ContactCTA from '../components/ContactCTA.astro';
 import Skills from '../components/Skills.astro';
+import CircularProgressBar from '../components/CircularProgressBar';
 
 // Content Fetching: List four most recent work projects
 const projects = (await getCollection('work'))
 	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
 	.slice(0, 4);
 
+const tecno = [
+		{
+            "tecnologyname":"HTML5",
+            "level":"80",
+            "source":"assets/logos/html.png",
+            "color":"#E34F26",
+        },
+        {
+            "tecnologyname":"CSS",
+            "level":"60",
+            "source":"assets/logos/css.png",
+            "color":"#1572B6",
+        },
+        {
+            "tecnologyname":"JavaScript",
+            "level":"55",
+            "source":"assets/logos/js.png",
+            "color":"#F7DF1E",
+        },
+        {
+            "tecnologyname":"Python",
+            "level":"45",
+            "source":"assets/logos/py.png",
+            "color":"#3776AB",
+        },
+        {
+            "tecnologyname":"Dart",
+            "level":"50",
+            "source":"assets/logos/dart.png",
+            "color":"#0175C2",
+        },
+        {
+            "tecnologyname":"PHP",
+            "level":"55",
+            "source":"assets/logos/php.png",
+            "color":"#777BB4",
+        },
+];
 // Full Astro Component Syntax:
 // https://docs.astro.build/core-concepts/astro-components/
 ---
@@ -86,14 +125,14 @@ const projects = (await getCollection('work'))
 						These are the main languages that I have used in my projects.
 					</p>
 				</header>
-
 				<div class="gallery">
 					<Grid variant="small">
 						{
-							['HTML', 'JavaScript', 'CSS', 'Flutter', 'React'].map((brand) => (
-								<li class="mention-card">
-									<p>{brand}</p>
-								</li>
+							tecno.map((item) => (
+								<CircularProgressBar
+									value={item.level}
+									src={item.source}
+									color={item.color}/>
 							))
 						}
 					</Grid>
@@ -212,6 +251,7 @@ const projects = (await getCollection('work'))
 	}
 
 	.section-center {
+		padding-right: 2.25rem;
 		justify-self: center;
 		text-align: center;
 		font-size: var(--text-md);
@@ -248,6 +288,7 @@ const projects = (await getCollection('work'))
 
 		.gallery {
 			grid-area: gallery;
+			padding-left: 10rem;
 		}
 
 		.cta {
