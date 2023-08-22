@@ -1,7 +1,7 @@
 ---
 title: Data Mining Projects
 publishDate: 2019-10-02 00:00:00
-img: /assets/Gendergapsalary.png
+img: /assets/datamining/Gendergapsalary.png
 img_alt: Gender salary gap logo
 description: |
   Gender salary gap analysis and NBA player position predictions.
@@ -11,12 +11,32 @@ tags:
   - R
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur posuere commodo venenatis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam non ligula vel metus efficitur hendrerit. In hac habitasse platea dictumst. Praesent et mauris ut mi dapibus semper. Curabitur tortor justo, efficitur sit amet pretium cursus, porta eget odio. Cras ac venenatis dolor. Donec laoreet posuere malesuada. Curabitur nec mi tempor, placerat leo sit amet, tincidunt est. Quisque pellentesque venenatis magna, eget tristique nibh pulvinar in. Vestibulum vitae volutpat arcu. Aenean ut malesuada odio, sit amet pellentesque odio. Suspendisse nunc elit, blandit nec hendrerit non, aliquet at magna. Donec id leo ut nulla sagittis sodales.
+<h2 class="center"> Introduction </h2>
+<p>These are two projects, developed with a team of 4, related to MD subject where we have done an analysis of a gender salary gap dataset from Kaggle and some predictions in a NBA dataset.</p>
 
-Integer vitae nibh elit. Suspendisse eget urna eu neque bibendum pharetra. Sed interdum lectus sem, in pulvinar magna dignissim vel. Quisque maximus at urna nec laoreet. Suspendisse potenti. Vestibulum rhoncus sem ut mi pellentesque, in vestibulum erat blandit. Aliquam sodales dui ac maximus consectetur. Duis quis est vehicula, imperdiet nisl nec, fermentum erat. Duis tortor diam, pharetra eu euismod in, vehicula non eros. Curabitur facilisis dui at erat ultrices gravida. In at nunc ultricies, pulvinar mi vel, sagittis mauris. Praesent pharetra posuere purus ac imperdiet. Nulla facilisi.
+<h2 class="center"> Development Gender Pay Gap </h2>
+<p>In this project our goal was to detect which were the variables, or at least, the main reason of the existence of this difference. The language used for the development was R. It allow us to preprocess the dataset, apply some clustering and PCA and make profilings for the data interpretation.</p>
 
-Sed pulvinar porttitor mi in ultricies. Etiam non dolor gravida eros pulvinar pellentesque et dictum ex. Proin eu ornare ligula, sed condimentum dui. Vivamus tincidunt tellus mi, sed semper ipsum pharetra a. Suspendisse sollicitudin at sapien nec volutpat. Etiam justo urna, laoreet ac lacus sed, ultricies facilisis dolor. Integer posuere, metus vel viverra gravida, risus elit ornare magna, id feugiat erat risus ullamcorper libero. Proin vitae diam auctor, laoreet lorem vitae, varius tellus.
+<h2 class="center"> Conclusions </h2>
+<p>Finally we discover, by the analysis in this dataset, that being white, married and with a high degree is prone to have a better wage. Moreover being male seems to increase this wage.</p>
 
-Mauris sed eros in ex maximus volutpat. Suspendisse potenti. Donec lacinia justo consectetur sagittis tempor. Proin ullamcorper nisi vitae auctor rhoncus. Sed tristique aliquam augue. Pellentesque vitae fringilla ligula. Nulla arcu elit, efficitur eu nunc malesuada, eleifend tincidunt orci. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer mattis orci in bibendum ultricies. Quisque a dui erat. Phasellus et vulputate ipsum. Proin metus ex, lobortis nec ornare eget, bibendum ut sapien. Aliquam in dolor lobortis, aliquam tellus a, congue augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-Aenean pretium purus augue, ut bibendum erat convallis quis. Cras condimentum quis velit ac mollis. Suspendisse non purus fringilla, venenatis nisl porta, finibus odio. Curabitur aliquet metus faucibus libero interdum euismod. Morbi sed magna nisl. Morbi odio nibh, facilisis vel sapien eu, tempus tincidunt erat. Nullam erat velit, sagittis at purus quis, tristique scelerisque tortor. Pellentesque lacinia tortor id est aliquam viverra. Vestibulum et diam ac ipsum mollis fringilla.
+<img class="images" height="500" width="650"  alt="Basketball court positions" src="/assets/datamining/basketpos.png"/>
+
+<h2 class="center"> Development NBA players</h2>
+<p>In this project our goal was to predict players positions by the proximity of their roles in the court. We have preprocessed our dataset from Kaggle to divide the five positions into 2 groups, so the "close" one, respect the basket, is composed by PF and C, while "away" group includes PG, SG and SF. We applied some of the data mining algorithms to see which fits our dataset the best. These were the algorithms: Naive Bayes, KNN, Decision Trees, SVM and Meta-learning. </p>
+
+<h2 class="center"> Conclusions </h2>
+<p>Finally we saw that the ones that fits better was the Meta-learning algorithm using the voting scheme with weights. The predictions were very similar between the other ones, but here the accuracy was the highest.</p>
+
+
+<style> 
+  p {
+    text-align: justify;
+    margin-bottom: 2rem;
+  }
+
+  .center {
+    text-align: center;
+  }
+</style>
