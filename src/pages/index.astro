@@ -60,6 +60,26 @@ const tecno = [
             "color":"#777BB4",
         },
 ];
+const frame = [
+		{
+            "framename":"Astro",
+            "level":"80",
+            "source":"assets/logos/astro.jpg",
+            "color":"#ff5705",
+        },
+        {
+            "framename":"React",
+            "level":"60",
+            "source":"assets/logos/react.png",
+            "color":"#01ccff",
+        },
+        {
+            "framename":"Boostrap",
+            "level":"55",
+            "source":"assets/logos/boostrap.png",
+            "color":"#563e7c",
+        },
+];
 // Full Astro Component Syntax:
 // https://docs.astro.build/core-concepts/astro-components/
 ---
@@ -138,6 +158,26 @@ const tecno = [
 					</Grid>
 				</div>
 			</section>
+			<section class="section with-background bg-variant">
+				<header class="section-header stack gap-2 lg:gap-4">
+					<h3>Frameworks</h3>
+					<p>
+						These are the Frameworks that I have used in projects.
+					</p>
+				</header>
+				<div class="gallery">
+					<Grid variant="small">
+						{
+							frame.map((item) => (
+								<CircularProgressBar
+									value={item.level}
+									src={item.source}
+									color={item.color}/>
+							))
+						}
+					</Grid>
+				</div>
+			</section>
 		</main>
 		
 		<div id="about" class="stack gap-20 lg:gap-48">
@@ -157,6 +197,12 @@ const tecno = [
 		</div>
 		<div class="stack gap-20 lg:gap-48">
 			<div class="wrapper stack gap-8 lg:gap-20">
+				<header class="section-center">
+					<h3>Education</h3>
+				</header>
+				<header class="section-center">
+					<h3>Work</h3>
+				</header>
 				<header class="section-center">
 					<h3>Skills</h3>
 				</header>
