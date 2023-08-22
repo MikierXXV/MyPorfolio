@@ -3,14 +3,14 @@ import Icon from './Icon.astro';
 ---
 
 <section class="box education">
-	<div class="stack gap-2 lg:gap-4 garbi">
+	<div class="stack gap-2 lg:gap-4 custom">
         <img height="300px" width="250px" src="/assets/education/garbi_logo.png"> 
 		<h2>Escola Garbi Pere Vergés</h2>
 		<p>Baccalaureate in Science and Technology</p>
         <Icon icon="calendar" color="var(--accent-regular)" size="2.5rem" gradient />
         <p>2016 - 2018</p>
 	</div>
-	<div class="stack gap-2 lg:gap-4 fib">
+	<div class="stack gap-2 lg:gap-4 custom">
         <img class="foto-fib" height="250px" width="200px" src="/assets/education/fib-upc_logo.png">   
 		<h2>Polytechnic University of Catalonia</h2>
 		<p>Software Engineering</p>
@@ -29,12 +29,11 @@ import Icon from './Icon.astro';
 	}
 
     img {
-        
         display: grid;
         justify-content: space-between;
     }
 
-    .fib {
+    .custom {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -43,12 +42,6 @@ import Icon from './Icon.astro';
     .foto-fib {
         padding-bottom: 35px;
         padding-top: 40px;
-    }
-
-    .garbi {
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
 
 	.education {

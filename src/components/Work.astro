@@ -1,0 +1,75 @@
+---
+import Icon from './Icon.astro';
+---
+
+<section class="box work">
+	<div class="stack gap-2 lg:gap-4 custom">
+        <img height="300px" width="250px" src="/assets/work/coyma-logo.png"> 
+		<p>Baccalaureate in Science and Technology</p>
+        <Icon icon="calendar" color="var(--accent-regular)" size="2.5rem" gradient />
+        <p>2016 - 2018</p>
+	</div>
+	<div class="stack gap-2 lg:gap-4 custom">
+        <img height="250px" width="200px" src="/assets/work/etseib_logo.png">   
+		<p>Software Engineering</p>
+        <Icon icon="calendar" color="var(--accent-regular)" size="2.5rem" gradient />
+		<p>2018 - In progress</p>
+	</div>
+	<div class="stack gap-2 lg:gap-4 custom">
+		<img class="foto-fib" height="250px" width="300px" src="/assets/work/upc_net_logo.png">   
+		<p>Software Engineering</p>
+        <Icon icon="calendar" color="var(--accent-regular)" size="2.5rem" gradient />
+		<p>2018 - In progress</p>
+	</div>
+</section>
+
+<style>
+	.box {
+		border: 1px solid var(--gray-800);
+		border-radius: 0.75rem;
+		padding: 1.5rem;
+		background-color: var(--gray-999_40);
+		box-shadow: var(--shadow-sm);
+	}
+    .custom {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    img {
+        display: grid;
+        justify-content: space-between;
+    }
+
+	.work {
+		display: flex;
+		flex-direction: column;
+		gap: 3rem;
+	}
+
+	.work h2 {
+		font-size: var(--text-lg);
+	}
+
+	.work p {
+		color: var(--gray-400);
+	}
+
+	@media (min-width: 50em) {
+		.box {
+			border-radius: 1.5rem;
+			padding: 2.5rem;
+		}
+
+		.work {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1rem;
+		}
+
+		.work h2 {
+			font-size: var(--text-2xl);
+		}
+	}
+</style>
