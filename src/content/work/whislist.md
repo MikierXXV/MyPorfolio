@@ -1,7 +1,7 @@
 ---
 title: Wishlist JS
 publishDate: 2019-12-01 00:00:00
-img: /assets/wishlist.png
+img: /my-portfolio/assets/wishlist.png
 img_alt: Example of the wishlist development
 description: |
   A wishlist web application developed with JavaScript, HTML and CSS.
