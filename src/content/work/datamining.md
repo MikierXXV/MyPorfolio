@@ -1,7 +1,7 @@
 ---
 title: Data Mining Projects
 publishDate: 2019-10-02 00:00:00
-img: /my-portfolio/assets/datamining/Gendergapsalary.png
+img: /MyPorfolio/assets/datamining/Gendergapsalary.png
 img_alt: Gender salary gap logo
 description: |
   Gender salary gap analysis and NBA player position predictions.
