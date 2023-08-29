@@ -21,7 +21,7 @@ tags:
 <p>Finally we discover, by the analysis in this dataset, that being white, married and with a high degree is prone to have a better wage. Moreover being male seems to increase this wage.</p>
 
 
-<img class="images" height="500" width="650"  alt="Basketball court positions" src="/assets/datamining/basketpos.png"/>
+<img class="images" height="500" width="650"  alt="Basketball court positions" src="/MyPorfolio/assets/datamining/basketpos.png"/>
 
 <h2 class="center"> Development NBA players</h2>
 <p>In this project our goal was to predict players positions by the proximity of their roles in the court. We have preprocessed our dataset from Kaggle to divide the five positions into 2 groups, so the "close" one, respect the basket, is composed by PF and C, while "away" group includes PG, SG and SF. We applied some of the data mining algorithms to see which fits our dataset the best. These were the algorithms: Naive Bayes, KNN, Decision Trees, SVM and Meta-learning. </p>
