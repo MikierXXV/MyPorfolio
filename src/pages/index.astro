@@ -151,10 +151,11 @@ const frame = [
 					<Grid variant="small">
 						{
 							tecno.map((item) => (
-								<CircularProgressBar client:load
+								<CircularProgressBar 
 									value={item.level}
 									src={item.source}
-									color={item.color}/>
+									color={item.color}
+									client:visible />
 							))
 						}
 					</Grid>
