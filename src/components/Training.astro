@@ -1,0 +1,75 @@
+---
+import Icon from './Icon.astro';
+---
+
+<section class="box training">
+	<div class="stack gap-2 lg:gap-4 custom">
+        <img height="300px" width="250px" src="/MyPorfolio/assets/training/logo_jedi.png"> 
+		<p>HTML, CSS and JS course</p>
+        <Icon icon="certificate" color="var(--accent-regular)" size="2.5rem" gradient />
+        <p>ID: 62a225c546ef5c05613c3c86</p>
+	</div>
+	<div class="stack gap-2 lg:gap-4 custom">
+        <img height="250px" width="200px" src="/MyPorfolio/assets/training/openwebinars_logo.png">   
+        <p>React, JS, Web Responsive, SOLID, Git, Design and Hacking Web</p>
+        <a href="https://openwebinars.net/cert/Zb3F" class="site-title">
+            <Icon icon="certificate" color="var(--accent-regular)" size="2.5rem" gradient />
+        </a>
+        <p>Check certificates clicking the icon</p>
+	</div>
+</section>
+
+<style>
+	.box {
+		border: 1px solid var(--gray-800);
+		border-radius: 0.75rem;
+		padding: 1.5rem;
+		background-color: var(--gray-999_40);
+		box-shadow: var(--shadow-sm);
+	}
+
+    img {
+        display: grid;
+        justify-content: space-between;
+    }
+
+    .custom {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+	.training {
+		display: flex;
+		flex-direction: column;
+		gap: 3rem;
+	}
+
+	.training h2 {
+		font-size: var(--text-lg);
+	}
+
+	.training p {
+		color: var(--gray-400);
+	}
+    .webinars {
+        padding-top: -20px;
+    }
+
+	@media (min-width: 50em) {
+		.box {
+			border-radius: 1.5rem;
+			padding: 2.5rem;
+		}
+
+		.training {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 5rem;
+		}
+
+		.training h2 {
+			font-size: var(--text-2xl);
+		}
+	}
+</style>
