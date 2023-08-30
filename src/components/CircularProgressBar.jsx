@@ -3,14 +3,14 @@ import {buildStyles, CircularProgressbar, CircularProgressbarWithChildren} from 
 import 'react-circular-progressbar/dist/styles.css';
 
 const CircularProgressBar = ({value, src, color}) => {
-    const [percentage, setPercentage] = useState(0);
+    /*const [percentage, setPercentage] = useState(0);
     useEffect(() => {
         setTimeout(() => {
             if (percentage < value) {
                 setPercentage(percentage + 1);
             }
         }, 50);
-    }, [percentage]);
+    }, [percentage]);*/
 
     return (
         <div style={{textAlign:"center"}}>
