@@ -9,13 +9,14 @@ tags:
   - Frontend
   - JS
   - HTML
+  - React
 ---
 
 <h2 class="center"> Introduction </h2>
 <p>This is a wishlist where the users can add their wishes, mark them when are completed and achive them if are selected and done.</p>
 
 <h2 class="center"> Development </h2>
-<p>This wishlist is developed with HTML and JS. In addition to the principal functionality explained above, the different wishes will change their color depeneding on the time stayed in the list. It can be configured, but by default is set to 5 seconds to turn to orange, while at 10 change to red. Originally are green.</p>
+<p>This wishlist is developed with React. In addition to the principal functionality explained above, the different wishes will change their color depeneding on the time stayed in the list. It can be configured, but by default is set to 5 seconds to turn to orange, while at 10 change to red. Originally are green.</p>
 
 <style> 
   p {
