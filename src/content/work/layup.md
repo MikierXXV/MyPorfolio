@@ -6,13 +6,9 @@ img_alt: Layup webpage photo
 description: |
   Simple Web page for the development of a project for a fashion brand
 tags:
-  - JS
-  - HTML
-  - CSS
+  - Frontend
   - Bootstrap
   - JSON
-  - Frontend
-  - GitHub Pages
 ---
 
 
