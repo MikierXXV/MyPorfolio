@@ -1,6 +1,6 @@
 ---
 title: Data Mining Projects
-publishDate: 2019-10-02 00:00:00
+publishDate: 2023-05-02 00:00:00
 img: /MyPorfolio/assets/datamining/Gendergapsalary.png
 img_alt: Gender salary gap logo
 description: |
