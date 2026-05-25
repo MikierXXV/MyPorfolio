@@ -1,0 +1,368 @@
+---
+import { tlData, certData } from '../data/timeline';
+const tlJSON    = JSON.stringify(tlData);
+const certsJSON = JSON.stringify(certData);
+---
+
+<section class="path" id="path">
+  <div class="section-head">
+    <h2 class="section-title" data-i18n="path_title">The <em>path</em> so far</h2>
+    <span class="section-aside" data-i18n="path_aside">Hover the dots</span>
+  </div>
+
+  <!-- Timeline -->
+  <div class="tl-wrap" id="tl-wrap">
+    <div class="tl-scroll" id="tl-scroll">
+      <div class="tl-stage" id="tl-stage">
+        <!-- axis + dots injected by JS -->
+      </div>
+    </div>
+    <p class="tl-scroll-hint" data-i18n="path_scroll_hint">← swipe to explore →</p>
+  </div>
+
+  <!-- Detail panel -->
+  <div class="tl-detail" id="tl-detail" aria-live="polite">
+    <div class="tl-detail-inner" id="tl-detail-inner">
+      <!-- populated by JS on dot select -->
+    </div>
+  </div>
+
+  <!-- Certifications sub-section -->
+  <div class="certs-section" id="certs-section">
+    <div class="section-head certs-head">
+      <div class="certs-head-left">
+        <p class="section-eyebrow" data-i18n="certs_eyebrow">III · b</p>
+        <h2 class="section-title" data-i18n="certs_title">Licenses &amp; <em>certifications</em></h2>
+      </div>
+      <span class="section-aside" data-i18n="certs_aside">Selected · from LinkedIn</span>
+    </div>
+    <div class="certs-grid" id="certs-grid">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</section>
+
+<style>
+  .path {
+    padding: 6rem var(--pad) 4rem;
+    max-width: var(--max); margin: 0 auto;
+  }
+
+  .section-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-top: 1px solid var(--rule); padding-top: 0.85rem; margin-bottom: 3rem;
+  }
+  .section-title {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: -0.02em; line-height: 1.1; color: var(--ink);
+  }
+  .section-title em { font-style: italic; font-weight: 400; }
+  .section-aside {
+    font-family: var(--mono); font-size: 0.68rem;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute);
+  }
+  .section-eyebrow {
+    font-family: var(--mono); font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink-mute);
+    margin-bottom: 0.3rem;
+  }
+
+  /* ── Timeline wrapper ── */
+  .tl-wrap { position: relative; margin-bottom: 0.5rem; }
+  .tl-scroll {
+    overflow-x: auto; overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 2.5rem 0 1.5rem;
+  }
+  .tl-scroll::-webkit-scrollbar { display: none; }
+  .tl-scroll-hint {
+    text-align: center; font-family: var(--mono); font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute);
+    margin-top: 0.4rem;
+  }
+  @media (min-width: 900px) { .tl-scroll-hint { display: none; } }
+
+  /* ── Timeline stage ── */
+  .tl-stage {
+    position: relative; min-width: 700px;
+    height: 120px; margin: 0 var(--pad);
+  }
+
+  /* axis line */
+  .tl-axis {
+    position: absolute; top: 50%; left: 0; right: 0;
+    height: 1px; background: var(--rule); transform: translateY(-50%);
+  }
+  /* progress fill */
+  .tl-progress {
+    position: absolute; top: 50%; left: 0;
+    height: 2px; background: var(--ink); width: 0%;
+    transform: translateY(-50%); transition: width .5s var(--ease);
+  }
+
+  /* dot */
+  .tl-dot-wrap {
+    position: absolute; top: 50%; transform: translate(-50%, -50%);
+    display: flex; flex-direction: column; align-items: center;
+    cursor: pointer;
+  }
+  .tl-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--paper); border: 2px solid var(--rule);
+    transition: border-color .3s, background .3s, transform .3s;
+    z-index: 2; position: relative;
+  }
+  .tl-dot-wrap:hover .tl-dot,
+  .tl-dot-wrap.active .tl-dot {
+    border-color: var(--ink); background: var(--ink); transform: scale(1.4);
+  }
+
+  /* top label (odd dots) */
+  .tl-label-top {
+    position: absolute; bottom: calc(100% + 14px);
+    font-family: var(--mono); font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute);
+    white-space: nowrap; transition: color .3s;
+  }
+  .tl-dot-wrap:hover .tl-label-top,
+  .tl-dot-wrap.active .tl-label-top { color: var(--ink); }
+
+  /* bottom label (even dots) */
+  .tl-label-bot {
+    position: absolute; top: calc(100% + 14px);
+    font-family: var(--mono); font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute);
+    white-space: nowrap; transition: color .3s;
+  }
+  .tl-dot-wrap:hover .tl-label-bot,
+  .tl-dot-wrap.active .tl-label-bot { color: var(--ink); }
+
+  /* ── Detail panel ── */
+  .tl-detail {
+    border-top: 1px solid var(--rule); padding-top: 1.75rem;
+    margin-bottom: 5rem; min-height: 9rem;
+  }
+  .tl-detail-inner { animation: fadeUp .4s var(--ease); }
+  @keyframes fadeUp { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform:none; } }
+  .detail-period {
+    font-family: var(--mono); font-size: 0.65rem;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute);
+    margin-bottom: 0.3rem;
+  }
+  .detail-place {
+    font-family: var(--mono); font-size: 0.68rem;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-mute);
+    margin-bottom: 0.65rem;
+  }
+  .detail-role {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(1.2rem, 2.5vw, 1.75rem); color: var(--ink);
+    line-height: 1.2; margin-bottom: 0.75rem;
+  }
+  .detail-role em { font-style: italic; font-weight: 400; }
+  .detail-desc {
+    font-family: var(--sans); font-size: 0.88rem; color: var(--ink-soft);
+    line-height: 1.7; max-width: 60ch;
+  }
+
+  /* ── Certifications ── */
+  .certs-section { margin-top: 2rem; }
+  .certs-head { margin-bottom: 2rem; }
+  .certs-head-left { display: flex; flex-direction: column; gap: 0; }
+
+  .certs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 600px)  { .certs-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1000px) { .certs-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .cert-card {
+    border: 1px solid var(--rule); border-radius: 6px;
+    background: var(--paper-2); padding: 1.4rem 1.6rem;
+    display: flex; flex-direction: column; gap: 0.5rem;
+    transition: border-color .3s, box-shadow .3s;
+  }
+  .cert-card:hover { border-color: var(--ink-mute); box-shadow: 0 4px 20px rgba(26,22,18,.05); }
+  .cert-year {
+    font-family: var(--mono); font-size: 0.6rem;
+    text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink-mute);
+  }
+  .cert-title {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(0.95rem, 1.4vw, 1.15rem); color: var(--ink); line-height: 1.3;
+  }
+  .cert-title em { font-style: italic; font-weight: 400; }
+  .cert-issuer {
+    font-family: var(--mono); font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute);
+    line-height: 1.4;
+  }
+  .cert-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.25rem; }
+  .cert-tag {
+    font-family: var(--mono); font-size: 0.58rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 0.2rem 0.5rem; border: 1px solid var(--rule);
+    border-radius: 100px; color: var(--ink-mute);
+  }
+
+  /* ── Mobile: vertical timeline ── */
+  @media (max-width: 700px) {
+    .tl-stage {
+      min-width: unset; height: auto;
+      display: flex; flex-direction: column; gap: 0;
+      margin: 0;
+    }
+    .tl-axis { display: none; }
+    .tl-progress { display: none; }
+    .tl-dot-wrap {
+      position: static; transform: none;
+      flex-direction: row; gap: 0.9rem;
+      padding: 0.65rem 0; border-bottom: 1px solid var(--rule);
+      align-items: center;
+    }
+    .tl-label-top, .tl-label-bot {
+      position: static; white-space: normal;
+    }
+    .tl-label-bot { display: none; }
+    .tl-dot { flex-shrink: 0; }
+    .tl-scroll { padding: 0; }
+  }
+</style>
+
+<script define:vars={{ tlJSON, certsJSON }}>
+  const tlData   = JSON.parse(tlJSON);
+  const certData = JSON.parse(certsJSON);
+
+  let currentLang = 'en';
+  let activeIdx   = 0;
+
+  const stage      = document.getElementById('tl-stage');
+  const detailInner = document.getElementById('tl-detail-inner');
+  const certsGrid  = document.getElementById('certs-grid');
+
+  /* ─── BUILD TIMELINE ─── */
+  function buildTimeline() {
+    if (!stage) return;
+    const events = tlData[currentLang] ?? tlData['en'];
+    const n = events.length;
+    stage.innerHTML = '';
+
+    const isMobile = window.innerWidth <= 700;
+
+    if (!isMobile) {
+      // axis
+      const axis = document.createElement('div');
+      axis.className = 'tl-axis';
+      stage.appendChild(axis);
+
+      // progress bar
+      const prog = document.createElement('div');
+      prog.className = 'tl-progress';
+      prog.id = 'tl-progress';
+      stage.appendChild(prog);
+    }
+
+    events.forEach((ev, i) => {
+      const pct = n === 1 ? 50 : (i / (n - 1)) * 100;
+
+      const wrap = document.createElement('div');
+      wrap.className = 'tl-dot-wrap' + (i === activeIdx ? ' active' : '');
+      wrap.dataset.idx = String(i);
+
+      if (!isMobile) {
+        wrap.style.left = pct + '%';
+      }
+
+      const dot = document.createElement('div');
+      dot.className = 'tl-dot';
+
+      // alternate top/bottom labels on desktop
+      const labelClass = (!isMobile && i % 2 === 0) ? 'tl-label-top' : 'tl-label-bot';
+      const label = document.createElement('div');
+      label.className = labelClass;
+      label.textContent = ev.year + ' · ' + ev.label;
+
+      wrap.appendChild(dot);
+      wrap.appendChild(label);
+
+      wrap.addEventListener('click', () => selectEvent(i));
+      wrap.addEventListener('mouseenter', () => selectEvent(i));
+
+      stage.appendChild(wrap);
+    });
+
+    updateDetail(activeIdx);
+    updateProgress(activeIdx);
+  }
+
+  function updateProgress(idx) {
+    const prog = document.getElementById('tl-progress');
+    if (!prog) return;
+    const events = tlData[currentLang] ?? tlData['en'];
+    const n = events.length;
+    const pct = n === 1 ? 50 : (idx / (n - 1)) * 100;
+    prog.style.width = pct + '%';
+  }
+
+  function selectEvent(idx) {
+    activeIdx = idx;
+    document.querySelectorAll('.tl-dot-wrap').forEach((el, i) => {
+      el.classList.toggle('active', i === idx);
+    });
+    updateDetail(idx);
+    updateProgress(idx);
+  }
+
+  function updateDetail(idx) {
+    if (!detailInner) return;
+    const events = tlData[currentLang] ?? tlData['en'];
+    const ev = events[idx];
+    if (!ev) return;
+    detailInner.innerHTML = `
+      <p class="detail-period">${ev.period}</p>
+      <p class="detail-place">${ev.place}</p>
+      <h3 class="detail-role">${ev.role}</h3>
+      <p class="detail-desc">${ev.desc}</p>
+    `;
+    // re-trigger animation
+    detailInner.style.animation = 'none';
+    detailInner.offsetHeight; // reflow
+    detailInner.style.animation = '';
+  }
+
+  /* ─── BUILD CERTS ─── */
+  function renderCerts() {
+    if (!certsGrid) return;
+    const certs = certData[currentLang] ?? certData['en'];
+    certsGrid.innerHTML = certs.map(c => `
+      <div class="cert-card">
+        <span class="cert-year">${c.year}</span>
+        <h3 class="cert-title">${c.title}</h3>
+        <p class="cert-issuer">${c.issuer}</p>
+        <div class="cert-tags">${c.tags.map(t => `<span class="cert-tag">${t}</span>`).join('')}</div>
+      </div>
+    `).join('');
+  }
+
+  /* ─── INIT ─── */
+  buildTimeline();
+  renderCerts();
+
+  // rebuild on resize (mobile ↔ desktop)
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(buildTimeline, 150);
+  });
+
+  /* ─── LANG CHANGE ─── */
+  window.addEventListener('langchange', (e) => {
+    currentLang = e.detail.lang;
+    buildTimeline();
+    renderCerts();
+  });
+</script>
