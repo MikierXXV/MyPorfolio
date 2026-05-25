@@ -274,7 +274,7 @@ const copyJSON = JSON.stringify(toolsCopy);
         line.setAttribute('y1', String(pa.y.toFixed(1)));
         line.setAttribute('x2', String(pb.x.toFixed(1)));
         line.setAttribute('y2', String(pb.y.toFixed(1)));
-        line.className = 'c-line';
+        line.setAttribute('class', 'c-line');
         line.dataset.id = id;
         skySvg.appendChild(line);
         linesMap[id].push(line);

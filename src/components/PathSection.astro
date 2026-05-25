@@ -87,7 +87,7 @@ const certsJSON = JSON.stringify(certData);
   /* ── Timeline stage ── */
   .tl-stage {
     position: relative; min-width: 700px;
-    height: 120px; margin: 0 var(--pad);
+    height: 160px; margin: 0 var(--pad);
   }
 
   /* axis line */
@@ -102,42 +102,50 @@ const certsJSON = JSON.stringify(certData);
     transform: translateY(-50%); transition: width .5s var(--ease);
   }
 
-  /* dot */
+  /* dot wrap: column, centered on axis */
   .tl-dot-wrap {
     position: absolute; top: 50%; transform: translate(-50%, -50%);
     display: flex; flex-direction: column; align-items: center;
     cursor: pointer;
   }
+
+  /* dot */
   .tl-dot {
-    width: 10px; height: 10px; border-radius: 50%;
+    width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
     background: var(--paper); border: 2px solid var(--rule);
-    transition: border-color .3s, background .3s, transform .3s;
+    transition: border-color .3s, background .3s, box-shadow .3s;
     z-index: 2; position: relative;
   }
   .tl-dot-wrap:hover .tl-dot,
   .tl-dot-wrap.active .tl-dot {
-    border-color: var(--ink); background: var(--ink); transform: scale(1.4);
+    border-color: var(--ink); background: var(--ink);
+    box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px var(--ink);
   }
 
-  /* top label (odd dots) */
-  .tl-label-top {
-    position: absolute; bottom: calc(100% + 14px);
-    font-family: var(--mono); font-size: 0.62rem;
-    text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute);
-    white-space: nowrap; transition: color .3s;
+  /* tick connector */
+  .tl-tick {
+    width: 1px; height: 20px; background: var(--rule);
+    flex-shrink: 0; transition: background .3s;
   }
-  .tl-dot-wrap:hover .tl-label-top,
-  .tl-dot-wrap.active .tl-label-top { color: var(--ink); }
+  .tl-dot-wrap:hover .tl-tick,
+  .tl-dot-wrap.active .tl-tick { background: var(--ink); }
 
-  /* bottom label (even dots) */
-  .tl-label-bot {
-    position: absolute; top: calc(100% + 14px);
-    font-family: var(--mono); font-size: 0.62rem;
-    text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute);
-    white-space: nowrap; transition: color .3s;
+  /* label (shared) */
+  .tl-label-top, .tl-label-bot {
+    display: flex; flex-direction: column; align-items: center; gap: 1px;
+    white-space: nowrap;
   }
-  .tl-dot-wrap:hover .tl-label-bot,
-  .tl-dot-wrap.active .tl-label-bot { color: var(--ink); }
+  .tl-year {
+    font-family: var(--mono); font-size: 0.64rem;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ink); font-weight: 500; transition: color .3s;
+  }
+  .tl-name {
+    font-family: var(--serif); font-style: italic; font-weight: 300;
+    font-size: 0.72rem; color: var(--ink-soft); transition: color .3s;
+  }
+  .tl-dot-wrap:hover .tl-year, .tl-dot-wrap.active .tl-year { color: var(--ink); }
+  .tl-dot-wrap:hover .tl-name, .tl-dot-wrap.active .tl-name { color: var(--ink); }
 
   /* ── Detail panel ── */
   .tl-detail {
@@ -280,14 +288,40 @@ const certsJSON = JSON.stringify(certData);
       const dot = document.createElement('div');
       dot.className = 'tl-dot';
 
-      // alternate top/bottom labels on desktop
-      const labelClass = (!isMobile && i % 2 === 0) ? 'tl-label-top' : 'tl-label-bot';
-      const label = document.createElement('div');
-      label.className = labelClass;
-      label.textContent = ev.year + ' · ' + ev.label;
+      const tick = document.createElement('div');
+      tick.className = 'tl-tick';
 
-      wrap.appendChild(dot);
-      wrap.appendChild(label);
+      const isTop = isMobile || i % 2 === 0;
+      const label = document.createElement('div');
+      label.className = isTop ? 'tl-label-top' : 'tl-label-bot';
+
+      const yearSpan = document.createElement('span');
+      yearSpan.className = 'tl-year';
+      yearSpan.textContent = ev.year;
+
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'tl-name';
+      nameSpan.textContent = ev.label;
+
+      label.appendChild(yearSpan);
+      label.appendChild(nameSpan);
+
+      if (!isMobile) {
+        if (isTop) {
+          wrap.style.transform = 'translate(-50%, calc(-100% + 6px))';
+          wrap.appendChild(label);
+          wrap.appendChild(tick);
+          wrap.appendChild(dot);
+        } else {
+          wrap.style.transform = 'translate(-50%, -6px)';
+          wrap.appendChild(dot);
+          wrap.appendChild(tick);
+          wrap.appendChild(label);
+        }
+      } else {
+        wrap.appendChild(dot);
+        wrap.appendChild(label);
+      }
 
       wrap.addEventListener('click', () => selectEvent(i));
       wrap.addEventListener('mouseenter', () => selectEvent(i));

@@ -200,7 +200,7 @@ const techsJSON    = JSON.stringify(techsList);
         line.setAttribute('y1', String(pos1.y));
         line.setAttribute('x2', String(pos2.x));
         line.setAttribute('y2', String(pos2.y));
-        line.className = 'graph-edge';
+        line.setAttribute('class', 'graph-edge');
         line.dataset.from = p.id;
         line.dataset.to   = tId;
         svg.appendChild(line);
