@@ -313,10 +313,15 @@ const copyJSON = JSON.stringify(toolsCopy);
       hit.dataset.id = id;
       hit.style.left = cx + 'px';
       hit.style.top  = cy + 'px';
-      hit.addEventListener('mouseenter', () => selectTool(id));
-      hit.addEventListener('mouseleave', clearTool);
+      hit.addEventListener('pointerenter', (e) => {
+        if (e.pointerType === 'touch') return;
+        selectTool(id);
+      });
+      hit.addEventListener('pointerleave', (e) => {
+        if (e.pointerType === 'touch') return;
+        clearTool();
+      });
       hit.addEventListener('click', () => {
-        // tap same constellation again to deselect
         if (activeId === id) clearTool(); else selectTool(id);
       });
       stage.appendChild(hit);
