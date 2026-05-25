@@ -59,8 +59,8 @@
             <!-- three-point corner lines -->
             <line x1="18" y1="0" x2="18" y2="54" stroke="var(--rule)" stroke-width="1"/>
             <line x1="142" y1="0" x2="142" y2="54" stroke="var(--rule)" stroke-width="1"/>
-            <!-- three-point arc -->
-            <path d="M18 54 Q80 -5 142 54" stroke="var(--rule)" stroke-width="1" fill="none"/>
+            <!-- three-point arc (curves toward midcourt) -->
+            <path d="M18 54 Q80 105 142 54" stroke="var(--rule)" stroke-width="1" fill="none"/>
             <!-- center circle arc at bottom -->
             <ellipse cx="80" cy="90" rx="20" ry="14" stroke="var(--rule)" stroke-width="1" fill="none"/>
             <!-- backboard -->
@@ -185,8 +185,8 @@
           <!-- three-point corner lines -->
           <line x1="40" y1="0" x2="40" y2="120" stroke="var(--rule)" stroke-width="1.5"/>
           <line x1="280" y1="0" x2="280" y2="120" stroke="var(--rule)" stroke-width="1.5"/>
-          <!-- three-point arc -->
-          <path d="M40 120 Q160 -10 280 120" stroke="var(--rule)" stroke-width="1.5" fill="none"/>
+          <!-- three-point arc (curves toward midcourt) -->
+          <path d="M40 120 Q160 230 280 120" stroke="var(--rule)" stroke-width="1.5" fill="none"/>
           <!-- center circle half visible at bottom -->
           <ellipse cx="160" cy="200" rx="42" ry="28" stroke="var(--rule)" stroke-width="1" fill="none"/>
           <!-- backboard -->
@@ -196,9 +196,15 @@
           <!-- net -->
           <path d="M144 19 Q160 30 176 19" stroke="var(--rule)" stroke-width="1" fill="none"/>
           <!-- zone overlays — deeper layers first, closer on top -->
-          <path id="zone-three" class="zone-area" d="M0 200 L0 0 L40 0 L40 120 Q160 -10 280 120 L280 0 L320 0 L320 200Z" fill="var(--burgundy)" opacity="0" data-zone="three"/>
-          <path id="zone-mid" class="zone-area" d="M40 120 Q160 -10 280 120 L280 0 L40 0Z" fill="var(--burgundy)" opacity="0" data-zone="mid"/>
+          <!-- zone-three: corners + area below the arc (three separate subpaths) -->
+          <path id="zone-three" class="zone-area"
+            d="M0 0 L40 0 L40 120 L0 120Z M280 0 L320 0 L320 120 L280 120Z M40 120 Q160 230 280 120 L280 200 L40 200Z"
+            fill="var(--burgundy)" opacity="0" data-zone="three"/>
+          <!-- zone-mid: inside arc between basket and three-point line -->
+          <path id="zone-mid" class="zone-area" d="M40 120 Q160 230 280 120 L280 0 L40 0Z" fill="var(--burgundy)" opacity="0" data-zone="mid"/>
+          <!-- zone-close: paint/close range area near basket -->
           <ellipse id="zone-close" class="zone-area" cx="160" cy="42" rx="48" ry="44" fill="var(--burgundy)" opacity="0" data-zone="close"/>
+          <!-- zone-logo: halfcourt circle -->
           <ellipse id="zone-logo" class="zone-area" cx="160" cy="185" rx="42" ry="14" fill="var(--burgundy)" opacity="0" data-zone="logo"/>
           <!-- animated ball (default at halfcourt) -->
           <circle id="game-ball" cx="160" cy="185" r="10" fill="var(--burgundy)" opacity="0.85"/>

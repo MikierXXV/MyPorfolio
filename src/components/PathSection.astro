@@ -147,6 +147,19 @@ const certsJSON = JSON.stringify(certData);
   .tl-dot-wrap:hover .tl-year, .tl-dot-wrap.active .tl-year { color: var(--ink); }
   .tl-dot-wrap:hover .tl-name, .tl-dot-wrap.active .tl-name { color: var(--ink); }
 
+  /* ── Desktop: larger nodes + labels ── */
+  @media (min-width: 900px) {
+    .tl-stage { height: 190px; }
+    .tl-dot { width: 16px; height: 16px; border-width: 2px; }
+    .tl-dot-wrap:hover .tl-dot,
+    .tl-dot-wrap.active .tl-dot {
+      box-shadow: 0 0 0 4px var(--paper), 0 0 0 7px var(--ink);
+    }
+    .tl-tick { height: 26px; }
+    .tl-year { font-size: 0.82rem; letter-spacing: 0.14em; }
+    .tl-name { font-size: 0.90rem; }
+  }
+
   /* ── Detail panel ── */
   .tl-detail {
     border-top: 1px solid var(--rule); padding-top: 1.75rem;
@@ -260,6 +273,8 @@ const certsJSON = JSON.stringify(certData);
     stage.innerHTML = '';
 
     const isMobile = window.innerWidth <= 700;
+    // half of dot height — must match CSS (.tl-dot width/height)
+    const dotR = (!isMobile && window.innerWidth >= 900) ? 8 : 6;
 
     if (!isMobile) {
       // axis
@@ -308,12 +323,12 @@ const certsJSON = JSON.stringify(certData);
 
       if (!isMobile) {
         if (isTop) {
-          wrap.style.transform = 'translate(-50%, calc(-100% + 6px))';
+          wrap.style.transform = `translate(-50%, calc(-100% + ${dotR}px))`;
           wrap.appendChild(label);
           wrap.appendChild(tick);
           wrap.appendChild(dot);
         } else {
-          wrap.style.transform = 'translate(-50%, -6px)';
+          wrap.style.transform = `translate(-50%, -${dotR}px)`;
           wrap.appendChild(dot);
           wrap.appendChild(tick);
           wrap.appendChild(label);
