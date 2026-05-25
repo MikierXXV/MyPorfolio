@@ -51,22 +51,26 @@
         <h3 class="card-title" data-i18n="off_game_title">Shoot from three.</h3>
         <div class="hoop-preview">
           <svg viewBox="0 0 160 90" fill="none" xmlns="http://www.w3.org/2000/svg" class="hoop-svg" overflow="hidden">
-            <!-- court -->
             <rect width="160" height="90" fill="var(--paper-2)" rx="4"/>
-            <!-- paint (bottom) -->
-            <rect x="55" y="55" width="50" height="35" fill="var(--paper-3)" rx="2"/>
-            <!-- key circle at top of paint -->
-            <ellipse cx="80" cy="55" rx="18" ry="10" stroke="var(--rule)" stroke-width="1" fill="none"/>
-            <!-- three-point arc (curves toward bottom) -->
-            <path d="M20 0 Q80 110 140 0" stroke="var(--rule)" stroke-width="1.5" fill="none"/>
-            <!-- midcourt line -->
-            <line x1="0" y1="10" x2="160" y2="10" stroke="var(--rule)" stroke-width="1"/>
+            <!-- paint box -->
+            <rect x="55" y="0" width="50" height="36" fill="var(--paper-3)" rx="2"/>
+            <!-- free-throw line -->
+            <line x1="55" y1="36" x2="105" y2="36" stroke="var(--rule)" stroke-width="1"/>
+            <!-- three-point corner lines -->
+            <line x1="18" y1="0" x2="18" y2="54" stroke="var(--rule)" stroke-width="1"/>
+            <line x1="142" y1="0" x2="142" y2="54" stroke="var(--rule)" stroke-width="1"/>
+            <!-- three-point arc -->
+            <path d="M18 54 Q80 -5 142 54" stroke="var(--rule)" stroke-width="1" fill="none"/>
+            <!-- center circle arc at bottom -->
+            <ellipse cx="80" cy="90" rx="20" ry="14" stroke="var(--rule)" stroke-width="1" fill="none"/>
             <!-- backboard -->
-            <rect x="68" y="83" width="24" height="4" fill="var(--ink-mute)" rx="1"/>
+            <rect x="68" y="0" width="24" height="3" fill="var(--ink-mute)" rx="1"/>
             <!-- rim -->
-            <ellipse cx="80" cy="79" rx="9" ry="3" stroke="var(--burgundy)" stroke-width="1.5" fill="none"/>
+            <ellipse cx="80" cy="7" rx="8" ry="3" stroke="var(--burgundy)" stroke-width="1.5" fill="none"/>
+            <!-- net -->
+            <path d="M72 10 Q80 16 88 10" stroke="var(--rule)" stroke-width="1" fill="none"/>
             <!-- ball preview -->
-            <circle class="ball-preview" cx="80" cy="10" r="6" fill="var(--burgundy)" opacity="0.7"/>
+            <circle class="ball-preview" cx="80" cy="72" r="5" fill="var(--burgundy)" opacity="0.7"/>
           </svg>
         </div>
         <button class="card-expand" data-modal="modal-basket" data-i18n="off_game_expand">Play full game</button>
@@ -140,7 +144,7 @@
       <li><blockquote data-i18n="qf4_t">&ldquo;Man is condemned to be free.&rdquo;</blockquote><cite>Sartre</cite></li>
       <li><blockquote data-i18n="qf5_t">&ldquo;The cave you fear to enter holds the treasure you seek.&rdquo;</blockquote><cite>Joseph Campbell</cite></li>
       <li><blockquote data-i18n="qf6_t">&ldquo;You have power over your mind — not outside events. Realize this, and you will find strength.&rdquo;</blockquote><cite>Marcus Aurelius</cite></li>
-      <li><blockquote data-i18n="qf7_t">&ldquo;Hell is other people.&rdquo;</blockquote><cite>Sartre</cite></li>
+      <li><blockquote data-i18n="qf7_t">&ldquo;When we are no longer able to change a situation, we are challenged to change ourselves.&rdquo;</blockquote><cite>Viktor Frankl</cite></li>
       <li><blockquote data-i18n="qf8_t">&ldquo;What does not kill me, makes me stronger.&rdquo;</blockquote><cite>Nietzsche</cite></li>
       <li><blockquote data-i18n="qf9_t">&ldquo;I think, therefore I am.&rdquo;</blockquote><cite>Descartes</cite></li>
     </ol>
@@ -159,35 +163,46 @@
       <div class="game-court-wrap">
         <svg id="game-court" viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="hidden">
           <rect width="320" height="200" fill="var(--paper-2)" rx="6"/>
-          <!-- paint (bottom) -->
-          <rect x="110" y="125" width="100" height="75" fill="var(--paper-3)" rx="2"/>
-          <!-- key circle at top of paint -->
-          <ellipse cx="160" cy="125" rx="30" ry="20" stroke="var(--rule)" stroke-width="1" fill="none"/>
-          <!-- three-point arc (opens upward toward halfcourt) -->
-          <path d="M50 0 Q160 230 270 0" stroke="var(--rule)" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
+          <!-- paint box -->
+          <rect x="110" y="0" width="100" height="80" fill="var(--paper-3)" rx="2"/>
+          <!-- lane hash marks left -->
+          <line x1="110" y1="22" x2="100" y2="22" stroke="var(--rule)" stroke-width="1"/>
+          <line x1="110" y1="38" x2="100" y2="38" stroke="var(--rule)" stroke-width="1"/>
+          <line x1="110" y1="54" x2="100" y2="54" stroke="var(--rule)" stroke-width="1"/>
+          <line x1="110" y1="68" x2="100" y2="68" stroke="var(--rule)" stroke-width="1"/>
+          <!-- lane hash marks right -->
+          <line x1="210" y1="22" x2="220" y2="22" stroke="var(--rule)" stroke-width="1"/>
+          <line x1="210" y1="38" x2="220" y2="38" stroke="var(--rule)" stroke-width="1"/>
+          <line x1="210" y1="54" x2="220" y2="54" stroke="var(--rule)" stroke-width="1"/>
+          <line x1="210" y1="68" x2="220" y2="68" stroke="var(--rule)" stroke-width="1"/>
+          <!-- free-throw line -->
+          <line x1="110" y1="80" x2="210" y2="80" stroke="var(--rule)" stroke-width="1.5"/>
+          <!-- free-throw circle: solid top half (inside paint), dashed bottom half -->
+          <path d="M130 80 A30 20 0 0 1 190 80" stroke="var(--rule)" stroke-width="1" fill="none"/>
+          <path d="M130 80 A30 20 0 0 0 190 80" stroke="var(--rule)" stroke-width="1" fill="none" stroke-dasharray="4 3"/>
+          <!-- restricted area (semicircle below rim) -->
+          <path d="M144 14 A16 16 0 0 0 176 14" stroke="var(--rule)" stroke-width="1" fill="none"/>
           <!-- three-point corner lines -->
-          <line x1="50" y1="0" x2="50" y2="80" stroke="var(--rule)" stroke-width="1"/>
-          <line x1="270" y1="0" x2="270" y2="80" stroke="var(--rule)" stroke-width="1"/>
-          <!-- midcourt line -->
-          <line x1="0" y1="22" x2="320" y2="22" stroke="var(--rule)" stroke-width="1"/>
-          <!-- center circle -->
-          <ellipse cx="160" cy="22" rx="20" ry="14" stroke="var(--rule)" stroke-width="1" fill="none"/>
+          <line x1="40" y1="0" x2="40" y2="120" stroke="var(--rule)" stroke-width="1.5"/>
+          <line x1="280" y1="0" x2="280" y2="120" stroke="var(--rule)" stroke-width="1.5"/>
+          <!-- three-point arc -->
+          <path d="M40 120 Q160 -10 280 120" stroke="var(--rule)" stroke-width="1.5" fill="none"/>
+          <!-- center circle half visible at bottom -->
+          <ellipse cx="160" cy="200" rx="42" ry="28" stroke="var(--rule)" stroke-width="1" fill="none"/>
           <!-- backboard -->
-          <rect x="136" y="187" width="48" height="8" fill="var(--ink-mute)" rx="2"/>
+          <rect x="136" y="0" width="48" height="6" fill="var(--ink-mute)" rx="2"/>
           <!-- rim -->
-          <ellipse cx="160" cy="183" rx="18" ry="6" stroke="var(--burgundy)" stroke-width="2" fill="none"/>
-          <!-- net suggestion -->
-          <path d="M142 189 Q160 199 178 189" stroke="var(--rule)" stroke-width="1" fill="none"/>
-          <!-- zone overlays (clickable) -->
-          <ellipse id="zone-close" class="zone-area" cx="160" cy="155" rx="35" ry="25" fill="var(--burgundy)" opacity="0" data-zone="close"/>
-          <path id="zone-mid" class="zone-area" d="M50 80 Q160 200 270 80 L270 0 Q160 230 50 0Z" fill="var(--burgundy)" opacity="0" data-zone="mid" clip-path="url(#clip-3pt)"/>
-          <clipPath id="clip-3pt"><path d="M50 0 Q160 230 270 0 L270 200 L50 200Z"/></clipPath>
-          <path id="zone-three" class="zone-area" d="M0 0 L50 0 L50 80 Q160 200 270 80 L270 0 L320 0 L320 200 L0 200Z" fill="var(--burgundy)" opacity="0" data-zone="three"/>
-          <ellipse id="zone-logo" class="zone-area" cx="160" cy="22" rx="20" ry="14" fill="var(--burgundy)" opacity="0" data-zone="logo"/>
-          <!-- animated ball -->
-          <circle id="game-ball" cx="160" cy="22" r="10" fill="var(--burgundy)" opacity="0.85"/>
-          <!-- ball highlight -->
-          <circle id="game-ball-shine" cx="155" cy="18" r="3" fill="white" opacity="0.25"/>
+          <ellipse cx="160" cy="14" rx="16" ry="5" stroke="var(--burgundy)" stroke-width="2" fill="none"/>
+          <!-- net -->
+          <path d="M144 19 Q160 30 176 19" stroke="var(--rule)" stroke-width="1" fill="none"/>
+          <!-- zone overlays — deeper layers first, closer on top -->
+          <path id="zone-three" class="zone-area" d="M0 200 L0 0 L40 0 L40 120 Q160 -10 280 120 L280 0 L320 0 L320 200Z" fill="var(--burgundy)" opacity="0" data-zone="three"/>
+          <path id="zone-mid" class="zone-area" d="M40 120 Q160 -10 280 120 L280 0 L40 0Z" fill="var(--burgundy)" opacity="0" data-zone="mid"/>
+          <ellipse id="zone-close" class="zone-area" cx="160" cy="42" rx="48" ry="44" fill="var(--burgundy)" opacity="0" data-zone="close"/>
+          <ellipse id="zone-logo" class="zone-area" cx="160" cy="185" rx="42" ry="14" fill="var(--burgundy)" opacity="0" data-zone="logo"/>
+          <!-- animated ball (default at halfcourt) -->
+          <circle id="game-ball" cx="160" cy="185" r="10" fill="var(--burgundy)" opacity="0.85"/>
+          <circle id="game-ball-shine" cx="155" cy="181" r="3" fill="white" opacity="0.25"/>
         </svg>
         <div class="zone-labels">
           <button class="zone-label-btn" data-zone="close" data-i18n="game_zone_close">Close</button>
@@ -632,7 +647,7 @@
   const btnReset = document.getElementById('btn-reset') as HTMLButtonElement | null;
 
   const ballStartByZone: Record<Zone, [number,number]> = {
-    close: [160, 145], mid: [160, 95], three: [160, 50], logo: [160, 22]
+    close: [160, 65], mid: [160, 120], three: [160, 160], logo: [160, 185]
   };
 
   function updateStats() {
@@ -671,8 +686,8 @@
   function animateShot(made: boolean, zone: Zone, onDone: () => void) {
     if (!ball || !ballShine) { onDone(); return; }
     const [startX, startY] = ballStartByZone[zone];
-    const endX = 160, endY = made ? 183 : startY + 20;
-    const peakY = Math.min(startY, endY) - 30;
+    const endX = 160, endY = made ? 14 : startY - 15;
+    const peakY = Math.min(startY, endY) - 40;
     let t = 0;
     const dur = 500;
     const start = performance.now();
@@ -718,8 +733,8 @@
     selectedZone = null;
     document.querySelectorAll<HTMLElement>('.zone-area').forEach(a => a.classList.remove('selected'));
     document.querySelectorAll<HTMLButtonElement>('.zone-label-btn').forEach(b => b.classList.remove('selected'));
-    if (ball) { ball.setAttribute('cx', '160'); ball.setAttribute('cy', '22'); }
-    if (ballShine) { ballShine.setAttribute('cx', '155'); ballShine.setAttribute('cy', '18'); }
+    if (ball) { ball.setAttribute('cx', '160'); ball.setAttribute('cy', '185'); }
+    if (ballShine) { ballShine.setAttribute('cx', '155'); ballShine.setAttribute('cy', '181'); }
     updateStats();
   });
 

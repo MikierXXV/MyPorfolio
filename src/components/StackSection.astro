@@ -11,14 +11,15 @@ const techsJSON    = JSON.stringify(techsList);
   </div>
 
   <div class="graph-stage" id="graph-stage">
-    <!-- Hint overlay -->
+    <!-- Hint + reset overlay (top) -->
     <div class="graph-overlay">
       <p class="graph-hint" data-i18n="graph_hint">Hover a node to see its links</p>
-      <div class="graph-legend">
-        <span class="legend-dot legend-project"></span><span data-i18n="graph_legend_project">Project</span>
-        <span class="legend-dot legend-tech"></span><span data-i18n="graph_legend_tech">Tech</span>
-      </div>
       <button class="graph-reset" id="graph-reset" data-i18n="graph_reset">↺ Reset</button>
+    </div>
+    <!-- Legend pinned to bottom-right corner -->
+    <div class="graph-legend">
+      <span class="legend-dot legend-project"></span><span data-i18n="graph_legend_project">Project</span>
+      <span class="legend-dot legend-tech"></span><span data-i18n="graph_legend_tech">Tech</span>
     </div>
     <!-- SVG edges -->
     <svg class="graph-svg" id="graph-svg" aria-hidden="true"></svg>
@@ -68,9 +69,11 @@ const techsJSON    = JSON.stringify(techsList);
     text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-mute);
   }
   .graph-legend {
+    position: absolute; bottom: 1.1rem; right: 1.25rem;
     display: flex; align-items: center; gap: 0.6rem;
     font-family: var(--mono); font-size: 0.6rem;
     text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute);
+    pointer-events: none; z-index: 10;
   }
   .legend-dot {
     width: 8px; height: 8px; border-radius: 50%; display: inline-block;
