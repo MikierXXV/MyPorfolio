@@ -38,7 +38,7 @@ const copyJSON = JSON.stringify(toolsCopy);
   </p>
 </section>
 
-<style>
+<style is:global>
   .tools {
     padding: 6rem var(--pad) 4rem;
     max-width: var(--max); margin: 0 auto;
@@ -338,11 +338,11 @@ const copyJSON = JSON.stringify(toolsCopy);
     if (!panelEmpty || !panelDetail) return;
     const c = copy[currentLang]?.[id] ?? copy['en']?.[id];
     if (!c) return;
-    document.getElementById('d-cat')!.textContent   = c.cat;
-    document.getElementById('d-name')!.innerHTML    = c.name;
-    document.getElementById('d-usage')!.textContent = c.usage;
-    document.getElementById('d-text')!.innerHTML    = c.text;
-    document.getElementById('d-tags')!.innerHTML    = c.tags.map(t => `<span class="detail-tag">${t}</span>`).join('');
+    const dCat   = document.getElementById('d-cat');   if (dCat)   dCat.textContent  = c.cat;
+    const dName  = document.getElementById('d-name');  if (dName)  dName.innerHTML   = c.name;
+    const dUsage = document.getElementById('d-usage'); if (dUsage) dUsage.textContent = c.usage;
+    const dText  = document.getElementById('d-text');  if (dText)  dText.innerHTML   = c.text;
+    const dTags  = document.getElementById('d-tags');  if (dTags)  dTags.innerHTML   = c.tags.map(t => `<span class="detail-tag">${t}</span>`).join('');
     panelEmpty.classList.add('hidden');
     panelDetail.classList.remove('hidden');
   }
