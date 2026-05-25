@@ -1,0 +1,123 @@
+---
+// NavBar — fixed top nav with logo, section links, and EN/ES/CA lang switch
+---
+
+<nav id="nav">
+  <a class="logo-mark" href="#top" aria-label="Miguel Gutiérrez · home">
+    <span class="logo-initials">MG</span>
+    <span class="logo-wordmark">portfolio</span>
+  </a>
+
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#work"    data-i18n="nav_work">I. Work</a>
+      <a href="#off"     data-i18n="nav_off">II. Off-keyboard</a>
+      <a href="#path"    data-i18n="nav_path">III. Path</a>
+      <a href="#stack"   data-i18n="nav_stack">IV. Stack</a>
+      <a href="#tools"   data-i18n="nav_tools">V. AI · Tools</a>
+      <a href="#contact" data-i18n="nav_contact">VI. Contact</a>
+    </div>
+
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn"        data-lang="es">ES</button>
+      <button class="lang-btn"        data-lang="ca">CA</button>
+    </div>
+  </div>
+</nav>
+
+<style>
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.25rem var(--pad);
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 1.5rem;
+    transition: backdrop-filter .3s, background .3s, border-color .3s;
+    border-bottom: 1px solid transparent;
+  }
+  nav.scrolled {
+    backdrop-filter: blur(14px) saturate(120%);
+    background: rgba(242, 238, 229, 0.82);
+    border-bottom-color: var(--rule);
+  }
+
+  .logo-mark {
+    display: flex; align-items: baseline; gap: 0.6rem;
+    text-decoration: none; color: var(--ink);
+    transition: opacity .3s;
+  }
+  .logo-mark:hover { opacity: 0.65; }
+
+  .logo-initials {
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    font-size: 1.6rem; letter-spacing: -0.02em; line-height: 1;
+  }
+  .logo-wordmark {
+    font-family: var(--mono); font-size: 0.6rem;
+    text-transform: uppercase; letter-spacing: 0.2em;
+    color: var(--ink-mute); font-weight: 400;
+  }
+  @media (max-width: 540px) { .logo-wordmark { display: none; } }
+
+  .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+
+  .nav-links {
+    display: flex; gap: 1.8rem;
+    font-family: var(--mono); font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 0.12em;
+  }
+  .nav-links a {
+    color: var(--ink-mute); text-decoration: none; transition: color .3s;
+  }
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--ink); }
+  @media (max-width: 900px) { .nav-links { display: none; } }
+
+  .lang-switch {
+    display: flex; gap: 0;
+    font-family: var(--mono); font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    border: 1px solid var(--rule); border-radius: 100px;
+    padding: 2px; background: rgba(242,238,229,0.5);
+  }
+  .lang-btn {
+    background: transparent; border: 0;
+    padding: 0.35rem 0.65rem; color: var(--ink-mute);
+    cursor: pointer; border-radius: 100px;
+    font-family: inherit; font-size: inherit; letter-spacing: inherit;
+    transition: all .3s;
+  }
+  .lang-btn.active { background: var(--ink); color: var(--paper); }
+  .lang-btn:hover:not(.active) { color: var(--ink); }
+</style>
+
+<script>
+  import { applyLang, type Lang } from '../scripts/i18n';
+
+  const nav = document.getElementById('nav')!;
+
+  // Scroll-aware backdrop
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Active section highlight
+  const sections = document.querySelectorAll<HTMLElement>('section[id], div[id="top"]');
+  const links = document.querySelectorAll<HTMLAnchorElement>('.nav-links a');
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+        }
+      });
+    },
+    { rootMargin: '-40% 0px -55% 0px' }
+  );
+  sections.forEach(s => observer.observe(s));
+
+  // Language switching
+  document.querySelectorAll<HTMLButtonElement>('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyLang(btn.dataset.lang as Lang));
+  });
+</script>

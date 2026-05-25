@@ -1,0 +1,109 @@
+---
+// HeroSection — full-viewport hero with animated headline, roles, and card
+---
+
+<section class="hero" id="top">
+  <div class="hero-meta">
+    <span data-i18n="hero_meta_left">Portfolio — MMXXVI</span>
+    <span data-i18n="hero_meta_right">Barcelona, ES</span>
+  </div>
+
+  <h1 class="hero-headline">
+    <span class="line">
+      <span class="word" style="animation-delay:.05s">Miguel</span>
+      <span class="word italic" style="animation-delay:.16s">Gutiérrez</span>
+    </span>
+    <span class="line">
+      <span class="word" data-i18n="hero_engineer" style="animation-delay:.28s">engineer</span>
+      <span class="word ampersand" style="animation-delay:.36s">&amp;</span>
+      <span class="word italic" data-i18n="hero_other" style="animation-delay:.46s">other things.</span>
+    </span>
+  </h1>
+
+  <div class="hero-stack">
+    <div class="hero-roles">
+      <span class="line"><span class="num">i.</span><span data-i18n="hero_role_1">I build software alongside AI.</span></span>
+      <span class="line"><span class="num">ii.</span><span data-i18n="hero_role_2">I play guitar to forget the bugs.</span></span>
+      <span class="line"><span class="num">iii.</span><span data-i18n="hero_role_3">I read philosophy on Sundays.</span></span>
+      <span class="line"><span class="num">iv.</span><span data-i18n="hero_role_4">I shoot threes when the knees allow.</span></span>
+    </div>
+
+    <div class="hero-card">
+      <span data-i18n="hero_card_now">Currently</span>
+      <strong data-i18n="hero_card_role">Software Engineer &amp; AI Developer</strong><br>
+      <span data-i18n="hero_card_at">at</span>
+      <strong>Health Lean Analytics</strong>
+      <div class="divider"></div>
+      <span data-i18n="hero_card_available">Available for new projects</span><br>
+      <strong data-i18n="hero_card_cta">Open to talk →</strong>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    padding: 7rem var(--pad) 4rem;
+    max-width: var(--max); margin: 0 auto;
+    display: grid; gap: 2.5rem; align-content: center;
+  }
+
+  .hero-meta {
+    display: flex; justify-content: space-between;
+    font-family: var(--mono); font-size: 0.72rem;
+    text-transform: uppercase; letter-spacing: 0.15em;
+    color: var(--ink-mute);
+    border-top: 1px solid var(--rule); padding-top: 0.85rem;
+  }
+
+  .hero-headline {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(3rem, 10vw, 10rem);
+    line-height: 1; letter-spacing: -0.035em; color: var(--ink);
+  }
+  .hero-headline .italic   { font-style: italic; font-weight: 400; }
+  .hero-headline .ampersand { font-style: italic; font-weight: 300; }
+  .hero-headline .line     { display: block; }
+  .hero-headline .line + .line { margin-top: 0.05em; }
+
+  /* Word-in animation */
+  .hero-headline .word {
+    display: inline-block;
+    opacity: 0; transform: translateY(0.4em);
+    animation: wordIn .9s var(--ease) forwards;
+  }
+  @keyframes wordIn { to { opacity: 1; transform: translateY(0); } }
+
+  .hero-stack {
+    display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: end;
+  }
+  @media (min-width: 880px) {
+    .hero-stack { grid-template-columns: 1.2fr 1fr; }
+  }
+
+  .hero-roles {
+    font-family: var(--serif); font-size: clamp(1.05rem, 1.5vw, 1.4rem);
+    font-style: italic; font-weight: 300; color: var(--ink-soft);
+    line-height: 1.7; max-width: 32ch;
+  }
+  .hero-roles .num {
+    font-family: var(--mono); font-style: normal;
+    font-size: 0.7em; color: var(--ink-mute); margin-right: 0.6em;
+  }
+  .hero-roles .line { display: block; }
+
+  .hero-card {
+    font-family: var(--mono); font-size: 0.72rem;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ink-mute); text-align: right; line-height: 1.9;
+  }
+  .hero-card strong { color: var(--ink); font-weight: 500; }
+  .hero-card .divider {
+    width: 32px; height: 1px; background: var(--ink-mute);
+    margin: 0.6rem 0 0.6rem auto;
+  }
+  @media (max-width: 560px) {
+    .hero-card { text-align: left; }
+    .hero-card .divider { margin-left: 0; }
+  }
+</style>
