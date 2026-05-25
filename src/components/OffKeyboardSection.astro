@@ -1,0 +1,726 @@
+---
+// OffKeyboardSection — guitar, philosophy quotes, basketball mini-game
+---
+
+<section class="off" id="off">
+  <div class="section-head">
+    <h2 class="section-title" data-i18n="off_title">Off the <em>keyboard</em></h2>
+    <span class="section-aside" data-i18n="off_aside">Interact · play · click</span>
+  </div>
+
+  <div class="off-grid">
+
+    <!-- I. Guitar card -->
+    <article class="off-card" id="card-guitar">
+      <div class="card-inner">
+        <p class="card-eyebrow" data-i18n="off_sound_eyebrow">I. Sound</p>
+        <h3 class="card-title" data-i18n="off_sound_title">Strum a chord.</h3>
+        <div class="chord-board" id="chord-board-inline">
+          <button class="chord-btn" data-chord="Am">Am</button>
+          <button class="chord-btn" data-chord="C">C</button>
+          <button class="chord-btn" data-chord="G">G</button>
+          <button class="chord-btn" data-chord="F">F</button>
+          <button class="chord-btn" data-chord="Dm">Dm</button>
+          <button class="chord-btn" data-chord="Em">Em</button>
+        </div>
+        <button class="card-expand" data-modal="modal-guitar" data-i18n="off_sound_expand">More chords</button>
+      </div>
+    </article>
+
+    <!-- II. Philosophy card -->
+    <article class="off-card" id="card-phil">
+      <div class="card-inner">
+        <p class="card-eyebrow" data-i18n="off_mind_eyebrow">II. Mind</p>
+        <h3 class="card-title" data-i18n="off_mind_title">Pick a thought.</h3>
+        <div class="quote-rotator" id="quote-inline">
+          <blockquote class="quote-text" id="quote-text" data-i18n="q1_text">&ldquo;The unexamined life is not worth living.&rdquo;</blockquote>
+          <div class="quote-dots">
+            <span class="q-dot active" data-q="0"></span>
+            <span class="q-dot" data-q="1"></span>
+            <span class="q-dot" data-q="2"></span>
+          </div>
+        </div>
+        <button class="card-expand" data-modal="modal-phil" data-i18n="off_mind_expand">Read more</button>
+      </div>
+    </article>
+
+    <!-- III. Basketball card -->
+    <article class="off-card" id="card-basket">
+      <div class="card-inner">
+        <p class="card-eyebrow" data-i18n="off_game_eyebrow">III. Game</p>
+        <h3 class="card-title" data-i18n="off_game_title">Shoot from three.</h3>
+        <div class="hoop-preview">
+          <svg viewBox="0 0 160 90" fill="none" xmlns="http://www.w3.org/2000/svg" class="hoop-svg">
+            <!-- court -->
+            <rect width="160" height="90" fill="var(--paper-2)" rx="4"/>
+            <!-- paint -->
+            <rect x="55" y="0" width="50" height="34" fill="var(--paper-3)" rx="2"/>
+            <!-- three-point arc -->
+            <path d="M28 90 Q80 -15 132 90" stroke="var(--rule)" stroke-width="1.5" fill="none"/>
+            <!-- backboard -->
+            <rect x="68" y="2" width="24" height="4" fill="var(--ink-mute)" rx="1"/>
+            <!-- rim -->
+            <ellipse cx="80" cy="11" rx="9" ry="3" stroke="var(--burgundy)" stroke-width="1.5" fill="none"/>
+            <!-- ball preview -->
+            <circle class="ball-preview" cx="80" cy="60" r="6" fill="var(--burgundy)" opacity="0.7"/>
+          </svg>
+        </div>
+        <button class="card-expand" data-modal="modal-basket" data-i18n="off_game_expand">Play full game</button>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- Modal: Guitar full chord library -->
+<div class="modal-backdrop" id="modal-guitar" role="dialog" aria-modal="true" aria-label="Guitar chord library">
+  <div class="modal-box modal-guitar-box">
+    <button class="modal-close" aria-label="Close">✕</button>
+    <p class="modal-eyebrow" data-i18n="off_sound_eyebrow">I. Sound</p>
+    <h2 class="modal-title" data-i18n="modal_guitar_title">The full <em>chord library</em></h2>
+    <p class="modal-desc" data-i18n="modal_guitar_desc">Twenty-four chords across major, minor and seventh families.</p>
+
+    <div class="chord-section">
+      <h4 class="chord-family-label" data-i18n="modal_guitar_section_major">Major</h4>
+      <div class="chord-grid" id="chords-major">
+        <button class="chord-btn" data-chord="C">C</button>
+        <button class="chord-btn" data-chord="D">D</button>
+        <button class="chord-btn" data-chord="E">E</button>
+        <button class="chord-btn" data-chord="F">F</button>
+        <button class="chord-btn" data-chord="G">G</button>
+        <button class="chord-btn" data-chord="A">A</button>
+        <button class="chord-btn" data-chord="B">B</button>
+        <button class="chord-btn" data-chord="Bb">Bb</button>
+      </div>
+    </div>
+    <div class="chord-section">
+      <h4 class="chord-family-label" data-i18n="modal_guitar_section_minor">Minor</h4>
+      <div class="chord-grid" id="chords-minor">
+        <button class="chord-btn" data-chord="Am">Am</button>
+        <button class="chord-btn" data-chord="Bm">Bm</button>
+        <button class="chord-btn" data-chord="Cm">Cm</button>
+        <button class="chord-btn" data-chord="Dm">Dm</button>
+        <button class="chord-btn" data-chord="Em">Em</button>
+        <button class="chord-btn" data-chord="Fm">Fm</button>
+        <button class="chord-btn" data-chord="Gm">Gm</button>
+        <button class="chord-btn" data-chord="Bm">Bm</button>
+      </div>
+    </div>
+    <div class="chord-section">
+      <h4 class="chord-family-label" data-i18n="modal_guitar_section_seventh">Seventh</h4>
+      <div class="chord-grid" id="chords-seventh">
+        <button class="chord-btn" data-chord="C7">C7</button>
+        <button class="chord-btn" data-chord="D7">D7</button>
+        <button class="chord-btn" data-chord="E7">E7</button>
+        <button class="chord-btn" data-chord="G7">G7</button>
+        <button class="chord-btn" data-chord="A7">A7</button>
+        <button class="chord-btn" data-chord="Am7">Am7</button>
+        <button class="chord-btn" data-chord="Dm7">Dm7</button>
+        <button class="chord-btn" data-chord="Em7">Em7</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Philosophy quotes -->
+<div class="modal-backdrop" id="modal-phil" role="dialog" aria-modal="true" aria-label="Philosophy quotes">
+  <div class="modal-box modal-phil-box">
+    <button class="modal-close" aria-label="Close">✕</button>
+    <p class="modal-eyebrow" data-i18n="off_mind_eyebrow">II. Mind</p>
+    <h2 class="modal-title" data-i18n="modal_phil_title">Some <em>thoughts</em> I keep nearby</h2>
+    <p class="modal-desc" data-i18n="modal_phil_desc">Quotes I come back to.</p>
+    <ol class="quotes-list" id="quotes-list">
+      <li><blockquote data-i18n="qf1_t">&ldquo;The unexamined life is not worth living.&rdquo;</blockquote><cite>Socrates</cite></li>
+      <li><blockquote data-i18n="qf2_t">&ldquo;We suffer more in imagination than in reality.&rdquo;</blockquote><cite>Seneca</cite></li>
+      <li><blockquote data-i18n="qf3_t">&ldquo;He who has a why to live can bear almost any how.&rdquo;</blockquote><cite>Nietzsche</cite></li>
+      <li><blockquote data-i18n="qf4_t">&ldquo;Man is condemned to be free.&rdquo;</blockquote><cite>Sartre</cite></li>
+      <li><blockquote data-i18n="qf5_t">&ldquo;The cave you fear to enter holds the treasure you seek.&rdquo;</blockquote><cite>Joseph Campbell</cite></li>
+      <li><blockquote data-i18n="qf6_t">&ldquo;You have power over your mind — not outside events. Realize this, and you will find strength.&rdquo;</blockquote><cite>Marcus Aurelius</cite></li>
+      <li><blockquote data-i18n="qf7_t">&ldquo;Hell is other people.&rdquo;</blockquote><cite>Sartre</cite></li>
+      <li><blockquote data-i18n="qf8_t">&ldquo;What does not kill me, makes me stronger.&rdquo;</blockquote><cite>Nietzsche</cite></li>
+      <li><blockquote data-i18n="qf9_t">&ldquo;I think, therefore I am.&rdquo;</blockquote><cite>Descartes</cite></li>
+    </ol>
+  </div>
+</div>
+
+<!-- Modal: Basketball full game -->
+<div class="modal-backdrop" id="modal-basket" role="dialog" aria-modal="true" aria-label="Basketball game">
+  <div class="modal-box modal-basket-box">
+    <button class="modal-close" aria-label="Close">✕</button>
+    <p class="modal-eyebrow" data-i18n="off_game_eyebrow">III. Game</p>
+    <h2 class="modal-title" data-i18n="modal_basket_title">The <em>three-point challenge</em></h2>
+    <p class="modal-desc" data-i18n="modal_basket_desc">Pick a zone, take the shot. Track your accuracy.</p>
+
+    <div class="game-layout">
+      <div class="game-court-wrap">
+        <svg id="game-court" viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="320" height="200" fill="var(--paper-2)" rx="6"/>
+          <!-- paint -->
+          <rect x="110" y="0" width="100" height="75" fill="var(--paper-3)" rx="2"/>
+          <!-- key circle -->
+          <ellipse cx="160" cy="75" rx="30" ry="20" stroke="var(--rule)" stroke-width="1" fill="none"/>
+          <!-- three-point arc -->
+          <path d="M50 200 Q160 -30 270 200" stroke="var(--rule)" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
+          <!-- midrange mark lines -->
+          <line x1="50" y1="200" x2="50" y2="120" stroke="var(--rule)" stroke-width="1"/>
+          <line x1="270" y1="200" x2="270" y2="120" stroke="var(--rule)" stroke-width="1"/>
+          <!-- backboard -->
+          <rect x="136" y="4" width="48" height="8" fill="var(--ink-mute)" rx="2"/>
+          <!-- rim -->
+          <ellipse cx="160" cy="20" rx="18" ry="6" stroke="var(--burgundy)" stroke-width="2" fill="none"/>
+          <!-- net suggestion -->
+          <path d="M142 26 Q160 38 178 26" stroke="var(--rule)" stroke-width="1" fill="none"/>
+          <!-- zone overlays (clickable) -->
+          <ellipse id="zone-close" class="zone-area" cx="160" cy="55" rx="30" ry="20" fill="var(--burgundy)" opacity="0" data-zone="close"/>
+          <path id="zone-mid" class="zone-area" d="M50 120 Q160 30 270 120 L270 200 Q160 100 50 200Z" fill="var(--burgundy)" opacity="0" data-zone="mid" clip-path="url(#clip-3pt)"/>
+          <clipPath id="clip-3pt"><path d="M50 200 Q160 -30 270 200Z"/></clipPath>
+          <path id="zone-three" class="zone-area" d="M0 200 L50 200 L50 120 Q160 30 270 120 L270 200 L320 200 L320 0 L0 0Z" fill="var(--burgundy)" opacity="0" data-zone="three"/>
+          <ellipse id="zone-logo" class="zone-area" cx="160" cy="165" rx="20" ry="14" fill="var(--burgundy)" opacity="0" data-zone="logo"/>
+          <!-- center circle -->
+          <ellipse cx="160" cy="165" rx="20" ry="14" stroke="var(--rule)" stroke-width="1" fill="none"/>
+          <!-- animated ball -->
+          <circle id="game-ball" cx="160" cy="165" r="10" fill="var(--burgundy)" opacity="0.85"/>
+          <!-- ball highlight -->
+          <circle id="game-ball-shine" cx="155" cy="161" r="3" fill="white" opacity="0.25"/>
+        </svg>
+        <div class="zone-labels">
+          <button class="zone-label-btn" data-zone="close" data-i18n="game_zone_close">Close</button>
+          <button class="zone-label-btn" data-zone="mid" data-i18n="game_zone_mid">Mid</button>
+          <button class="zone-label-btn" data-zone="three" data-i18n="game_zone_three">Three</button>
+          <button class="zone-label-btn" data-zone="logo" data-i18n="game_zone_logo">Logo</button>
+        </div>
+        <div class="game-actions">
+          <button id="btn-shoot" class="btn-shoot" data-i18n="game_shoot">Shoot</button>
+          <button id="btn-reset" class="btn-reset" data-i18n="game_reset">Reset</button>
+        </div>
+      </div>
+
+      <div class="game-right">
+        <div class="stats-grid">
+          <div class="stat-cell"><span class="stat-val" id="stat-score">0</span><span class="stat-lbl" data-i18n="stat_score">Score</span></div>
+          <div class="stat-cell"><span class="stat-val" id="stat-shots">0</span><span class="stat-lbl" data-i18n="stat_shots">Shots</span></div>
+          <div class="stat-cell"><span class="stat-val" id="stat-made">0</span><span class="stat-lbl" data-i18n="stat_made">Made</span></div>
+          <div class="stat-cell"><span class="stat-val" id="stat-streak">0</span><span class="stat-lbl" data-i18n="stat_streak">Streak</span></div>
+          <div class="stat-cell stat-wide"><span class="stat-val" id="stat-best">0</span><span class="stat-lbl" data-i18n="stat_best">Best streak</span></div>
+        </div>
+
+        <div class="charts-row">
+          <div class="chart-card">
+            <p class="chart-title" data-i18n="chart_acc_title">Accuracy</p>
+            <p class="chart-sub" data-i18n="chart_acc_desc">overall · live</p>
+            <svg id="donut-svg" viewBox="0 0 80 80" class="donut-svg">
+              <circle cx="40" cy="40" r="30" fill="none" stroke="var(--paper-3)" stroke-width="10"/>
+              <circle id="donut-arc" cx="40" cy="40" r="30" fill="none" stroke="var(--burgundy)" stroke-width="10"
+                stroke-dasharray="0 188.5" stroke-linecap="round" transform="rotate(-90 40 40)"/>
+              <text id="donut-pct" x="40" y="45" text-anchor="middle" font-family="var(--mono)" font-size="13" fill="var(--ink)">0%</text>
+            </svg>
+          </div>
+          <div class="chart-card">
+            <p class="chart-title" data-i18n="chart_zone_title">Makes per zone</p>
+            <p class="chart-sub" data-i18n="chart_zone_desc">live · all zones</p>
+            <div class="bar-chart" id="bar-chart">
+              <div class="bar-row"><span class="bar-lbl" data-i18n="game_zone_close">Close</span><div class="bar-track"><div class="bar-fill" id="bar-close"></div></div><span class="bar-val" id="bv-close">0</span></div>
+              <div class="bar-row"><span class="bar-lbl" data-i18n="game_zone_mid">Mid</span><div class="bar-track"><div class="bar-fill" id="bar-mid"></div></div><span class="bar-val" id="bv-mid">0</span></div>
+              <div class="bar-row"><span class="bar-lbl" data-i18n="game_zone_three">Three</span><div class="bar-track"><div class="bar-fill" id="bar-three"></div></div><span class="bar-val" id="bv-three">0</span></div>
+              <div class="bar-row"><span class="bar-lbl" data-i18n="game_zone_logo">Logo</span><div class="bar-track"><div class="bar-fill" id="bar-logo"></div></div><span class="bar-val" id="bv-logo">0</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ── Section layout ── */
+  .off {
+    padding: 6rem var(--pad) 4rem;
+    max-width: var(--max); margin: 0 auto;
+  }
+  .section-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-top: 1px solid var(--rule); padding-top: 0.85rem; margin-bottom: 3rem;
+  }
+  .section-title {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: -0.02em; line-height: 1.1; color: var(--ink);
+  }
+  .section-title em { font-style: italic; font-weight: 400; }
+  .section-aside {
+    font-family: var(--mono); font-size: 0.68rem;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute);
+  }
+
+  /* ── Card grid ── */
+  .off-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .off-card {
+    border: 1px solid var(--rule); border-radius: 6px;
+    background: var(--paper-2); overflow: hidden;
+    transition: border-color .3s, box-shadow .3s;
+  }
+  .off-card:hover { border-color: var(--ink-mute); box-shadow: 0 4px 24px rgba(26,22,18,.06); }
+  .card-inner { padding: 1.75rem; display: flex; flex-direction: column; gap: 1rem; }
+
+  .card-eyebrow {
+    font-family: var(--mono); font-size: 0.65rem;
+    text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink-mute);
+  }
+  .card-title {
+    font-family: var(--serif); font-weight: 300; font-style: italic;
+    font-size: clamp(1.3rem, 2.5vw, 1.7rem); color: var(--ink); line-height: 1.2;
+  }
+  .card-expand {
+    align-self: flex-start; margin-top: auto;
+    font-family: var(--mono); font-size: 0.68rem;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ink-mute); background: transparent; border: 1px solid var(--rule);
+    padding: 0.45rem 0.9rem; border-radius: 100px; cursor: pointer;
+    transition: all .3s;
+  }
+  .card-expand:hover { color: var(--ink); border-color: var(--ink); }
+
+  /* ── Chord board ── */
+  .chord-board { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chord-btn {
+    font-family: var(--mono); font-size: 0.72rem; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 0.5rem 0.85rem; border: 1px solid var(--rule);
+    border-radius: 4px; background: var(--paper); color: var(--ink);
+    cursor: pointer; transition: all .2s; user-select: none;
+  }
+  .chord-btn:hover { background: var(--ink); color: var(--paper); }
+  .chord-btn.playing { background: var(--burgundy); color: var(--paper); border-color: var(--burgundy); }
+  @keyframes stringVibrate {
+    0%,100% { transform: scaleY(1); }
+    20% { transform: scaleY(1.06) translateY(-1px); }
+    40% { transform: scaleY(0.97) translateY(1px); }
+    60% { transform: scaleY(1.04) translateY(-0.5px); }
+    80% { transform: scaleY(0.99); }
+  }
+  .chord-btn.playing { animation: stringVibrate .4s ease; }
+
+  /* ── Quote rotator ── */
+  .quote-rotator { display: flex; flex-direction: column; gap: 0.75rem; }
+  .quote-text {
+    font-family: var(--serif); font-style: italic; font-weight: 300;
+    font-size: clamp(0.9rem, 1.4vw, 1.05rem); color: var(--ink-soft);
+    line-height: 1.6; quotes: none;
+    transition: opacity .4s;
+  }
+  .quote-text.fade { opacity: 0; }
+  .quote-dots { display: flex; gap: 0.4rem; }
+  .q-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--rule); cursor: pointer; transition: background .3s;
+  }
+  .q-dot.active { background: var(--ink-mute); }
+
+  /* ── Hoop preview ── */
+  .hoop-preview { display: flex; justify-content: center; }
+  .hoop-svg { width: 100%; max-width: 200px; border-radius: 4px; }
+  .ball-preview { animation: ballBob 2s ease-in-out infinite; }
+  @keyframes ballBob {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  /* ── Modals ── */
+  .modal-backdrop {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(26,22,18,.55); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center; padding: 1.5rem;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal-box {
+    background: var(--paper); border: 1px solid var(--rule); border-radius: 8px;
+    padding: 2.25rem; width: 100%; max-height: 88vh; overflow-y: auto;
+    position: relative; animation: modalIn .35s var(--ease);
+  }
+  @keyframes modalIn { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform:none; } }
+  .modal-guitar-box { max-width: 540px; }
+  .modal-phil-box   { max-width: 540px; }
+  .modal-basket-box { max-width: 860px; }
+
+  .modal-close {
+    position: absolute; top: 1.25rem; right: 1.25rem;
+    background: transparent; border: 1px solid var(--rule);
+    width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+    font-family: var(--mono); font-size: 0.7rem; color: var(--ink-mute);
+    display: flex; align-items: center; justify-content: center;
+    transition: all .2s;
+  }
+  .modal-close:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .modal-eyebrow {
+    font-family: var(--mono); font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink-mute);
+    margin-bottom: 0.5rem;
+  }
+  .modal-title {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(1.4rem, 3vw, 2rem); color: var(--ink); margin-bottom: 0.5rem;
+  }
+  .modal-title em { font-style: italic; font-weight: 400; }
+  .modal-desc {
+    font-family: var(--sans); font-size: 0.82rem; color: var(--ink-mute);
+    margin-bottom: 1.75rem; line-height: 1.6;
+  }
+
+  /* ── Guitar modal ── */
+  .chord-section { margin-bottom: 1.5rem; }
+  .chord-family-label {
+    font-family: var(--mono); font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute);
+    margin-bottom: 0.65rem;
+  }
+  .chord-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+  /* ── Philosophy modal ── */
+  .quotes-list {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 1.25rem;
+  }
+  .quotes-list li { border-left: 2px solid var(--rule); padding-left: 1rem; }
+  .quotes-list blockquote {
+    font-family: var(--serif); font-style: italic; font-weight: 300;
+    font-size: 1rem; color: var(--ink-soft); line-height: 1.6; margin: 0 0 0.25rem;
+  }
+  .quotes-list cite {
+    font-family: var(--mono); font-size: 0.65rem;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-mute);
+    font-style: normal;
+  }
+
+  /* ── Basketball modal ── */
+  .game-layout {
+    display: grid; grid-template-columns: 1fr; gap: 1.5rem;
+  }
+  @media (min-width: 640px) {
+    .game-layout { grid-template-columns: 1.1fr 1fr; }
+  }
+  .game-court-wrap { display: flex; flex-direction: column; gap: 0.75rem; }
+  #game-court { width: 100%; border-radius: 4px; }
+  .zone-area { cursor: pointer; transition: opacity .2s; }
+  .zone-area:hover { opacity: 0.18 !important; }
+  .zone-area.selected { opacity: 0.22 !important; }
+
+  .zone-labels { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .zone-label-btn {
+    font-family: var(--mono); font-size: 0.65rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 0.35rem 0.7rem; border: 1px solid var(--rule);
+    border-radius: 100px; background: transparent; color: var(--ink-mute);
+    cursor: pointer; transition: all .2s;
+  }
+  .zone-label-btn:hover, .zone-label-btn.selected { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  .game-actions { display: flex; gap: 0.75rem; }
+  .btn-shoot, .btn-reset {
+    font-family: var(--mono); font-size: 0.72rem;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    padding: 0.6rem 1.4rem; border-radius: 100px; cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-shoot { background: var(--burgundy); color: var(--paper); border: 1px solid var(--burgundy); }
+  .btn-shoot:hover { background: var(--burgundy-soft); }
+  .btn-shoot:disabled { opacity: 0.45; cursor: default; }
+  .btn-reset { background: transparent; color: var(--ink-mute); border: 1px solid var(--rule); }
+  .btn-reset:hover { color: var(--ink); border-color: var(--ink); }
+
+  /* Stats */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .stat-cell {
+    display: flex; flex-direction: column; gap: 0.15rem;
+    background: var(--paper-2); border: 1px solid var(--rule);
+    border-radius: 4px; padding: 0.65rem 0.85rem;
+  }
+  .stat-wide { grid-column: span 2; }
+  .stat-val {
+    font-family: var(--mono); font-size: 1.4rem; font-weight: 500;
+    color: var(--ink); line-height: 1;
+  }
+  .stat-lbl {
+    font-family: var(--mono); font-size: 0.58rem;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-mute);
+  }
+
+  /* Charts */
+  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .chart-card {
+    background: var(--paper-2); border: 1px solid var(--rule);
+    border-radius: 4px; padding: 0.75rem;
+  }
+  .chart-title {
+    font-family: var(--mono); font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink); margin-bottom: 0.1rem;
+  }
+  .chart-sub {
+    font-family: var(--mono); font-size: 0.56rem;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute); margin-bottom: 0.5rem;
+  }
+  .donut-svg { width: 80px; height: 80px; display: block; margin: 0 auto; }
+
+  /* Bar chart */
+  .bar-chart { display: flex; flex-direction: column; gap: 0.4rem; }
+  .bar-row { display: flex; align-items: center; gap: 0.4rem; }
+  .bar-lbl { font-family: var(--mono); font-size: 0.58rem; text-transform: uppercase; color: var(--ink-mute); width: 36px; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 6px; background: var(--paper-3); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; width: 0%; background: var(--burgundy); border-radius: 3px; transition: width .4s var(--ease); }
+  .bar-val { font-family: var(--mono); font-size: 0.58rem; color: var(--ink-mute); width: 16px; text-align: right; }
+</style>
+
+<script>
+  import { currentLang, i18n } from '../scripts/i18n';
+
+  /* ─────── MODAL HELPERS ─────── */
+  function openModal(id: string) {
+    const el = document.getElementById(id);
+    if (el) { el.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  }
+  function closeModal(id: string) {
+    const el = document.getElementById(id);
+    if (el) { el.classList.remove('open'); document.body.style.overflow = ''; }
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.card-expand').forEach(btn => {
+    btn.addEventListener('click', () => openModal(btn.dataset.modal!));
+  });
+  document.querySelectorAll<HTMLButtonElement>('.modal-close').forEach(btn => {
+    const box = btn.closest<HTMLElement>('.modal-backdrop');
+    if (box) btn.addEventListener('click', () => closeModal(box.id));
+  });
+  document.querySelectorAll<HTMLElement>('.modal-backdrop').forEach(backdrop => {
+    backdrop.addEventListener('click', e => {
+      if (e.target === backdrop) closeModal(backdrop.id);
+    });
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll<HTMLElement>('.modal-backdrop.open').forEach(m => closeModal(m.id));
+    }
+  });
+
+  /* ─────── WEB AUDIO ─────── */
+  type ChordFreqs = Record<string, number[]>;
+
+  const chordFreqs: ChordFreqs = {
+    // root freq in Hz for each string note of the chord (simplified, 4 strings)
+    Am:  [110, 165, 220, 330],
+    C:   [130.8, 196, 261.6, 392],
+    G:   [98, 146.8, 196, 293.7],
+    F:   [87.3, 130.8, 174.6, 261.6],
+    Dm:  [110, 146.8, 220, 293.7],
+    Em:  [82.4, 123.5, 164.8, 246.9],
+    D:   [146.8, 220, 293.7, 440],
+    E:   [164.8, 246.9, 329.6, 493.9],
+    A:   [110, 164.8, 220, 329.6],
+    B:   [123.5, 185, 246.9, 370],
+    Bb:  [116.5, 174.6, 233.1, 349.2],
+    Bm:  [123.5, 185, 246.9, 370],
+    Cm:  [130.8, 196, 261.6, 392],
+    Fm:  [87.3, 130.8, 174.6, 261.6],
+    Gm:  [98, 146.8, 196, 293.7],
+    C7:  [130.8, 196, 261.6, 466.2],
+    D7:  [146.8, 220, 293.7, 392],
+    E7:  [164.8, 246.9, 329.6, 415.3],
+    G7:  [98, 146.8, 196, 277.2],
+    A7:  [110, 164.8, 220, 311.1],
+    Am7: [110, 165, 220, 311.1],
+    Dm7: [110, 146.8, 220, 277.2],
+    Em7: [82.4, 123.5, 164.8, 220],
+  };
+
+  let audioCtx: AudioContext | null = null;
+
+  function getAudio(): AudioContext {
+    if (!audioCtx) audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    return audioCtx;
+  }
+
+  function playChord(name: string) {
+    const ctx = getAudio();
+    const freqs = chordFreqs[name] ?? chordFreqs['Am'];
+    freqs.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.04);
+      gain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + i * 0.04 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.04 + 1.2);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(ctx.currentTime + i * 0.04);
+      osc.stop(ctx.currentTime + i * 0.04 + 1.3);
+    });
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.chord-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const chord = btn.dataset.chord!;
+      playChord(chord);
+      btn.classList.add('playing');
+      setTimeout(() => btn.classList.remove('playing'), 420);
+    });
+  });
+
+  /* ─────── QUOTE ROTATOR ─────── */
+  const inlineQuoteKeys = ['q1_text', 'q2_text', 'q3_text'];
+  let quoteIdx = 0;
+  let quoteTimer: ReturnType<typeof setInterval>;
+
+  const quoteTextEl = document.getElementById('quote-text');
+  const qDots = document.querySelectorAll<HTMLElement>('.q-dot');
+
+  function setQuote(idx: number) {
+    if (!quoteTextEl) return;
+    quoteIdx = (idx + inlineQuoteKeys.length) % inlineQuoteKeys.length;
+    quoteTextEl.classList.add('fade');
+    setTimeout(() => {
+      const lang = (currentLang as string) || 'en';
+      const key = inlineQuoteKeys[quoteIdx];
+      quoteTextEl.innerHTML = (i18n as any)[lang][key] ?? (i18n as any)['en'][key];
+      quoteTextEl.classList.remove('fade');
+    }, 400);
+    qDots.forEach((d, i) => d.classList.toggle('active', i === quoteIdx));
+  }
+
+  function startQuoteTimer() {
+    clearInterval(quoteTimer);
+    quoteTimer = setInterval(() => setQuote(quoteIdx + 1), 7000);
+  }
+
+  qDots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      setQuote(parseInt(dot.dataset.q ?? '0'));
+      startQuoteTimer();
+    });
+  });
+  startQuoteTimer();
+
+  window.addEventListener('langchange', (e: Event) => {
+    const lang = (e as CustomEvent<{lang: string}>).detail.lang;
+    const key = inlineQuoteKeys[quoteIdx];
+    if (quoteTextEl) quoteTextEl.innerHTML = (i18n as any)[lang][key] ?? (i18n as any)['en'][key];
+  });
+
+  /* ─────── BASKETBALL GAME ─────── */
+  type Zone = 'close' | 'mid' | 'three' | 'logo';
+  const zoneProbability: Record<Zone, number> = { close: 0.78, mid: 0.52, three: 0.35, logo: 0.12 };
+  const zonePoints: Record<Zone, number> = { close: 2, mid: 2, three: 3, logo: 4 };
+
+  let selectedZone: Zone | null = null;
+  let score = 0, shots = 0, made = 0, streak = 0, best = 0;
+  const makesByZone: Record<Zone, number> = { close: 0, mid: 0, three: 0, logo: 0 };
+
+  const ball = document.getElementById('game-ball');
+  const ballShine = document.getElementById('game-ball-shine');
+  const btnShoot = document.getElementById('btn-shoot') as HTMLButtonElement | null;
+  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement | null;
+
+  const ballStartByZone: Record<Zone, [number,number]> = {
+    close: [160, 55], mid: [160, 110], three: [160, 155], logo: [160, 175]
+  };
+
+  function updateStats() {
+    const q = (id: string) => document.getElementById(id);
+    q('stat-score')!.textContent = String(score);
+    q('stat-shots')!.textContent = String(shots);
+    q('stat-made')!.textContent = String(made);
+    q('stat-streak')!.textContent = String(streak);
+    q('stat-best')!.textContent = String(best);
+    // donut
+    const pct = shots > 0 ? Math.round((made / shots) * 100) : 0;
+    const circ = 2 * Math.PI * 30;
+    const arc = document.getElementById('donut-arc')!;
+    arc.setAttribute('stroke-dasharray', `${circ * pct / 100} ${circ}`);
+    document.getElementById('donut-pct')!.textContent = pct + '%';
+    // bars
+    const maxMake = Math.max(1, ...Object.values(makesByZone));
+    (['close','mid','three','logo'] as Zone[]).forEach(z => {
+      const bar = document.getElementById('bar-' + z);
+      const val = document.getElementById('bv-' + z);
+      if (bar) bar.style.width = (makesByZone[z] / maxMake * 100) + '%';
+      if (val) val.textContent = String(makesByZone[z]);
+    });
+  }
+
+  function selectZone(zone: Zone) {
+    selectedZone = zone;
+    document.querySelectorAll<HTMLElement>('.zone-area').forEach(a => a.classList.toggle('selected', a.dataset.zone === zone));
+    document.querySelectorAll<HTMLButtonElement>('.zone-label-btn').forEach(b => b.classList.toggle('selected', b.dataset.zone === zone));
+    // move ball to zone origin
+    const [bx, by] = ballStartByZone[zone];
+    if (ball) { ball.setAttribute('cx', String(bx)); ball.setAttribute('cy', String(by)); }
+    if (ballShine) { ballShine.setAttribute('cx', String(bx - 5)); ballShine.setAttribute('cy', String(by - 4)); }
+  }
+
+  function animateShot(made: boolean, zone: Zone, onDone: () => void) {
+    if (!ball || !ballShine) { onDone(); return; }
+    const [startX, startY] = ballStartByZone[zone];
+    const endX = 160, endY = made ? 20 : startY - 20;
+    const peakY = Math.min(startY, endY) - 40;
+    let t = 0;
+    const dur = 500;
+    const start = performance.now();
+    function frame(now: number) {
+      t = Math.min((now - start) / dur, 1);
+      const ease = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+      const x = startX + (endX - startX) * ease;
+      const y = startY + (peakY - startY) * Math.sin(Math.PI * t) + (endY - startY) * ease;
+      ball.setAttribute('cx', String(x.toFixed(1)));
+      ball.setAttribute('cy', String(y.toFixed(1)));
+      ballShine.setAttribute('cx', String((x - 4).toFixed(1)));
+      ballShine.setAttribute('cy', String((y - 3).toFixed(1)));
+      if (t < 1) requestAnimationFrame(frame);
+      else {
+        setTimeout(() => {
+          ball.setAttribute('cx', String(startX));
+          ball.setAttribute('cy', String(startY));
+          ballShine.setAttribute('cx', String(startX - 5));
+          ballShine.setAttribute('cy', String(startY - 4));
+          onDone();
+        }, 300);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  btnShoot?.addEventListener('click', () => {
+    if (!selectedZone) return;
+    btnShoot.disabled = true;
+    const hit = Math.random() < zoneProbability[selectedZone];
+    animateShot(hit, selectedZone, () => {
+      shots++;
+      if (hit) { made++; score += zonePoints[selectedZone!]; streak++; best = Math.max(best, streak); makesByZone[selectedZone!]++; }
+      else { streak = 0; }
+      updateStats();
+      btnShoot.disabled = false;
+    });
+  });
+
+  btnReset?.addEventListener('click', () => {
+    score = 0; shots = 0; made = 0; streak = 0; best = 0;
+    (['close','mid','three','logo'] as Zone[]).forEach(z => makesByZone[z] = 0);
+    selectedZone = null;
+    document.querySelectorAll<HTMLElement>('.zone-area').forEach(a => a.classList.remove('selected'));
+    document.querySelectorAll<HTMLButtonElement>('.zone-label-btn').forEach(b => b.classList.remove('selected'));
+    if (ball) { ball.setAttribute('cx', '160'); ball.setAttribute('cy', '165'); }
+    if (ballShine) { ballShine.setAttribute('cx', '155'); ballShine.setAttribute('cy', '161'); }
+    updateStats();
+  });
+
+  document.querySelectorAll<HTMLElement>('.zone-area').forEach(area => {
+    area.addEventListener('click', () => selectZone(area.dataset.zone as Zone));
+  });
+  document.querySelectorAll<HTMLButtonElement>('.zone-label-btn').forEach(btn => {
+    btn.addEventListener('click', () => selectZone(btn.dataset.zone as Zone));
+  });
+</script>
