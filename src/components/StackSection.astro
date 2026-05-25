@@ -1,0 +1,339 @@
+---
+import { graphProjects, techsList } from '../data/stack';
+const projectsJSON = JSON.stringify(graphProjects);
+const techsJSON    = JSON.stringify(techsList);
+---
+
+<section class="stack" id="stack">
+  <div class="section-head">
+    <h2 class="section-title" data-i18n="stack_title">The <em>stack</em></h2>
+    <span class="section-aside" data-i18n="stack_aside">Drag · hover · explore</span>
+  </div>
+
+  <div class="graph-stage" id="graph-stage">
+    <!-- Hint overlay -->
+    <div class="graph-overlay">
+      <p class="graph-hint" data-i18n="graph_hint">Hover a node to see its links</p>
+      <div class="graph-legend">
+        <span class="legend-dot legend-project"></span><span data-i18n="graph_legend_project">Project</span>
+        <span class="legend-dot legend-tech"></span><span data-i18n="graph_legend_tech">Tech</span>
+      </div>
+      <button class="graph-reset" id="graph-reset" data-i18n="graph_reset">↺ Reset</button>
+    </div>
+    <!-- SVG edges -->
+    <svg class="graph-svg" id="graph-svg" aria-hidden="true"></svg>
+    <!-- nodes injected by JS -->
+  </div>
+  <p class="graph-footnote" data-i18n="graph_footnote">
+    Each project is connected to the technologies that built it. Drag the nodes wherever feels right.
+  </p>
+</section>
+
+<style>
+  .stack {
+    padding: 6rem var(--pad) 4rem;
+    max-width: var(--max); margin: 0 auto;
+  }
+  .section-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-top: 1px solid var(--rule); padding-top: 0.85rem; margin-bottom: 3rem;
+  }
+  .section-title {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: -0.02em; line-height: 1.1; color: var(--ink);
+  }
+  .section-title em { font-style: italic; font-weight: 400; }
+  .section-aside {
+    font-family: var(--mono); font-size: 0.68rem;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute);
+  }
+
+  /* ── Graph stage ── */
+  .graph-stage {
+    position: relative; width: 100%; height: 75vh;
+    min-height: 420px; max-height: 700px;
+    border: 1px solid var(--rule); border-radius: 8px;
+    background: var(--paper-2); overflow: hidden;
+  }
+
+  /* Overlay */
+  .graph-overlay {
+    position: absolute; top: 1.25rem; left: 1.25rem; right: 1.25rem;
+    display: flex; align-items: center; justify-content: space-between;
+    pointer-events: none; z-index: 10; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .graph-hint {
+    font-family: var(--mono); font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-mute);
+  }
+  .graph-legend {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-family: var(--mono); font-size: 0.6rem;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute);
+  }
+  .legend-dot {
+    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+  }
+  .legend-project { background: var(--ink); }
+  .legend-tech    { background: var(--burgundy); }
+
+  .graph-reset {
+    pointer-events: all;
+    font-family: var(--mono); font-size: 0.6rem;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    padding: 0.3rem 0.7rem; border: 1px solid var(--rule);
+    border-radius: 100px; background: var(--paper); color: var(--ink-mute);
+    cursor: pointer; transition: all .2s;
+  }
+  .graph-reset:hover { color: var(--ink); border-color: var(--ink); }
+
+  /* SVG edges */
+  .graph-svg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    pointer-events: none; overflow: visible;
+  }
+  .graph-edge {
+    stroke: var(--rule); stroke-width: 1;
+    transition: stroke .3s, opacity .3s;
+  }
+  .graph-edge.dim { opacity: 0.15; }
+  .graph-edge.lit { stroke: var(--ink-mute); opacity: 1; }
+
+  /* Nodes */
+  .graph-node {
+    position: absolute; transform: translate(-50%, -50%);
+    border-radius: 100px; cursor: grab;
+    display: flex; align-items: center; justify-content: center;
+    user-select: none; transition: box-shadow .2s, opacity .3s;
+    white-space: nowrap;
+  }
+  .graph-node:active { cursor: grabbing; }
+  .graph-node.dim { opacity: 0.2; }
+  .graph-node.lit { box-shadow: 0 0 0 2px var(--ink); }
+
+  .graph-node.type-project {
+    background: var(--ink); color: var(--paper);
+    font-family: var(--mono); font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 0.45rem 0.9rem; border: 1px solid var(--ink);
+  }
+  .graph-node.type-tech {
+    background: var(--paper); color: var(--ink-soft);
+    font-family: var(--mono); font-size: 0.58rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 0.3rem 0.65rem; border: 1px solid var(--rule);
+  }
+  .graph-node.type-tech.lit {
+    background: var(--burgundy); color: var(--paper);
+    border-color: var(--burgundy);
+  }
+
+  /* Footnote */
+  .graph-footnote {
+    font-family: var(--mono); font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute);
+    margin-top: 1rem; text-align: center; line-height: 1.7;
+  }
+</style>
+
+<script define:vars={{ projectsJSON, techsJSON }}>
+  const projects = JSON.parse(projectsJSON);
+  const techs    = JSON.parse(techsJSON);
+
+  const stage   = document.getElementById('graph-stage');
+  const svg     = document.getElementById('graph-svg');
+  const resetBtn = document.getElementById('graph-reset');
+
+  let nodePositions = {};  // id -> {x, y}
+  let nodeEls = {};        // id -> dom element
+  let edgeEls = [];        // { el, from, to }
+  let stageW = 0, stageH = 0;
+
+  /* ─── LAYOUT ─── */
+  function layoutGraph() {
+    if (!stage || !svg) return;
+    stageW = stage.clientWidth;
+    stageH = stage.clientHeight;
+
+    const cx = stageW / 2, cy = stageH / 2;
+    const isNarrow = stageW < 500;
+    const pR = isNarrow ? Math.min(cx, cy) * 0.38 : Math.min(cx, cy) * 0.42;
+    const tR = isNarrow ? Math.min(cx, cy) * 0.78 : Math.min(cx, cy) * 0.80;
+    const n = projects.length, m = techs.length;
+
+    nodePositions = {};
+
+    // project nodes: inner ring
+    projects.forEach((p, i) => {
+      const angle = (2 * Math.PI * i / n) - Math.PI / 2;
+      nodePositions[p.id] = { x: cx + pR * Math.cos(angle), y: cy + pR * Math.sin(angle) };
+    });
+
+    // tech nodes: outer ring
+    techs.forEach((t, i) => {
+      const angle = (2 * Math.PI * i / m) - Math.PI / 2;
+      nodePositions['T_' + t] = { x: cx + tR * Math.cos(angle), y: cy + tR * Math.sin(angle) };
+    });
+
+    renderGraph();
+  }
+
+  /* ─── RENDER ─── */
+  function renderGraph() {
+    if (!stage || !svg) return;
+    // clear previous
+    svg.innerHTML = '';
+    document.querySelectorAll('.graph-node').forEach(n => n.remove());
+    nodeEls = {};
+    edgeEls = [];
+
+    // edges
+    projects.forEach(p => {
+      p.techs.forEach(t => {
+        const tId = 'T_' + t;
+        const pos1 = nodePositions[p.id];
+        const pos2 = nodePositions[tId];
+        if (!pos1 || !pos2) return;
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', String(pos1.x));
+        line.setAttribute('y1', String(pos1.y));
+        line.setAttribute('x2', String(pos2.x));
+        line.setAttribute('y2', String(pos2.y));
+        line.className = 'graph-edge';
+        line.dataset.from = p.id;
+        line.dataset.to   = tId;
+        svg.appendChild(line);
+        edgeEls.push({ el: line, from: p.id, to: tId });
+      });
+    });
+
+    // project nodes
+    projects.forEach(p => {
+      const pos = nodePositions[p.id];
+      if (!pos) return;
+      const el = document.createElement('div');
+      el.className = 'graph-node type-project';
+      el.dataset.id = p.id;
+      el.textContent = p.name;
+      el.style.left = pos.x + 'px';
+      el.style.top  = pos.y + 'px';
+      stage.appendChild(el);
+      nodeEls[p.id] = el;
+      makeDraggable(el, p.id);
+      addHover(el, p.id);
+    });
+
+    // tech nodes
+    techs.forEach(t => {
+      const tId = 'T_' + t;
+      const pos = nodePositions[tId];
+      if (!pos) return;
+      const el = document.createElement('div');
+      el.className = 'graph-node type-tech';
+      el.dataset.id = tId;
+      el.textContent = t;
+      el.style.left = pos.x + 'px';
+      el.style.top  = pos.y + 'px';
+      stage.appendChild(el);
+      nodeEls[tId] = el;
+      makeDraggable(el, tId);
+      addHover(el, tId);
+    });
+  }
+
+  /* ─── DRAG ─── */
+  function makeDraggable(el, id) {
+    let dragging = false;
+    let ox = 0, oy = 0;
+
+    function onDown(e) {
+      dragging = true;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const rect = stage.getBoundingClientRect();
+      ox = clientX - rect.left - nodePositions[id].x;
+      oy = clientY - rect.top  - nodePositions[id].y;
+      e.preventDefault();
+    }
+    function onMove(e) {
+      if (!dragging) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const rect = stage.getBoundingClientRect();
+      const nx = Math.max(0, Math.min(stageW, clientX - rect.left - ox));
+      const ny = Math.max(0, Math.min(stageH, clientY - rect.top  - oy));
+      nodePositions[id] = { x: nx, y: ny };
+      el.style.left = nx + 'px';
+      el.style.top  = ny + 'px';
+      updateEdges(id);
+    }
+    function onUp() { dragging = false; }
+
+    el.addEventListener('mousedown',  onDown);
+    el.addEventListener('touchstart', onDown, { passive: false });
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('touchmove', onMove, { passive: false });
+    window.addEventListener('mouseup',  onUp);
+    window.addEventListener('touchend', onUp);
+  }
+
+  function updateEdges(id) {
+    edgeEls.forEach(({ el, from, to }) => {
+      if (from === id) {
+        const p = nodePositions[id]; if (!p) return;
+        el.setAttribute('x1', String(p.x)); el.setAttribute('y1', String(p.y));
+      }
+      if (to === id) {
+        const p = nodePositions[id]; if (!p) return;
+        el.setAttribute('x2', String(p.x)); el.setAttribute('y2', String(p.y));
+      }
+    });
+  }
+
+  /* ─── HOVER HIGHLIGHT ─── */
+  function addHover(el, id) {
+    el.addEventListener('mouseenter', () => highlight(id));
+    el.addEventListener('mouseleave', () => clearHighlight());
+    el.addEventListener('click', () => highlight(id));  // touch
+  }
+
+  function highlight(id) {
+    const isProject = !id.startsWith('T_');
+    // find connected ids
+    const connected = new Set([id]);
+    if (isProject) {
+      const proj = projects.find(p => p.id === id);
+      if (proj) proj.techs.forEach(t => connected.add('T_' + t));
+    } else {
+      const tech = id.slice(2);
+      projects.forEach(p => { if (p.techs.includes(tech)) connected.add(p.id); });
+    }
+
+    Object.entries(nodeEls).forEach(([nId, el]) => {
+      el.classList.toggle('lit', connected.has(nId));
+      el.classList.toggle('dim', !connected.has(nId));
+    });
+    edgeEls.forEach(({ el: edge, from, to }) => {
+      const relevant = connected.has(from) && connected.has(to);
+      edge.classList.toggle('lit', relevant);
+      edge.classList.toggle('dim', !relevant);
+    });
+  }
+
+  function clearHighlight() {
+    Object.values(nodeEls).forEach(el => { el.classList.remove('lit', 'dim'); });
+    edgeEls.forEach(({ el }) => { el.classList.remove('lit', 'dim'); });
+  }
+
+  /* ─── RESET ─── */
+  resetBtn?.addEventListener('click', layoutGraph);
+
+  /* ─── INIT ─── */
+  layoutGraph();
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(layoutGraph, 200);
+  });
+</script>
