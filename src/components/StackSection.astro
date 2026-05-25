@@ -295,10 +295,15 @@ const techsJSON    = JSON.stringify(techsList);
   }
 
   /* ─── HOVER HIGHLIGHT ─── */
+  let lastClickedId = null;
   function addHover(el, id) {
     el.addEventListener('mouseenter', () => highlight(id));
     el.addEventListener('mouseleave', () => clearHighlight());
-    el.addEventListener('click', () => highlight(id));  // touch
+    el.addEventListener('click', () => {
+      // On touch: tap same node again to deselect
+      if (lastClickedId === id) { clearHighlight(); lastClickedId = null; }
+      else { highlight(id); lastClickedId = id; }
+    });
   }
 
   function highlight(id) {
