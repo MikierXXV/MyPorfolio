@@ -1,77 +1,19 @@
 ---
-import Icon from './Icon.astro';
-const currentYear = new Date().getFullYear();
+// Footer — minimal: copyright left, coordinates right
 ---
 
-<footer>
-	<div class="group">
-		<p>
-			Designed & Developed with <a href="https://astro.build/">Astro</a>
-			<Icon icon="rocket-launch" size="1.2em" />
-		</p>
-		<p>&copy; {currentYear} Miguel Gutierrez</p>
-	</div>
-	<p class="socials">
-		<a href="https://www.linkedin.com/in/miguel-gutjar/">
-			 <Icon icon="linkedin-logo" size="2em">
-		</a>
-		<a href="https://www.github.com/MikierXXV">
-			<Icon icon="github-logo" size="2em">		
-		</a>
-	</p>
+<footer class="site-footer">
+  <span class="footer-copy" data-i18n="footer_copy">© MMXXVI · Miguel Gutiérrez</span>
+  <span class="footer-coords">41.3851° N · 2.1734° E</span>
 </footer>
+
 <style>
-	footer {
-		display: flex;
-		flex-direction: column;
-		gap: 3rem;
-		margin-top: auto;
-		padding: 3rem 2rem 3rem;
-		text-align: center;
-		color: var(--gray-400);
-		font-size: var(--text-sm);
-	}
-
-	footer a {
-		color: var(--gray-400);
-		text-decoration: 1px solid underline transparent;
-		text-underline-offset: 0.25em;
-		transition: text-decoration-color var(--theme-transition);
-	}
-
-	footer a:hover,
-	footer a:focus {
-		text-decoration-color: currentColor;
-	}
-
-	.group {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.socials {
-		display: flex;
-		justify-content: center;
-		gap: 1rem;
-		flex-wrap: wrap;
-	}
-
-	@media (min-width: 50em) {
-		footer {
-			flex-direction: row;
-			justify-content: space-between;
-			padding: 2.5rem 5rem;
-		}
-
-		.group {
-			flex-direction: row;
-			gap: 1rem;
-			flex-wrap: wrap;
-		}
-
-		.socials {
-			justify-content: flex-end;
-		}
-	}
+  .site-footer {
+    max-width: var(--max); margin: 0 auto;
+    padding: 1.5rem var(--pad) 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono); font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-mute);
+  }
 </style>
