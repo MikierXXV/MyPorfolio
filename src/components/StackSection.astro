@@ -28,6 +28,9 @@ const techsJSON    = JSON.stringify(techsList);
   <p class="graph-footnote" data-i18n="graph_footnote">
     Each project is connected to the technologies that built it. Drag the nodes wherever feels right.
   </p>
+  <p class="graph-core-note" data-i18n="graph_core_note">
+    Core stack: Vue · TypeScript · Node · Python · SQL — the rest orbit around them.
+  </p>
 </section>
 
 <style is:global>
@@ -131,12 +134,22 @@ const techsJSON    = JSON.stringify(techsList);
     background: var(--burgundy); color: var(--paper);
     border-color: var(--burgundy);
   }
+  .graph-node.type-tech.tier-core {
+    border-color: var(--burgundy); color: var(--ink);
+    font-size: 0.66rem; font-weight: 500;
+    padding: 0.4rem 0.85rem;
+  }
 
   /* Footnote */
   .graph-footnote {
     font-family: var(--mono); font-size: 0.62rem;
     text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute);
     margin-top: 1rem; text-align: center; line-height: 1.7;
+  }
+  .graph-core-note {
+    font-family: var(--mono); font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink);
+    margin-top: 0.35rem; text-align: center; line-height: 1.7;
   }
 </style>
 
@@ -176,7 +189,7 @@ const techsJSON    = JSON.stringify(techsList);
     // tech nodes: outer ring
     techs.forEach((t, i) => {
       const angle = (2 * Math.PI * i / m) - Math.PI / 2;
-      nodePositions['T_' + t] = { x: cx + tR * Math.cos(angle), y: cy + tR * Math.sin(angle) };
+      nodePositions['T_' + t.name] = { x: cx + tR * Math.cos(angle), y: cy + tR * Math.sin(angle) };
     });
 
     renderGraph();
@@ -229,13 +242,13 @@ const techsJSON    = JSON.stringify(techsList);
 
     // tech nodes
     techs.forEach(t => {
-      const tId = 'T_' + t;
+      const tId = 'T_' + t.name;
       const pos = nodePositions[tId];
       if (!pos) return;
       const el = document.createElement('div');
-      el.className = 'graph-node type-tech';
+      el.className = 'graph-node type-tech tier-' + t.tier;
       el.dataset.id = tId;
-      el.textContent = t;
+      el.textContent = t.name;
       el.style.left = pos.x + 'px';
       el.style.top  = pos.y + 'px';
       stage.appendChild(el);

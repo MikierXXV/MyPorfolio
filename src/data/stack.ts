@@ -15,8 +15,30 @@ export const graphProjects: GraphProject[] = [
   { id: 'P7', name: 'Wishlist',     techs: ['React', 'JS', 'HTML'] },
 ];
 
-export const techsList: string[] = [
-  'Vue', 'React', 'TypeScript', 'JS', 'Node', 'Express',
-  'PostgreSQL', 'MySQL', 'Python', 'PHP', 'HTML', 'CSS',
-  'Tailwind', 'Bootstrap', 'Flutter', 'Dart', 'Bash', 'R',
+export type TechTier = 'core' | 'solid' | 'used';
+
+export interface TechItem {
+  name: string;
+  tier: TechTier;
+}
+
+export const techsList: TechItem[] = [
+  { name: 'Vue',        tier: 'core'  },
+  { name: 'React',      tier: 'solid' },
+  { name: 'TypeScript', tier: 'core'  },
+  { name: 'JS',         tier: 'solid' },
+  { name: 'Node',       tier: 'core'  },
+  { name: 'Express',    tier: 'solid' },
+  { name: 'PostgreSQL', tier: 'solid' },
+  { name: 'MySQL',      tier: 'solid' },
+  { name: 'Python',     tier: 'core'  },
+  { name: 'PHP',        tier: 'used'  },
+  { name: 'HTML',       tier: 'solid' },
+  { name: 'CSS',        tier: 'solid' },
+  { name: 'Tailwind',   tier: 'solid' },
+  { name: 'Bootstrap',  tier: 'used'  },
+  { name: 'Flutter',    tier: 'used'  },
+  { name: 'Dart',       tier: 'used'  },
+  { name: 'Bash',       tier: 'solid' },
+  { name: 'R',          tier: 'used'  },
 ];

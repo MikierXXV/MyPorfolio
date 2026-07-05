@@ -1,35 +1,55 @@
 ---
-import { constellationGeometry, toolsCopy } from '../data/tools';
-const geoJSON  = JSON.stringify(constellationGeometry);
+import { toolsMeta, toolsCopy } from '../data/tools';
 const copyJSON = JSON.stringify(toolsCopy);
+const en = toolsCopy.en;
 ---
 
 <section class="tools" id="tools">
   <div class="section-head">
     <h2 class="section-title" data-i18n="tools_title">AI &amp; <em>Tools</em></h2>
-    <span class="section-aside" data-i18n="tools_aside">Hover a constellation</span>
+    <span class="section-aside" data-i18n="tools_aside">Nine processes · running</span>
   </div>
 
-  <div class="tools-body">
-    <div class="sky-wrap">
-      <div class="sky-stage" id="sky-stage">
-        <!-- background stars injected by JS -->
-        <svg class="sky-svg" id="sky-svg" aria-hidden="true"></svg>
-        <!-- constellation nodes injected by JS -->
-      </div>
+  <div class="term">
+    <div class="term-bar" aria-hidden="true">
+      <span class="term-dots"><i></i><i></i><i></i></span>
+      <span class="term-title">mg@portfolio: ~/ai-stack</span>
     </div>
 
-    <div class="tools-panel" id="tools-panel">
-      <div class="panel-empty" id="panel-empty">
-        <p class="panel-hint" data-i18n="tools_hint">hover · discover · imagine</p>
-      </div>
-      <div class="panel-detail hidden" id="panel-detail">
-        <p class="detail-cat"  id="d-cat"></p>
-        <h3 class="detail-name" id="d-name"></h3>
-        <p class="detail-usage-wrap"><span class="detail-usage-lbl">freq · </span><span class="detail-usage" id="d-usage"></span></p>
-        <p class="detail-text" id="d-text"></p>
-        <div class="detail-tags" id="d-tags"></div>
-      </div>
+    <div class="term-body">
+      <p class="term-cmd">
+        <span class="term-prompt" aria-hidden="true">$</span>
+        <span class="term-typed" id="term-typed">ai-stack --list --sort=usage</span><span class="term-cursor" id="term-cursor" aria-hidden="true"></span>
+      </p>
+
+      <p class="term-cols" aria-hidden="true">
+        <span>NAME</span><span>STATUS</span><span>CATEGORY</span><span>FREQ</span><span class="col-load">LOAD</span>
+      </p>
+
+      <ol class="term-list">
+        {toolsMeta.map((t) => {
+          const c = en[t.id];
+          return (
+            <li class="term-row" data-tool={t.id}>
+              <div class="row-main">
+                <span class="row-name" data-t-field="name" set:html={c.name} />
+                <span class={`row-status st-${t.status}`}>[{t.status}]</span>
+                <span class="row-cat" data-t-field="cat">{c.cat}</span>
+                <span class="row-usage" data-t-field="usage">{c.usage}</span>
+                <span class="row-load" role="img" aria-label={`usage intensity ${t.intensity} of 5`}>
+                  {[1, 2, 3, 4, 5].map((i) => <i class={i <= t.intensity ? 'on' : ''} />)}
+                </span>
+              </div>
+              <p class="row-text" data-t-field="text" set:html={c.text} />
+              <p class="row-tags" data-t-field="tags">{c.tags.map((tag) => `#${tag}`).join('  ')}</p>
+            </li>
+          );
+        })}
+      </ol>
+
+      <p class="term-cmd term-end" aria-hidden="true">
+        <span class="term-prompt">$</span><span class="term-cursor blink"></span>
+      </p>
     </div>
   </div>
 
@@ -58,131 +78,149 @@ const copyJSON = JSON.stringify(toolsCopy);
     text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute);
   }
 
-  .tools-body {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  @media (min-width: 780px) {
-    .tools-body { grid-template-columns: 2fr 1fr; align-items: start; }
-  }
-
-  /* ── Sky stage ── */
-  .sky-wrap { position: relative; }
-  .sky-stage {
-    position: relative; width: 100%;
-    height: 65vh; min-height: 360px; max-height: 620px;
+  /* ── Terminal frame ── */
+  .term {
     background: #0D0C0A;
-    border-radius: 8px; overflow: hidden;
+    border: 1px solid rgba(201, 192, 174, 0.18);
+    border-radius: 8px;
+    overflow: hidden;
   }
-  .sky-svg {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    pointer-events: none; overflow: visible;
+  .term-bar {
+    display: flex; align-items: center; gap: 0.9rem;
+    background: #151310;
+    border-bottom: 1px solid rgba(242, 238, 229, 0.07);
+    padding: 0.6rem 1.1rem;
+  }
+  .term-dots { display: flex; gap: 0.4rem; }
+  .term-dots i {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: rgba(242, 238, 229, 0.16);
+  }
+  .term-title {
+    font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.08em; color: rgba(242, 238, 229, 0.5);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
 
-  /* background twinkle stars */
-  .bg-star {
-    position: absolute; border-radius: 50%;
-    background: rgba(255,255,255,0.55);
-    animation: twinkle var(--dur, 3s) ease-in-out infinite;
-    animation-delay: var(--delay, 0s);
+  .term-body {
+    position: relative;
+    padding: 1.4rem 1.5rem 1.2rem;
   }
-  @keyframes twinkle {
-    0%,100% { opacity: 0.2; transform: scale(1); }
-    50%      { opacity: 0.9; transform: scale(1.4); }
-  }
-
-  /* constellation star dots */
-  .c-star {
-    position: absolute; border-radius: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(255,255,255,0.7);
-    transition: background .3s, box-shadow .3s, opacity .3s;
+  /* subtle static scanlines */
+  .term-body::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(0, 0, 0, 0.12) 2px 3px);
     pointer-events: none;
-    animation: breathe var(--bdur, 4s) ease-in-out infinite;
-    animation-delay: var(--bdelay, 0s);
   }
-  .c-star.s-lg { width: 6px; height: 6px; }
-  .c-star.s-md { width: 4px; height: 4px; }
-  .c-star.s-sm { width: 2.5px; height: 2.5px; }
-  @keyframes breathe {
-    0%,100% { opacity: 0.5; }
-    50%      { opacity: 1; }
-  }
-  .c-star.lit { background: #fff; box-shadow: 0 0 8px 2px rgba(255,255,255,.7); }
-  .c-star.dim { opacity: 0.1; }
 
-  /* constellation lines */
-  .c-line {
-    stroke: rgba(255,255,255,0.2); stroke-width: 1;
-    transition: stroke .3s, opacity .3s;
+  /* ── Command lines ── */
+  .term-cmd {
+    display: flex; align-items: center; gap: 0.55rem;
+    font-family: var(--mono); font-size: 0.78rem;
+    color: rgba(242, 238, 229, 0.85);
+    min-height: 1.4em;
+    margin-bottom: 1.1rem;
   }
-  .c-line.lit { stroke: rgba(255,255,255,0.65); }
-  .c-line.dim { opacity: 0.05; }
+  .term-cmd.term-end { margin: 0.9rem 0 0; }
+  .term-prompt { color: var(--burgundy-soft); }
+  .term-cursor {
+    display: inline-block; width: 0.55em; height: 1.05em;
+    background: rgba(242, 238, 229, 0.8);
+    vertical-align: text-bottom;
+    margin-left: 2px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .term-cursor.blink { animation: cursor-blink 1.1s steps(1) infinite; }
+  }
+  @keyframes cursor-blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
 
-  /* constellation label */
-  .c-label {
-    position: absolute; transform: translate(-50%, calc(-50% + 52px));
+  /* ── Column headers + row grid ── */
+  .term-cols,
+  .row-main {
+    display: grid;
+    grid-template-columns: minmax(9.5rem, max-content) 3.5rem 1fr max-content 5.5rem;
+    gap: 1rem;
+    align-items: baseline;
+  }
+  .term-cols {
     font-family: var(--mono); font-size: 0.58rem;
-    text-transform: uppercase; letter-spacing: 0.14em;
-    color: rgba(255,255,255,0.35);
-    pointer-events: none;
-    transition: color .3s, opacity .3s;
-    white-space: nowrap;
+    letter-spacing: 0.14em;
+    color: rgba(242, 238, 229, 0.35);
+    padding: 0 0.75rem 0.5rem;
   }
-  .c-label.lit { color: rgba(255,255,255,0.85); }
-  .c-label.dim { opacity: 0.1; }
+  .term-cols .col-load { text-align: left; }
 
-  /* constellation hit area */
-  .c-hit {
-    position: absolute; transform: translate(-50%, -50%);
-    width: 90px; height: 90px; border-radius: 50%;
-    cursor: pointer; z-index: 5;
-    background: transparent;
+  /* ── Rows ── */
+  .term-list { list-style: none; margin: 0; padding: 0; }
+  .term-row {
+    padding: 0.85rem 0.75rem;
+    border-top: 1px solid rgba(242, 238, 229, 0.07);
+    transition: background 0.25s var(--ease), box-shadow 0.25s var(--ease);
   }
-
-  /* ── Side panel ── */
-  .tools-panel {
-    background: var(--paper-2); border: 1px solid var(--rule);
-    border-radius: 8px; padding: 1.75rem;
-    min-height: 220px; display: flex; align-items: flex-start;
+  .term-row:hover {
+    background: rgba(242, 238, 229, 0.035);
+    box-shadow: inset 2px 0 0 var(--burgundy-soft);
   }
-  .panel-empty, .panel-detail { width: 100%; }
-  .panel-hint {
-    font-family: var(--mono); font-size: 0.65rem;
-    text-transform: uppercase; letter-spacing: 0.15em;
-    color: var(--ink-mute); font-style: italic;
+  .row-name {
+    font-family: var(--mono); font-size: 0.8rem; font-weight: 500;
+    color: #F2EEE5;
   }
-  .hidden { display: none; }
-
-  .detail-cat {
-    font-family: var(--mono); font-size: 0.6rem;
-    text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute);
-    margin-bottom: 0.3rem;
+  .row-name em { font-style: italic; font-weight: 400; color: rgba(242, 238, 229, 0.75); }
+  .term-row:hover .row-name { color: #fff; }
+  .row-status {
+    font-family: var(--mono); font-size: 0.66rem;
+    letter-spacing: 0.05em;
   }
-  .detail-name {
-    font-family: var(--serif); font-weight: 300;
-    font-size: clamp(1.25rem, 2vw, 1.6rem); color: var(--ink);
-    line-height: 1.2; margin-bottom: 0.5rem;
-  }
-  .detail-name em { font-style: italic; font-weight: 400; }
-  .detail-usage-wrap {
-    font-family: var(--mono); font-size: 0.6rem;
-    text-transform: uppercase; letter-spacing: 0.12em;
-    color: var(--ink-mute); margin-bottom: 0.85rem;
-  }
-  .detail-usage-lbl { color: var(--ink-mute); }
-  .detail-usage { color: var(--ink); }
-  .detail-text {
-    font-family: var(--sans); font-size: 0.82rem; color: var(--ink-soft);
-    line-height: 1.7; margin-bottom: 0.85rem;
-  }
-  .detail-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-  .detail-tag {
-    font-family: var(--mono); font-size: 0.58rem;
+  .row-status.st-run { color: rgba(242, 238, 229, 0.6); }
+  .row-status.st-exp { color: var(--burgundy-soft); }
+  .row-cat {
+    font-family: var(--mono); font-size: 0.66rem;
     text-transform: uppercase; letter-spacing: 0.1em;
-    padding: 0.2rem 0.55rem; border: 1px solid var(--rule);
-    border-radius: 100px; color: var(--ink-mute);
+    color: rgba(242, 238, 229, 0.5);
+  }
+  .row-usage {
+    font-family: var(--mono); font-size: 0.66rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: rgba(242, 238, 229, 0.7);
+  }
+  .row-load { display: inline-flex; gap: 3px; align-self: center; }
+  .row-load i {
+    width: 8px; height: 8px;
+    background: rgba(242, 238, 229, 0.14);
+  }
+  .row-load i.on { background: var(--burgundy-soft); }
+
+  .row-text {
+    font-family: var(--sans); font-size: 0.8rem;
+    color: rgba(242, 238, 229, 0.68);
+    line-height: 1.65;
+    margin: 0.45rem 0 0;
+    max-width: 62ch;
+  }
+  .row-text strong { color: rgba(242, 238, 229, 0.92); font-weight: 500; }
+  .row-tags {
+    font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    color: rgba(242, 238, 229, 0.38);
+    margin: 0.35rem 0 0;
+    white-space: pre-wrap;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 700px) {
+    .term-body { padding: 1.1rem 1rem 1rem; }
+    .term-cols { display: none; }
+    .row-main {
+      display: flex; flex-wrap: wrap;
+      column-gap: 0.75rem; row-gap: 0.15rem;
+      align-items: baseline;
+    }
+    .term-row { padding: 1rem 0.5rem; }
+    .row-load { flex-basis: 100%; margin-top: 0.35rem; }
   }
 
   .tools-footnote {
@@ -192,216 +230,53 @@ const copyJSON = JSON.stringify(toolsCopy);
   }
 </style>
 
-<script define:vars={{ geoJSON, copyJSON }}>
-  const geo  = JSON.parse(geoJSON);
+<script define:vars={{ copyJSON }}>
   const copy = JSON.parse(copyJSON);
 
-  let currentLang = 'en';
-  let activeId = null;
-
-  const stage    = document.getElementById('sky-stage');
-  const skySvg   = document.getElementById('sky-svg');
-  const panelEmpty  = document.getElementById('panel-empty');
-  const panelDetail = document.getElementById('panel-detail');
-
-  const starsMap  = {};  // id -> [el, ...]
-  const linesMap  = {};  // id -> [el, ...]
-  const labelsMap = {};  // id -> el
-  const hitMap    = {};  // id -> el
-
-  const CONST_SIZE = 90;   // local star coords map to this px box
-
-  /* ─── BACKGROUND STARS ─── */
-  function addBgStars(n = 120) {
-    if (!stage) return;
-    for (let i = 0; i < n; i++) {
-      const s = document.createElement('div');
-      s.className = 'bg-star';
-      const sz = Math.random() < 0.1 ? 2 : Math.random() < 0.4 ? 1.5 : 1;
-      s.style.cssText = `
-        width:${sz}px; height:${sz}px;
-        left:${Math.random()*100}%;
-        top:${Math.random()*100}%;
-        --dur:${(2 + Math.random()*4).toFixed(1)}s;
-        --delay:-${(Math.random()*4).toFixed(1)}s;
-      `;
-      stage.appendChild(s);
-    }
-  }
-
-  /* ─── BUILD CONSTELLATIONS ─── */
-  function buildConstellations() {
-    if (!stage || !skySvg) return;
-    // clear old
-    Object.keys(starsMap).forEach(id => {
-      starsMap[id]?.forEach(el => el.remove());
-    });
-    Object.keys(linesMap).forEach(id => {
-      linesMap[id]?.forEach(el => el.remove());
-    });
-    Object.keys(labelsMap).forEach(id => labelsMap[id]?.remove());
-    Object.keys(hitMap).forEach(id => hitMap[id]?.remove());
-    skySvg.innerHTML = '';
-
-    const W = stage.clientWidth;
-    const H = stage.clientHeight;
-
-    const toolIds = Object.keys(geo);
-    const breathDurs = [3.5, 4.2, 5, 3.8, 4.6, 3.2, 4.9];
-
-    toolIds.forEach((id, ci) => {
-      const g = geo[id];
-      const cx = g.pos[0] * W;
-      const cy = g.pos[1] * H;
-      const scale = Math.min(W, H) < 500 ? 0.60 : 1.00;
-      const cSize = CONST_SIZE * scale;
-
-      // map star local coords -> screen coords
-      function starPos(sx, sy) {
-        return {
-          x: cx + (sx / 100 - 0.5) * cSize,
-          y: cy + (sy / 100 - 0.5) * cSize,
-        };
-      }
-
-      // lines
-      linesMap[id] = [];
-      g.lines.forEach(([a, b]) => {
-        const pa = starPos(g.stars[a][0], g.stars[a][1]);
-        const pb = starPos(g.stars[b][0], g.stars[b][1]);
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('x1', String(pa.x.toFixed(1)));
-        line.setAttribute('y1', String(pa.y.toFixed(1)));
-        line.setAttribute('x2', String(pb.x.toFixed(1)));
-        line.setAttribute('y2', String(pb.y.toFixed(1)));
-        line.setAttribute('class', 'c-line');
-        line.dataset.id = id;
-        skySvg.appendChild(line);
-        linesMap[id].push(line);
-      });
-
-      // stars
-      starsMap[id] = [];
-      g.stars.forEach(([sx, sy], si) => {
-        const pos = starPos(sx, sy);
-        const el = document.createElement('div');
-        const size = si === 0 ? 's-lg' : (si % 3 === 0 ? 's-md' : 's-sm');
-        el.className = `c-star ${size}`;
-        el.dataset.id = id;
-        el.style.left = pos.x + 'px';
-        el.style.top  = pos.y + 'px';
-        el.style.setProperty('--bdur', breathDurs[ci % breathDurs.length] + 's');
-        el.style.setProperty('--bdelay', -(ci * 0.7).toFixed(1) + 's');
-        stage.appendChild(el);
-        starsMap[id].push(el);
-      });
-
-      // label at center
-      const label = document.createElement('div');
-      label.className = 'c-label';
-      label.dataset.id = id;
-      label.style.left = cx + 'px';
-      label.style.top  = cy + 'px';
-      const copyCurrent = copy[currentLang]?.[id] ?? copy['en']?.[id];
-      label.innerHTML = copyCurrent?.name ?? id;
-      stage.appendChild(label);
-      labelsMap[id] = label;
-
-      // hit area
-      const hit = document.createElement('div');
-      hit.className = 'c-hit';
-      hit.dataset.id = id;
-      hit.style.left = cx + 'px';
-      hit.style.top  = cy + 'px';
-      hit.addEventListener('pointerenter', (e) => {
-        if (e.pointerType === 'touch') return;
-        selectTool(id);
-      });
-      hit.addEventListener('pointerleave', (e) => {
-        if (e.pointerType === 'touch') return;
-        clearTool();
-      });
-      hit.addEventListener('click', () => {
-        if (activeId === id) clearTool(); else selectTool(id);
-      });
-      stage.appendChild(hit);
-      hitMap[id] = hit;
-    });
-  }
-
-  /* ─── PANEL ─── */
-  function selectTool(id) {
-    activeId = id;
-    highlightConstellation(id);
-    showDetail(id);
-  }
-
-  function clearTool() {
-    activeId = null;
-    clearHighlight();
-    showEmpty();
-  }
-
-  function showDetail(id) {
-    if (!panelEmpty || !panelDetail) return;
-    const c = copy[currentLang]?.[id] ?? copy['en']?.[id];
-    if (!c) return;
-    const dCat   = document.getElementById('d-cat');   if (dCat)   dCat.textContent  = c.cat;
-    const dName  = document.getElementById('d-name');  if (dName)  dName.innerHTML   = c.name;
-    const dUsage = document.getElementById('d-usage'); if (dUsage) dUsage.textContent = c.usage;
-    const dText  = document.getElementById('d-text');  if (dText)  dText.innerHTML   = c.text;
-    const dTags  = document.getElementById('d-tags');  if (dTags)  dTags.innerHTML   = c.tags.map(t => `<span class="detail-tag">${t}</span>`).join('');
-    panelEmpty.classList.add('hidden');
-    panelDetail.classList.remove('hidden');
-  }
-
-  function showEmpty() {
-    panelEmpty?.classList.remove('hidden');
-    panelDetail?.classList.add('hidden');
-  }
-
-  /* ─── HIGHLIGHT ─── */
-  function highlightConstellation(id) {
-    Object.keys(starsMap).forEach(cid => {
-      const active = cid === id;
-      starsMap[cid]?.forEach(el => { el.classList.toggle('lit', active); el.classList.toggle('dim', !active); });
-      linesMap[cid]?.forEach(el => { el.classList.toggle('lit', active); el.classList.toggle('dim', !active); });
-      labelsMap[cid]?.classList.toggle('lit', active);
-      labelsMap[cid]?.classList.toggle('dim', !active);
-    });
-  }
-
-  function clearHighlight() {
-    Object.keys(starsMap).forEach(cid => {
-      starsMap[cid]?.forEach(el => { el.classList.remove('lit', 'dim'); });
-      linesMap[cid]?.forEach(el => { el.classList.remove('lit', 'dim'); });
-      labelsMap[cid]?.classList.remove('lit', 'dim');
-    });
-  }
-
   /* ─── LANG CHANGE ─── */
-  function updateLabels() {
-    Object.keys(labelsMap).forEach(id => {
-      const el = labelsMap[id];
-      if (!el) return;
-      const c = copy[currentLang]?.[id] ?? copy['en']?.[id];
-      if (c) el.innerHTML = c.name;
-    });
-    if (activeId) showDetail(activeId);
-  }
-
   window.addEventListener('langchange', (e) => {
-    currentLang = e.detail.lang;
-    updateLabels();
+    const lang = e.detail.lang;
+    document.querySelectorAll('.term-row[data-tool]').forEach((row) => {
+      const id = row.dataset.tool;
+      const c = copy[lang]?.[id] ?? copy['en']?.[id];
+      if (!c) return;
+      const name = row.querySelector('[data-t-field="name"]');
+      const cat = row.querySelector('[data-t-field="cat"]');
+      const usage = row.querySelector('[data-t-field="usage"]');
+      const text = row.querySelector('[data-t-field="text"]');
+      const tags = row.querySelector('[data-t-field="tags"]');
+      if (name) name.innerHTML = c.name;
+      if (cat) cat.textContent = c.cat;
+      if (usage) usage.textContent = c.usage;
+      if (text) text.innerHTML = c.text;
+      if (tags) tags.textContent = c.tags.map((t) => `#${t}`).join('  ');
+    });
   });
 
-  /* ─── INIT ─── */
-  addBgStars();
-  buildConstellations();
+  /* ─── TYPING ANIMATION (progressive enhancement) ─── */
+  const typed = document.getElementById('term-typed');
+  const cursor = document.getElementById('term-cursor');
+  const term = document.querySelector('.term');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => { buildConstellations(); if (activeId) highlightConstellation(activeId); }, 200);
-  });
+  if (typed && cursor && term && !reduced) {
+    const full = typed.textContent;
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((en) => en.isIntersecting)) return;
+      observer.disconnect();
+      typed.textContent = '';
+      let i = 0;
+      const tick = setInterval(() => {
+        i++;
+        typed.textContent = full.slice(0, i);
+        if (i >= full.length) {
+          clearInterval(tick);
+          cursor.classList.add('blink');
+        }
+      }, 40);
+    }, { threshold: 0.35 });
+    observer.observe(term);
+  } else if (cursor) {
+    cursor.classList.add('blink');
+  }
 </script>

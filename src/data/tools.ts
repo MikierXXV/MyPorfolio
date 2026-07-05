@@ -1,12 +1,23 @@
 import type { Lang } from '../scripts/i18n';
 
-export interface StarPoint { x: number; y: number; }
-
-export interface ConstellationGeometry {
-  pos: [number, number];           // normalized [0-1, 0-1] position in stage
-  stars: [number, number][];       // [x, y] in local 0-100 box
-  lines: [number, number][];       // index pairs connecting stars
+export interface ToolMeta {
+  id: string;
+  intensity: 1 | 2 | 3 | 4 | 5;   // usage-intensity bar (5 blocks)
+  status: 'run' | 'exp';          // terminal badge, deliberately untranslated
 }
+
+// Array order = render order (sorted by usage)
+export const toolsMeta: ToolMeta[] = [
+  { id: 'claudecode',  intensity: 5, status: 'run' },
+  { id: 'ollama',      intensity: 4, status: 'run' },
+  { id: 'lmstudio',    intensity: 4, status: 'run' },
+  { id: 'openclaw',    intensity: 3, status: 'run' },
+  { id: 'hermes',      intensity: 3, status: 'run' },
+  { id: 'n8n',         intensity: 3, status: 'run' },
+  { id: 'genkit',      intensity: 2, status: 'exp' },
+  { id: 'huggingface', intensity: 2, status: 'exp' },
+  { id: 'langchain',   intensity: 2, status: 'exp' },
+];
 
 export interface ToolCopy {
   name: string;                    // may contain <em>
@@ -16,44 +27,6 @@ export interface ToolCopy {
   tags: string[];
 }
 
-export const constellationGeometry: Record<string, ConstellationGeometry> = {
-  claudecode: {
-    pos: [0.20, 0.16],
-    stars: [[20,20],[50,10],[80,30],[60,55],[35,65],[15,50]],
-    lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,0],[3,0]],
-  },
-  n8n: {
-    pos: [0.52, 0.13],
-    stars: [[30,30],[55,15],[80,40],[55,65],[30,55]],
-    lines: [[0,1],[1,2],[2,3],[3,4],[4,0],[1,3]],
-  },
-  genkit: {
-    pos: [0.82, 0.20],
-    stars: [[50,15],[20,40],[80,40],[35,65],[65,65]],
-    lines: [[0,1],[0,2],[1,3],[2,4],[3,4]],
-  },
-  huggingface: {
-    pos: [0.50, 0.44],
-    stars: [[50,20],[20,40],[80,40],[35,65],[65,65],[50,82]],
-    lines: [[0,1],[0,2],[1,3],[2,4],[3,5],[4,5]],
-  },
-  langchain: {
-    pos: [0.84, 0.68],
-    stars: [[15,20],[35,40],[55,30],[75,50],[55,70]],
-    lines: [[0,1],[1,2],[2,3],[3,4],[1,4]],
-  },
-  ollama: {
-    pos: [0.50, 0.75],
-    stars: [[40,20],[20,45],[60,45],[40,70]],
-    lines: [[0,1],[0,2],[1,3],[2,3]],
-  },
-  lmstudio: {
-    pos: [0.16, 0.70],
-    stars: [[20,20],[80,20],[80,80],[20,80],[50,50]],
-    lines: [[0,1],[1,2],[2,3],[3,0],[0,4],[1,4],[2,4],[3,4]],
-  },
-};
-
 export const toolsCopy: Record<Lang, Record<string, ToolCopy>> = {
   en: {
     claudecode: {
@@ -62,6 +35,34 @@ export const toolsCopy: Record<Lang, Record<string, ToolCopy>> = {
       usage: 'daily',
       text: 'My main coding partner. <strong>I run it for nearly every project</strong> — refactors, scaffolding, reviewing PRs, writing tests. The whole Big School master and this portfolio were built with it.',
       tags: ['terminal', 'agent', 'pair-programming'],
+    },
+    ollama: {
+      name: 'Ollama',
+      cat: 'Local LLMs',
+      usage: 'regular',
+      text: "<strong>My local LLM runtime of choice.</strong> I run open-weights models — Llama, Mistral, Qwen, Gemma — for offline work and prompts that shouldn't leave the machine. It also powers Hermes, my local lab.",
+      tags: ['local', 'privacy', 'open-source'],
+    },
+    lmstudio: {
+      name: 'LM <em>Studio</em>',
+      cat: 'Local LLM GUI',
+      usage: 'regular',
+      text: 'Desktop GUI for local models, <strong>in regular rotation next to Ollama</strong> — quick chat testing of new open-weights releases before deciding which ones stay.',
+      tags: ['gui', 'local', 'testing'],
+    },
+    openclaw: {
+      name: 'Open<em>Claw</em>',
+      cat: 'Agent framework · open-source',
+      usage: 'active',
+      text: 'Open-source personal AI assistant framework, <strong>running as my personal agent</strong> — memory, tool use, long-running sessions. My way of understanding agent architectures from the inside.',
+      tags: ['agents', 'open-source', 'assistant'],
+    },
+    hermes: {
+      name: 'Hermes',
+      cat: 'Local lab · Ollama + Gemma',
+      usage: 'active',
+      text: 'My local lab, up and running: <strong>Ollama serving Gemma 3n E4B</strong> to probe what a small on-device model can really do — summaries, quick classification, offline assistants.',
+      tags: ['local', 'gemma-3n', 'on-device'],
     },
     n8n: {
       name: 'n8n',
@@ -73,37 +74,23 @@ export const toolsCopy: Record<Lang, Record<string, ToolCopy>> = {
     genkit: {
       name: 'Genkit',
       cat: 'Google AI framework',
-      usage: 'project-based',
-      text: "Google's framework for building AI features into apps. <strong>Strong TypeScript ergonomics</strong> and great for Genkit Flows when shipping production AI pipelines on Firebase.",
+      usage: 'exploring',
+      text: "Google's framework for building AI features into apps. <strong>I'm exploring its TypeScript ergonomics</strong> and Genkit Flows for possible production AI pipelines on Firebase.",
       tags: ['typescript', 'flows', 'firebase'],
     },
     huggingface: {
       name: 'Hugging<em>Face</em>',
       cat: 'Model hub',
       usage: 'reference',
-      text: 'The reference for everything model-related. <strong>I use it to discover models, read datasets, and integrate via Transformers.</strong> The community spaces are gold for understanding what\'s possible.',
+      text: 'The reference for everything model-related. <strong>I browse it to discover models, read datasets, and study what the community ships</strong> before bringing anything into my own stack.',
       tags: ['models', 'datasets', 'transformers'],
     },
     langchain: {
       name: 'Lang<em>Chain</em>',
       cat: 'LLM orchestration',
-      usage: 'frequent',
-      text: '<strong>Chains, agents and retrievers</strong> for orchestrating LLM calls. The Swiss army knife. I lean on it for RAG pipelines and multi-step agent reasoning.',
+      usage: 'exploring',
+      text: '<strong>Chains, agents and retrievers</strong> for orchestrating LLM calls. I experiment with it for RAG pipelines and multi-step agent reasoning before committing to a stack.',
       tags: ['rag', 'chains', 'agents'],
-    },
-    ollama: {
-      name: 'Ollama',
-      cat: 'Local LLMs',
-      usage: 'experimentation',
-      text: "<strong>Local LLM runtime.</strong> I use it to test models offline, run sensitive prompts that shouldn't leave the machine, and explore smaller open-source models like Llama, Mistral, Qwen.",
-      tags: ['local', 'privacy', 'open-source'],
-    },
-    lmstudio: {
-      name: 'LM <em>Studio</em>',
-      cat: 'Local LLM GUI',
-      usage: 'exploration',
-      text: 'Desktop GUI for local LLMs. <strong>Best for quickly trying out new open-weights models</strong> with a chat interface before deciding which to integrate.',
-      tags: ['gui', 'local', 'testing'],
     },
   },
   es: {
@@ -113,6 +100,34 @@ export const toolsCopy: Record<Lang, Record<string, ToolCopy>> = {
       usage: 'diario',
       text: 'Mi compañero principal de código. <strong>Lo uso en casi todos los proyectos</strong> — refactors, scaffolding, revisiones de PR, escritura de tests. Todo el máster de Big School y este portfolio se construyeron con él.',
       tags: ['terminal', 'agente', 'pair-programming'],
+    },
+    ollama: {
+      name: 'Ollama',
+      cat: 'LLMs locales',
+      usage: 'regular',
+      text: '<strong>Mi runtime local de LLMs de cabecera.</strong> Ejecuto modelos open-weights — Llama, Mistral, Qwen, Gemma — para trabajo offline y prompts que no deben salir de la máquina. También impulsa Hermes, mi laboratorio local.',
+      tags: ['local', 'privacidad', 'open-source'],
+    },
+    lmstudio: {
+      name: 'LM <em>Studio</em>',
+      cat: 'GUI de LLMs locales',
+      usage: 'regular',
+      text: 'GUI de escritorio para modelos locales, <strong>en rotación habitual junto a Ollama</strong> — pruebas rápidas de chat con cada nuevo modelo open-weights antes de decidir cuál se queda.',
+      tags: ['gui', 'local', 'testing'],
+    },
+    openclaw: {
+      name: 'Open<em>Claw</em>',
+      cat: 'Framework de agentes · open-source',
+      usage: 'activo',
+      text: 'Framework open-source de asistente personal de IA, <strong>funcionando como mi agente personal</strong> — memoria, uso de herramientas, sesiones largas. Mi forma de entender las arquitecturas de agentes desde dentro.',
+      tags: ['agentes', 'open-source', 'asistente'],
+    },
+    hermes: {
+      name: 'Hermes',
+      cat: 'Laboratorio local · Ollama + Gemma',
+      usage: 'activo',
+      text: 'Mi laboratorio local, en marcha: <strong>Ollama sirviendo Gemma 3n E4B</strong> para probar qué puede hacer de verdad un modelo pequeño en local — resúmenes, clasificación rápida, asistentes offline.',
+      tags: ['local', 'gemma-3n', 'on-device'],
     },
     n8n: {
       name: 'n8n',
@@ -124,37 +139,23 @@ export const toolsCopy: Record<Lang, Record<string, ToolCopy>> = {
     genkit: {
       name: 'Genkit',
       cat: 'Framework de IA · Google',
-      usage: 'por proyecto',
-      text: 'Framework de Google para integrar IA en apps. <strong>Ergonomía fuerte en TypeScript</strong> y genial para Genkit Flows cuando se despliegan pipelines de IA en Firebase.',
+      usage: 'explorando',
+      text: 'Framework de Google para integrar IA en apps. <strong>Estoy explorando su ergonomía en TypeScript</strong> y los Genkit Flows para posibles pipelines de IA en producción sobre Firebase.',
       tags: ['typescript', 'flows', 'firebase'],
     },
     huggingface: {
       name: 'Hugging<em>Face</em>',
       cat: 'Hub de modelos',
       usage: 'referencia',
-      text: 'La referencia para todo lo relacionado con modelos. <strong>Lo uso para descubrir modelos, leer datasets e integrar vía Transformers.</strong> Los Spaces de la comunidad son oro para entender qué se puede hacer.',
+      text: 'La referencia para todo lo relacionado con modelos. <strong>Lo consulto para descubrir modelos, leer datasets y estudiar qué publica la comunidad</strong> antes de traer nada a mi propio stack.',
       tags: ['modelos', 'datasets', 'transformers'],
     },
     langchain: {
       name: 'Lang<em>Chain</em>',
       cat: 'Orquestación LLM',
-      usage: 'frecuente',
-      text: '<strong>Cadenas, agentes y retrievers</strong> para orquestar llamadas a LLMs. La navaja suiza. Lo uso en pipelines de RAG y razonamiento multi-paso de agentes.',
+      usage: 'explorando',
+      text: '<strong>Cadenas, agentes y retrievers</strong> para orquestar llamadas a LLMs. Experimento con él en pipelines de RAG y razonamiento multi-paso de agentes antes de comprometerme con un stack.',
       tags: ['rag', 'cadenas', 'agentes'],
-    },
-    ollama: {
-      name: 'Ollama',
-      cat: 'LLMs locales',
-      usage: 'experimentación',
-      text: '<strong>Runtime de LLMs locales.</strong> Lo uso para probar modelos offline, ejecutar prompts sensibles que no deben salir de la máquina, y explorar modelos open-source como Llama, Mistral, Qwen.',
-      tags: ['local', 'privacidad', 'open-source'],
-    },
-    lmstudio: {
-      name: 'LM <em>Studio</em>',
-      cat: 'GUI de LLMs locales',
-      usage: 'exploración',
-      text: 'GUI de escritorio para LLMs locales. <strong>Lo mejor para probar rápidamente modelos open-weights</strong> con interfaz de chat antes de decidir cuál integrar.',
-      tags: ['gui', 'local', 'testing'],
     },
   },
   ca: {
@@ -164,6 +165,34 @@ export const toolsCopy: Record<Lang, Record<string, ToolCopy>> = {
       usage: 'diari',
       text: "El meu company principal de codi. <strong>L'uso a quasi tots els projectes</strong> — refactors, scaffolding, revisions de PR, escriptura de tests. Tot el màster de Big School i aquest portfolio s'han construït amb ell.",
       tags: ['terminal', 'agent', 'pair-programming'],
+    },
+    ollama: {
+      name: 'Ollama',
+      cat: 'LLMs locals',
+      usage: 'regular',
+      text: "<strong>El meu runtime local de LLMs de capçalera.</strong> Executo models open-weights — Llama, Mistral, Qwen, Gemma — per a treball offline i prompts que no han de sortir de la màquina. També impulsa Hermes, el meu laboratori local.",
+      tags: ['local', 'privacitat', 'open-source'],
+    },
+    lmstudio: {
+      name: 'LM <em>Studio</em>',
+      cat: 'GUI de LLMs locals',
+      usage: 'regular',
+      text: "GUI d'escriptori per a models locals, <strong>en rotació habitual al costat d'Ollama</strong> — proves ràpides de xat amb cada nou model open-weights abans de decidir quin es queda.",
+      tags: ['gui', 'local', 'testing'],
+    },
+    openclaw: {
+      name: 'Open<em>Claw</em>',
+      cat: "Framework d'agents · open-source",
+      usage: 'actiu',
+      text: "Framework open-source d'assistent personal d'IA, <strong>funcionant com el meu agent personal</strong> — memòria, ús d'eines, sessions llargues. La meva manera d'entendre les arquitectures d'agents des de dins.",
+      tags: ['agents', 'open-source', 'assistent'],
+    },
+    hermes: {
+      name: 'Hermes',
+      cat: 'Laboratori local · Ollama + Gemma',
+      usage: 'actiu',
+      text: "El meu laboratori local, en marxa: <strong>Ollama servint Gemma 3n E4B</strong> per provar què pot fer de debò un model petit en local — resums, classificació ràpida, assistents offline.",
+      tags: ['local', 'gemma-3n', 'on-device'],
     },
     n8n: {
       name: 'n8n',
@@ -175,37 +204,23 @@ export const toolsCopy: Record<Lang, Record<string, ToolCopy>> = {
     genkit: {
       name: 'Genkit',
       cat: "Framework d'IA · Google",
-      usage: 'per projecte',
-      text: "Framework de Google per integrar IA a apps. <strong>Ergonomia forta en TypeScript</strong> i genial per a Genkit Flows quan es despleguen pipelines d'IA en Firebase.",
+      usage: 'explorant',
+      text: "Framework de Google per integrar IA a apps. <strong>Estic explorant la seva ergonomia en TypeScript</strong> i els Genkit Flows per a possibles pipelines d'IA en producció sobre Firebase.",
       tags: ['typescript', 'flows', 'firebase'],
     },
     huggingface: {
       name: 'Hugging<em>Face</em>',
       cat: 'Hub de models',
       usage: 'referència',
-      text: "La referència per a tot el relacionat amb models. <strong>L'uso per descobrir models, llegir datasets i integrar via Transformers.</strong> Els Spaces de la comunitat són or per entendre què es pot fer.",
+      text: "La referència per a tot el relacionat amb models. <strong>El consulto per descobrir models, llegir datasets i estudiar què publica la comunitat</strong> abans de portar res al meu propi stack.",
       tags: ['models', 'datasets', 'transformers'],
     },
     langchain: {
       name: 'Lang<em>Chain</em>',
       cat: 'Orquestració LLM',
-      usage: 'freqüent',
-      text: "<strong>Cadenes, agents i retrievers</strong> per orquestrar crides a LLMs. La navalla suïssa. L'uso a pipelines de RAG i raonament multipas d'agents.",
+      usage: 'explorant',
+      text: "<strong>Cadenes, agents i retrievers</strong> per orquestrar crides a LLMs. Hi experimento en pipelines de RAG i raonament multipas d'agents abans de comprometre'm amb un stack.",
       tags: ['rag', 'cadenes', 'agents'],
-    },
-    ollama: {
-      name: 'Ollama',
-      cat: 'LLMs locals',
-      usage: 'experimentació',
-      text: "<strong>Runtime de LLMs locals.</strong> L'uso per provar models offline, executar prompts sensibles que no han de sortir de la màquina, i explorar models open-source com Llama, Mistral, Qwen.",
-      tags: ['local', 'privacitat', 'open-source'],
-    },
-    lmstudio: {
-      name: 'LM <em>Studio</em>',
-      cat: 'GUI de LLMs locals',
-      usage: 'exploració',
-      text: "GUI d'escriptori per a LLMs locals. <strong>El millor per provar ràpidament models open-weights</strong> amb interfície de xat abans de decidir quin integrar.",
-      tags: ['gui', 'local', 'testing'],
     },
   },
 };

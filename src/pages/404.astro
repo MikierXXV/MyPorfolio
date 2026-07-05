@@ -1,8 +1,37 @@
 ---
-import Hero from '../components/Hero.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Not Found" description="404 Error — this page was not found">
-	<Hero title="Page Not Found" tagline="Not found" />
+<BaseLayout title="404 · Miguel Gutiérrez" description="Page not found">
+  <main class="nf">
+    <p class="nf-code">404</p>
+    <h1 class="nf-title">This page <em>wandered off.</em></h1>
+    <a class="nf-link" href={import.meta.env.BASE_URL}>← back to the portfolio</a>
+  </main>
 </BaseLayout>
+
+<style>
+  .nf {
+    min-height: 100vh; max-width: var(--max); margin: 0 auto;
+    padding: 7rem var(--pad);
+    display: grid; gap: 1.5rem; align-content: center; justify-items: start;
+  }
+  .nf-code {
+    font-family: var(--mono); font-size: 0.72rem;
+    text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink-mute);
+    border-top: 1px solid var(--rule); padding-top: 0.85rem;
+  }
+  .nf-title {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    letter-spacing: -0.03em; line-height: 1.05; color: var(--ink);
+  }
+  .nf-title em { font-style: italic; font-weight: 400; }
+  .nf-link {
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.3rem); color: var(--ink);
+    text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 0.1em;
+    transition: color .3s, border-color .3s;
+  }
+  .nf-link:hover { color: var(--burgundy); border-color: var(--burgundy); }
+</style>

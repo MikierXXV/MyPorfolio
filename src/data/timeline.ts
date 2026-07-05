@@ -204,17 +204,10 @@ export const certData: Record<Lang, CertItem[]> = {
       url: '#',
     },
     {
-      year: '2024',
-      title: 'Cambridge English <em>C1 Advanced</em>',
+      year: '2026',
+      title: 'Cambridge English <em>B2 First</em> — in process',
       issuer: 'Cambridge University Press &amp; Assessment',
-      tags: ['English'],
-      url: '#',
-    },
-    {
-      year: '2023',
-      title: 'Scrum <em>Fundamentals</em>',
-      issuer: 'Scrum Study',
-      tags: ['Agile', 'Scrum'],
+      tags: ['English', 'B2', 'in process'],
       url: '#',
     },
     {
@@ -234,17 +227,10 @@ export const certData: Record<Lang, CertItem[]> = {
       url: '#',
     },
     {
-      year: '2024',
-      title: 'Cambridge English <em>C1 Advanced</em>',
+      year: '2026',
+      title: 'Cambridge English <em>B2 First</em> — en curso',
       issuer: 'Cambridge University Press &amp; Assessment',
-      tags: ['Inglés'],
-      url: '#',
-    },
-    {
-      year: '2023',
-      title: 'Scrum <em>Fundamentals</em>',
-      issuer: 'Scrum Study',
-      tags: ['Agile', 'Scrum'],
+      tags: ['Inglés', 'B2', 'en curso'],
       url: '#',
     },
     {
@@ -264,17 +250,10 @@ export const certData: Record<Lang, CertItem[]> = {
       url: '#',
     },
     {
-      year: '2024',
-      title: 'Cambridge English <em>C1 Advanced</em>',
+      year: '2026',
+      title: 'Cambridge English <em>B2 First</em> — en curs',
       issuer: 'Cambridge University Press &amp; Assessment',
-      tags: ['Anglès'],
-      url: '#',
-    },
-    {
-      year: '2023',
-      title: 'Scrum <em>Fundamentals</em>',
-      issuer: 'Scrum Study',
-      tags: ['Agile', 'Scrum'],
+      tags: ['Anglès', 'B2', 'en curs'],
       url: '#',
     },
     {

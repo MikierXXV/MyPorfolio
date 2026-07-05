@@ -7,7 +7,7 @@ const certsJSON = JSON.stringify(certData);
 <section class="path" id="path">
   <div class="section-head">
     <h2 class="section-title" data-i18n="path_title">The <em>path</em> so far</h2>
-    <span class="section-aside" data-i18n="path_aside">Hover the dots</span>
+    <span class="section-aside" data-i18n="path_aside">Click the dots · current role shown</span>
   </div>
 
   <!-- Timeline -->
@@ -145,6 +145,12 @@ const certsJSON = JSON.stringify(certData);
     font-family: var(--serif); font-style: italic; font-weight: 300;
     font-size: 0.72rem; color: var(--ink-soft); transition: color .3s;
   }
+  .tl-role {
+    font-family: var(--sans); font-size: 0.6rem;
+    color: var(--ink-mute); line-height: 1.35;
+    max-width: 16ch; white-space: normal; text-align: center;
+  }
+  .tl-role em { font-style: italic; }
   .tl-dot-wrap:hover .tl-year, .tl-dot-wrap.active .tl-year { color: var(--ink); }
   .tl-dot-wrap:hover .tl-name, .tl-dot-wrap.active .tl-name { color: var(--ink); }
 
@@ -207,7 +213,9 @@ const certsJSON = JSON.stringify(certData);
     background: var(--paper-2); padding: 1.4rem 1.6rem;
     display: flex; flex-direction: column; gap: 0.5rem;
     transition: border-color .3s, box-shadow .3s;
+    text-decoration: none;
   }
+  .cert-ext { font-family: var(--mono); font-size: 0.7em; color: var(--burgundy); }
   .cert-card:hover { border-color: var(--ink-mute); box-shadow: 0 4px 20px rgba(26,22,18,.05); }
   .cert-year {
     font-family: var(--mono); font-size: 0.6rem;
@@ -263,6 +271,7 @@ const certsJSON = JSON.stringify(certData);
       flex-direction: column; align-items: flex-start;
     }
     .tl-label-bot { display: flex; }
+    .tl-role { text-align: left; }
     .tl-dot { flex-shrink: 0; }
   }
 </style>
@@ -272,7 +281,8 @@ const certsJSON = JSON.stringify(certData);
   const certData = JSON.parse(certsJSON);
 
   let currentLang = 'en';
-  let activeIdx   = 0;
+  // default to the most recent entry (current role), not the oldest
+  let activeIdx   = (tlData['en'] ?? []).length - 1;
 
   const stage      = document.getElementById('tl-stage');
   const detailInner = document.getElementById('tl-detail-inner');
@@ -331,8 +341,13 @@ const certsJSON = JSON.stringify(certData);
       nameSpan.className = 'tl-name';
       nameSpan.textContent = ev.label;
 
+      const roleSpan = document.createElement('span');
+      roleSpan.className = 'tl-role';
+      roleSpan.innerHTML = ev.role;
+
       label.appendChild(yearSpan);
       label.appendChild(nameSpan);
+      label.appendChild(roleSpan);
 
       if (isMobile) {
         // vertical layout: dot on axis, label to the right
@@ -358,8 +373,13 @@ const certsJSON = JSON.stringify(certData);
         }
       }
 
+      wrap.tabIndex = 0;
+      wrap.setAttribute('role', 'button');
       wrap.addEventListener('click', () => selectEvent(i));
       wrap.addEventListener('mouseenter', () => selectEvent(i));
+      wrap.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectEvent(i); }
+      });
 
       stage.appendChild(wrap);
     });
@@ -415,14 +435,18 @@ const certsJSON = JSON.stringify(certData);
   function renderCerts() {
     if (!certsGrid) return;
     const certs = certData[currentLang] ?? certData['en'];
-    certsGrid.innerHTML = certs.map(c => `
-      <div class="cert-card">
+    certsGrid.innerHTML = certs.map(c => {
+      const linked = c.url && c.url !== '#';
+      const inner = `
         <span class="cert-year">${c.year}</span>
-        <h3 class="cert-title">${c.title}</h3>
+        <h3 class="cert-title">${c.title}${linked ? ' <span class="cert-ext">↗</span>' : ''}</h3>
         <p class="cert-issuer">${c.issuer}</p>
         <div class="cert-tags">${c.tags.map(t => `<span class="cert-tag">${t}</span>`).join('')}</div>
-      </div>
-    `).join('');
+      `;
+      return linked
+        ? `<a class="cert-card" href="${c.url}" target="_blank" rel="noopener">${inner}</a>`
+        : `<div class="cert-card">${inner}</div>`;
+    }).join('');
   }
 
   /* ─── INIT ─── */

@@ -1,6 +1,11 @@
 import type { Lang } from '../scripts/i18n';
 
-export const RAW_BASE = 'https://raw.githubusercontent.com/MikierXXV/MyPorfolio/main/public/assets/';
+export const ASSET_BASE = `${import.meta.env.BASE_URL}assets/`;
+
+export interface ProjectLinks {
+  github?: string;
+  demo?: string;
+}
 
 export interface ProjectCard {
   id: string;
@@ -9,6 +14,7 @@ export interface ProjectCard {
   titleKey: string;        // i18n key for <em> subtitle
   descKey: string;         // i18n key for description
   tags: string[];
+  links?: ProjectLinks;
 }
 
 export const workCards: ProjectCard[] = [
@@ -36,7 +42,15 @@ export interface ProjectModalData {
   tags: string[];
   images: string[];
   prose: Record<Lang, string>;
+  links?: ProjectLinks;
 }
+
+export const projectLinks: Record<string, ProjectLinks> = {
+  bsfront:  { github: 'https://github.com/MikierXXV/big-school-frontend' },
+  bsback:   { github: 'https://github.com/MikierXXV/big-school-backend' },
+  layup:    { github: 'https://github.com/MikierXXV/LAYUP' },
+  wishlist: { github: 'https://github.com/MikierXXV/wishlist' },
+};
 
 export const projectData: Record<string, ProjectModalData> = {
   bsfront: {
@@ -48,9 +62,9 @@ export const projectData: Record<string, ProjectModalData> = {
     tags: ['Vue 3', 'TypeScript', 'Pinia', 'Tailwind', 'Vite', 'Vitest', 'Playwright'],
     images: [],
     prose: {
-      en: "<p>Final project of the AI Development Master's at Big School. A Single Page Application for hospital management, built with Vue 3 + TypeScript + Pinia, following Clean Architecture in 5 layers: Domain, Application, Infrastructure, Presentation, Shared.</p><p>24 views, 33+ components, 7 Pinia stores, role-based access control with 3 system roles and 4 granular admin permissions. Dark mode, multi-language (es/en/ca), OAuth2 with Google and Microsoft, dual analytics view depending on permissions.</p><p>Testing with Vitest (unit, 80% coverage target) and Playwright (E2E). Deployed on Vercel. Built entirely alongside AI as a coding partner — the workflow this entire portfolio reflects.</p>",
-      es: '<p>Proyecto final del Máster de Desarrollo con IA en Big School. Una SPA para gestión hospitalaria, construida con Vue 3 + TypeScript + Pinia, siguiendo Clean Architecture en 5 capas: Domain, Application, Infrastructure, Presentation, Shared.</p><p>24 vistas, 33+ componentes, 7 stores Pinia, control de acceso basado en roles con 3 roles de sistema y 4 permisos granulares de administración. Modo oscuro, multidioma (es/en/ca), OAuth2 con Google y Microsoft, vista de analíticas dual según permisos.</p><p>Testing con Vitest (unitarios, objetivo 80% cobertura) y Playwright (E2E). Desplegado en Vercel. Construido íntegramente junto a la IA como compañera de código.</p>',
-      ca: "<p>Projecte final del Màster de Desenvolupament amb IA a Big School. Una SPA per a gestió hospitalària, construïda amb Vue 3 + TypeScript + Pinia, seguint Clean Architecture en 5 capes: Domain, Application, Infrastructure, Presentation, Shared.</p><p>24 vistes, 33+ components, 7 stores Pinia, control d'accés basat en rols amb 3 rols de sistema i 4 permisos granulars d'administració. Mode fosc, multiidioma (es/en/ca), OAuth2 amb Google i Microsoft, vista d'analítiques dual segons permisos.</p><p>Testing amb Vitest (unitaris, objectiu 80% cobertura) i Playwright (E2E). Desplegat a Vercel. Construït íntegrament al costat de la IA com a companya de codi.</p>",
+      en: "<p>Final project of the AI Development Master's at Big School: a hospital-management SPA built with Vue 3 + TypeScript + Pinia, following a 5-layer Clean Architecture (Domain, Application, Infrastructure, Presentation, Shared).</p><ul><li>24 views, 33+ components and 7 Pinia stores</li><li>RBAC with 3 system roles + 4 granular admin permissions</li><li>OAuth2 sign-in with Google &amp; Microsoft; dual analytics view by permission</li><li>Dark mode and 3-language i18n (es/en/ca)</li><li>Vitest unit tests (80% coverage target) + Playwright E2E</li><li>Deployed on Vercel</li></ul><p>Built entirely alongside AI as a coding partner — the workflow this whole portfolio reflects.</p>",
+      es: '<p>Proyecto final del Máster de Desarrollo con IA en Big School: una SPA de gestión hospitalaria construida con Vue 3 + TypeScript + Pinia, siguiendo Clean Architecture en 5 capas (Domain, Application, Infrastructure, Presentation, Shared).</p><ul><li>24 vistas, 33+ componentes y 7 stores Pinia</li><li>RBAC con 3 roles de sistema + 4 permisos granulares de administración</li><li>Login OAuth2 con Google y Microsoft; vista de analíticas dual según permisos</li><li>Modo oscuro e i18n en 3 idiomas (es/en/ca)</li><li>Tests unitarios con Vitest (objetivo 80% cobertura) + E2E con Playwright</li><li>Desplegado en Vercel</li></ul><p>Construido íntegramente junto a la IA como compañera de código — el flujo de trabajo que refleja todo este portfolio.</p>',
+      ca: "<p>Projecte final del Màster de Desenvolupament amb IA a Big School: una SPA de gestió hospitalària construïda amb Vue 3 + TypeScript + Pinia, seguint Clean Architecture en 5 capes (Domain, Application, Infrastructure, Presentation, Shared).</p><ul><li>24 vistes, 33+ components i 7 stores Pinia</li><li>RBAC amb 3 rols de sistema + 4 permisos granulars d'administració</li><li>Login OAuth2 amb Google i Microsoft; vista d'analítiques dual segons permisos</li><li>Mode fosc i i18n en 3 idiomes (es/en/ca)</li><li>Tests unitaris amb Vitest (objectiu 80% cobertura) + E2E amb Playwright</li><li>Desplegat a Vercel</li></ul><p>Construït íntegrament al costat de la IA com a companya de codi — el flux de treball que reflecteix tot aquest portfolio.</p>",
     },
   },
   bsback: {
@@ -62,9 +76,9 @@ export const projectData: Record<string, ProjectModalData> = {
     tags: ['Node 20+', 'TypeScript', 'Express 5', 'PostgreSQL', 'JWT', 'Resend', 'Docker'],
     images: [],
     prose: {
-      en: '<p>Enterprise-grade authentication and authorization system for Health Care Suite. Built with Clean Architecture, Hexagonal Architecture (Ports & Adapters) and Domain-Driven Design.</p><p>JWT with access + refresh token rotation, OAuth2 with Google and Microsoft, RBAC with 3 system roles and 4 granular admin permissions persisted in PostgreSQL. Progressive account lockout (5 attempts → 15min/30min/1h). Email verification and password reset via Resend SDK.</p><p>30 use cases, separation between Domain / Application / Infrastructure / Interfaces. Rate limiting, bcrypt with 12 rounds, configurable CORS. Migrations and seed automation. Vitest for unit and integration, Playwright for E2E.</p>',
-      es: '<p>Sistema de autenticación y autorización de nivel empresarial para Health Care Suite. Implementado con Clean Architecture, Arquitectura Hexagonal (Ports & Adapters) y Domain-Driven Design.</p><p>JWT con rotación access + refresh, OAuth2 con Google y Microsoft, RBAC con 3 roles de sistema y 4 permisos granulares de admin persistidos en PostgreSQL. Bloqueo progresivo de cuentas (5 intentos → 15min/30min/1h). Verificación de email y reset de contraseña vía Resend SDK.</p><p>30 casos de uso, separación entre Domain / Application / Infrastructure / Interfaces. Rate limiting, bcrypt con 12 rounds, CORS configurable. Migraciones y seed automatizados. Vitest para unitarios e integración, Playwright para E2E.</p>',
-      ca: "<p>Sistema d'autenticació i autorització de nivell empresarial per a Health Care Suite. Implementat amb Clean Architecture, Arquitectura Hexagonal (Ports & Adapters) i Domain-Driven Design.</p><p>JWT amb rotació access + refresh, OAuth2 amb Google i Microsoft, RBAC amb 3 rols de sistema i 4 permisos granulars d'admin persistits a PostgreSQL. Bloqueig progressiu de comptes (5 intents → 15min/30min/1h). Verificació d'email i reset de contrasenya via Resend SDK.</p><p>30 casos d'ús, separació entre Domain / Application / Infrastructure / Interfaces. Rate limiting, bcrypt amb 12 rounds, CORS configurable. Migracions i seed automatitzats. Vitest per a unitaris i integració, Playwright per a E2E.</p>",
+      en: '<p>Enterprise-grade authentication and authorization system for Health Care Suite, built with Clean Architecture, Hexagonal (Ports &amp; Adapters) and Domain-Driven Design.</p><ul><li>30 use cases split across Domain / Application / Infrastructure / Interfaces</li><li>JWT with access + refresh token rotation; OAuth2 with Google &amp; Microsoft</li><li>RBAC with 3 system roles + 4 granular admin permissions in PostgreSQL</li><li>Progressive account lockout (5 attempts → 15min/30min/1h) and rate limiting</li><li>Email verification &amp; password reset via Resend SDK; bcrypt with 12 rounds</li><li>Dockerized, automated migrations &amp; seeds; Vitest + Playwright E2E</li></ul>',
+      es: '<p>Sistema de autenticación y autorización de nivel empresarial para Health Care Suite, implementado con Clean Architecture, Hexagonal (Ports &amp; Adapters) y Domain-Driven Design.</p><ul><li>30 casos de uso repartidos entre Domain / Application / Infrastructure / Interfaces</li><li>JWT con rotación access + refresh; OAuth2 con Google y Microsoft</li><li>RBAC con 3 roles de sistema + 4 permisos granulares de admin en PostgreSQL</li><li>Bloqueo progresivo de cuentas (5 intentos → 15min/30min/1h) y rate limiting</li><li>Verificación de email y reset de contraseña vía Resend SDK; bcrypt con 12 rounds</li><li>Dockerizado, migraciones y seeds automatizados; Vitest + Playwright E2E</li></ul>',
+      ca: "<p>Sistema d'autenticació i autorització de nivell empresarial per a Health Care Suite, implementat amb Clean Architecture, Hexagonal (Ports &amp; Adapters) i Domain-Driven Design.</p><ul><li>30 casos d'ús repartits entre Domain / Application / Infrastructure / Interfaces</li><li>JWT amb rotació access + refresh; OAuth2 amb Google i Microsoft</li><li>RBAC amb 3 rols de sistema + 4 permisos granulars d'admin a PostgreSQL</li><li>Bloqueig progressiu de comptes (5 intents → 15min/30min/1h) i rate limiting</li><li>Verificació d'email i reset de contrasenya via Resend SDK; bcrypt amb 12 rounds</li><li>Dockeritzat, migracions i seeds automatitzats; Vitest + Playwright E2E</li></ul>",
     },
   },
   unimoodle: {
@@ -76,9 +90,9 @@ export const projectData: Record<string, ProjectModalData> = {
     tags: ['Moodle', 'PHP', 'JS', 'HTML/CSS'],
     images: ['unimoodle/logo.png', 'unimoodle/editorformula.png', 'unimoodle/editor_formula_1.png', 'unimoodle/Group_filter.png'],
     prose: {
-      en: "<p>Unimoodle is a project led by 15 Spanish universities, coordinated by UVa, to improve Moodle for teachers. I worked on a plugin that lets professors write grading formulas more intuitively, and on improving data export.</p><p>The challenge was integrating with Moodle's existing components without breaking accessibility, while keeping the UX intuitive for non-technical users. PHP backend, vanilla JS frontend, lots of testing.</p>",
-      es: "<p>Unimoodle es un proyecto liderado por 15 universidades españolas, coordinado por la UVa, para mejorar Moodle para los profesores. Trabajé en un plugin que permite escribir fórmulas de calificación de forma más intuitiva, y en mejorar la exportación de datos.</p><p>El reto era integrar con los componentes existentes de Moodle sin romper la accesibilidad, manteniendo la UX intuitiva para usuarios no técnicos. Backend en PHP, frontend en JS vanilla, mucho testing.</p>",
-      ca: "<p>Unimoodle és un projecte liderat per 15 universitats espanyoles, coordinat per la UVa, per millorar Moodle per als professors. Vaig treballar en un plugin que permet escriure fórmules de qualificació de forma més intuïtiva, i en millorar l'exportació de dades.</p><p>El repte era integrar amb els components existents de Moodle sense trencar l'accessibilitat, mantenint la UX intuïtiva per a usuaris no tècnics. Backend en PHP, frontend en JS vanilla, molt testing.</p>",
+      en: "<p>Unimoodle is a project led by a consortium of 15 Spanish universities, coordinated by UVa, to improve Moodle for teachers. I worked on it during my time at UPCnet.</p><ul><li>Plugin that lets professors write grading formulas intuitively</li><li>Improved data export from the gradebook</li><li>Integrated into Moodle's core UI without breaking accessibility</li><li>PHP backend, vanilla JS frontend, Behat &amp; PHPUnit testing</li></ul><p>The real challenge: keeping the UX intuitive for non-technical users inside a 20-year-old codebase.</p>",
+      es: "<p>Unimoodle es un proyecto liderado por un consorcio de 15 universidades españolas, coordinado por la UVa, para mejorar Moodle para los profesores. Trabajé en él durante mi etapa en UPCnet.</p><ul><li>Plugin que permite a los profesores escribir fórmulas de calificación de forma intuitiva</li><li>Mejora de la exportación de datos del cuaderno de notas</li><li>Integrado en la UI nativa de Moodle sin romper la accesibilidad</li><li>Backend PHP, frontend JS vanilla, testing con Behat y PHPUnit</li></ul><p>El reto real: mantener la UX intuitiva para usuarios no técnicos dentro de un codebase de 20 años.</p>",
+      ca: "<p>Unimoodle és un projecte liderat per un consorci de 15 universitats espanyoles, coordinat per la UVa, per millorar Moodle per als professors. Hi vaig treballar durant la meva etapa a UPCnet.</p><ul><li>Plugin que permet als professors escriure fórmules de qualificació de forma intuïtiva</li><li>Millora de l'exportació de dades del quadern de notes</li><li>Integrat a la UI nativa de Moodle sense trencar l'accessibilitat</li><li>Backend PHP, frontend JS vanilla, testing amb Behat i PHPUnit</li></ul><p>El repte real: mantenir la UX intuïtiva per a usuaris no tècnics dins d'un codebase de 20 anys.</p>",
     },
   },
   greenwheel: {
@@ -88,11 +102,11 @@ export const projectData: Record<string, ProjectModalData> = {
       ca: 'Green Wheel <em>mobilitat</em>',
     },
     tags: ['Flutter', 'Dart', 'Python'],
-    images: ['Greenwheel.png'],
+    images: ['greenwheel/chargemap.png', 'greenwheel/chargerlist.png', 'greenwheel/bikeslist.png', 'greenwheel/chat.png'],
     prose: {
-      en: '<p>A mobile app that lets users find and reserve EV chargers and bikes, developed for the PES course at FIB. Team of seven, split between frontend (Flutter) and backend (Python). I led the frontend team.</p><p>Three sprints: first the maps and charger flow, then bikes and refactoring, finally chat, ratings and user profiles. Real Agile, real review pain, real product.</p>',
-      es: '<p>Una app móvil que permite encontrar y reservar cargadores eléctricos y bicis, desarrollada para la asignatura PES de la FIB. Equipo de siete, dividido entre frontend (Flutter) y backend (Python). Lideré el equipo de frontend.</p><p>Tres sprints: primero los mapas y el flujo de cargadores, luego las bicis y refactorizaciones, finalmente chat, valoraciones y perfiles de usuario. Agile de verdad, reviews dolorosas, producto real.</p>',
-      ca: "<p>Una app mòbil que permet trobar i reservar carregadors elèctrics i bicis, desenvolupada per a l'assignatura PES de la FIB. Equip de set, dividit entre frontend (Flutter) i backend (Python). Vaig liderar l'equip de frontend.</p><p>Tres sprints: primer els mapes i el flux de carregadors, després les bicis i refactoritzacions, finalment xat, valoracions i perfils d'usuari. Agile de debò, reviews doloroses, producte real.</p>",
+      en: "<p>A mobile app to find and reserve EV chargers and bikes, built for the PES course at FIB in a 7-person squad split between frontend (Flutter) and backend (Python). I led the frontend team.</p><ul><li>Sprint 1: interactive maps and the charger reservation flow</li><li>Sprint 2: bike reservations and major refactors</li><li>Sprint 3: chat, ratings and user profiles</li><li>Code reviews, sprint planning and demos — real Agile end to end</li></ul>",
+      es: '<p>Una app móvil para encontrar y reservar cargadores eléctricos y bicis, desarrollada para la asignatura PES de la FIB en un squad de 7 personas dividido entre frontend (Flutter) y backend (Python). Lideré el equipo de frontend.</p><ul><li>Sprint 1: mapas interactivos y flujo de reserva de cargadores</li><li>Sprint 2: reserva de bicis y refactorizaciones importantes</li><li>Sprint 3: chat, valoraciones y perfiles de usuario</li><li>Code reviews, sprint planning y demos — Agile real de principio a fin</li></ul>',
+      ca: "<p>Una app mòbil per trobar i reservar carregadors elèctrics i bicis, desenvolupada per a l'assignatura PES de la FIB en un squad de 7 persones dividit entre frontend (Flutter) i backend (Python). Vaig liderar l'equip de frontend.</p><ul><li>Sprint 1: mapes interactius i flux de reserva de carregadors</li><li>Sprint 2: reserva de bicis i refactoritzacions importants</li><li>Sprint 3: xat, valoracions i perfils d'usuari</li><li>Code reviews, sprint planning i demos — Agile real de principi a fi</li></ul>",
     },
   },
   datamining: {
@@ -104,9 +118,9 @@ export const projectData: Record<string, ProjectModalData> = {
     tags: ['Data Mining', 'Python', 'R'],
     images: ['datamining/Gendergapsalary.png', 'datamining/basketpos.png'],
     prose: {
-      en: '<p>Two projects done in a team of four for the Data Mining course. The first analyzed a gender pay gap dataset from Kaggle in R, applying clustering, PCA and profiling to uncover the main drivers of the gap.</p><p>The second predicted NBA player positions from in-game statistics in Python. We compared classification models, tuned hyperparameters and ended with a clean, interpretable pipeline.</p>',
-      es: '<p>Dos proyectos hechos en equipo de cuatro para la asignatura de Minería de Datos. El primero analizó un dataset de Kaggle sobre brecha salarial de género en R, aplicando clustering, PCA y profiling para descubrir los principales motores de la brecha.</p><p>El segundo predijo posiciones de jugadores NBA a partir de estadísticas de partido en Python. Comparamos modelos de clasificación, ajustamos hiperparámetros y terminamos con un pipeline limpio e interpretable.</p>',
-      ca: "<p>Dos projectes fets en equip de quatre per a l'assignatura de Mineria de Dades. El primer va analitzar un dataset de Kaggle sobre bretxa salarial de gènere en R, aplicant clustering, PCA i profiling per descobrir els principals motors de la bretxa.</p><p>El segon va predir posicions de jugadors NBA a partir d'estadístiques de partit en Python. Vam comparar models de classificació, vam ajustar hiperparàmetres i vam acabar amb un pipeline net i interpretable.</p>",
+      en: "<p>Two end-to-end data mining projects, done in a team of four for the Data Mining course.</p><ul><li>Gender pay gap (R): clustering, PCA and profiling on a Kaggle dataset to uncover the main drivers of the gap</li><li>NBA positions (Python): compared and hyperparameter-tuned classification models to predict player positions from in-game stats</li><li>Heavy preprocessing and a clean, interpretable final pipeline in both</li></ul>",
+      es: '<p>Dos proyectos de minería de datos de principio a fin, hechos en equipo de cuatro para la asignatura de Minería de Datos.</p><ul><li>Brecha salarial de género (R): clustering, PCA y profiling sobre un dataset de Kaggle para descubrir los principales motores de la brecha</li><li>Posiciones NBA (Python): comparación y ajuste de hiperparámetros de modelos de clasificación para predecir posiciones a partir de estadísticas de partido</li><li>Mucho preprocesamiento y un pipeline final limpio e interpretable en ambos</li></ul>',
+      ca: "<p>Dos projectes de mineria de dades de principi a fi, fets en equip de quatre per a l'assignatura de Mineria de Dades.</p><ul><li>Bretxa salarial de gènere (R): clustering, PCA i profiling sobre un dataset de Kaggle per descobrir els principals motors de la bretxa</li><li>Posicions NBA (Python): comparació i ajust d'hiperparàmetres de models de classificació per predir posicions a partir d'estadístiques de partit</li><li>Molt preprocessament i un pipeline final net i interpretable en tots dos</li></ul>",
     },
   },
   layup: {
@@ -116,7 +130,7 @@ export const projectData: Record<string, ProjectModalData> = {
       ca: 'Lay Up <em>ecommerce</em>',
     },
     tags: ['Frontend', 'Bootstrap', 'JSON'],
-    images: ['layup.png'],
+    images: ['layup.png', 'layup/login.png', 'layup/register.png'],
     prose: {
       en: "<p>One of my first real web development projects, from the Jedi HTML/CSS/JS course. A fashion-focused ecommerce site with cart logic and login flow, built with HTML, CSS, JS and Bootstrap.</p><p>The Heroku backend hosting changed policies and some features no longer work, but the static frontend is still online. It's the rough draft that taught me what production really meant.</p>",
       es: '<p>Uno de mis primeros proyectos de desarrollo web reales, del curso Jedi de HTML/CSS/JS. Un sitio de ecommerce de moda con lógica de carrito y login, hecho con HTML, CSS, JS y Bootstrap.</p><p>Heroku cambió sus políticas y algunas funcionalidades dejaron de funcionar, pero el frontend estático sigue online. Es el borrador en bruto que me enseñó qué significaba "producción".</p>',

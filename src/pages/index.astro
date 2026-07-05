@@ -28,8 +28,7 @@ import Footer from '../components/Footer.astro';
      On hover-incapable devices (phones/tablets) replace all "hover" hints
      with "tap" equivalents. Re-runs on lang change so translations stay correct. */
   const touchCopy: Record<string, Record<string, string>> = {
-    path_aside:  { en: 'Tap the dots',                    es: 'Toca los puntos',                   ca: 'Toca els punts' },
-    tools_aside: { en: 'Tap a constellation',             es: 'Toca una constelación',              ca: "Toca una constel·lació" },
+    path_aside:  { en: 'Tap the dots · current role shown', es: 'Toca los puntos · rol actual visible', ca: 'Toca els punts · rol actual visible' },
     stack_aside: { en: 'Tap · drag · explore',            es: 'Toca · arrastra · explora',          ca: 'Toca · arrossega · explora' },
     graph_hint:  { en: 'Tap a node to see its links',     es: 'Toca un nodo para ver sus conexiones', ca: 'Toca un node per veure les connexions' },
   };

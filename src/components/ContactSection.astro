@@ -11,8 +11,13 @@
     <h2 class="contact-headline" data-i18n="contact_headline">
       Got a project<br><em>worth building?</em>
     </h2>
-    <a class="contact-link" href="mailto:mgutierrez@hlanalytics.org" data-i18n="contact_link">say hello →</a>
+    <div class="contact-actions">
+      <a class="contact-link" href="mailto:mgutierrez@hlanalytics.org" data-i18n="contact_link">say hello →</a>
+      <a class="contact-cv" href={`${import.meta.env.BASE_URL}cv/Miguel-Gutierrez-CV.pdf`} download data-i18n="contact_cv">or download my CV ↓</a>
+    </div>
   </div>
+
+  <p class="contact-note" data-i18n="contact_note">Currently Software Engineer &amp; AI Developer at Health Lean Analytics — open to conversations about full-stack and AI engineering roles.</p>
 
   <div class="contact-socials">
     <a class="social-link" href="https://github.com/MikierXXV" target="_blank" rel="noopener">
@@ -75,6 +80,26 @@
     flex-shrink: 0;
   }
   .contact-link:hover { color: var(--burgundy); border-color: var(--burgundy); }
+
+  .contact-actions {
+    display: flex; flex-direction: column; gap: 0.85rem;
+    align-items: flex-start; flex-shrink: 0;
+  }
+  @media (min-width: 700px) { .contact-actions { align-items: flex-end; } }
+  .contact-cv {
+    font-family: var(--mono); font-size: 0.68rem;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ink-mute); text-decoration: none;
+    border-bottom: 1px solid var(--rule); padding-bottom: 0.15em;
+    transition: color .3s, border-color .3s;
+  }
+  .contact-cv:hover { color: var(--burgundy); border-color: var(--burgundy); }
+
+  .contact-note {
+    font-family: var(--sans); font-size: 0.82rem;
+    color: var(--ink-mute); line-height: 1.7; max-width: 52ch;
+    margin: -2.5rem 0 3rem;
+  }
 
   .contact-socials {
     display: flex; gap: 1.5rem; flex-wrap: wrap;

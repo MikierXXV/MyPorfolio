@@ -8,17 +8,55 @@ interface Props {
 
 const {
   title = 'Miguel Gutiérrez · Portfolio',
-  description = 'Software Engineer & AI Developer — Barcelona',
+  description = 'Miguel Gutiérrez — Full-stack Software Engineer & AI Developer in Barcelona. Vue, TypeScript, Node, Python. Clean Architecture, healthcare systems, LLM-assisted development. Portfolio & CV.',
 } = Astro.props;
+
+const site = Astro.site ?? new URL('https://MikierXXV.github.io');
+const canonical = new URL(import.meta.env.BASE_URL, site).href;
+const ogImage = new URL(`${import.meta.env.BASE_URL}assets/og-card.png`, site).href;
+
+const personLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Miguel Gutiérrez',
+  jobTitle: 'Software Engineer & AI Developer',
+  worksFor: { '@type': 'Organization', name: 'Health Lean Analytics' },
+  address: { '@type': 'PostalAddress', addressLocality: 'Barcelona', addressCountry: 'ES' },
+  email: 'mailto:mgutierrez@hlanalytics.org',
+  url: canonical,
+  sameAs: [
+    'https://github.com/MikierXXV',
+    'https://www.linkedin.com/in/miguel-gutjar/',
+  ],
+  knowsAbout: ['Vue', 'TypeScript', 'Node.js', 'Python', 'Clean Architecture', 'AI Development', 'LLMs'],
+});
 ---
 
 <meta charset="UTF-8" />
-<meta name="description" property="og:description" content={description} />
+<meta name="description" content={description} />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="generator" content={Astro.generator} />
 <title>{title}</title>
 
-<link rel="icon" type="image/jpeg" href="/MyPorfolio/assets/CVfoto.jpeg" />
+<link rel="canonical" href={canonical} />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- JSON-LD -->
+<script type="application/ld+json" set:html={personLd} />
+
+<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
 
 <!-- Fonts: Fraunces (serif) + Inter (sans) + JetBrains Mono -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />

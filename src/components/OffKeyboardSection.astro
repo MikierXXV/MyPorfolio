@@ -50,27 +50,23 @@
         <p class="card-eyebrow" data-i18n="off_game_eyebrow">III. Game</p>
         <h3 class="card-title" data-i18n="off_game_title">Shoot from three.</h3>
         <div class="hoop-preview">
-          <svg viewBox="0 0 160 90" fill="none" xmlns="http://www.w3.org/2000/svg" class="hoop-svg" overflow="hidden">
-            <rect width="160" height="90" fill="var(--paper-2)" rx="4"/>
+          <svg viewBox="0 0 160 90" fill="none" xmlns="http://www.w3.org/2000/svg" class="hoop-svg">
+            <!-- court floor -->
+            <rect width="160" height="90" fill="var(--paper-3)" rx="4"/>
             <!-- paint box -->
-            <rect x="55" y="0" width="50" height="36" fill="var(--paper-3)" rx="2"/>
-            <!-- free-throw line -->
-            <line x1="55" y1="36" x2="105" y2="36" stroke="var(--rule)" stroke-width="1"/>
-            <!-- three-point corner lines -->
-            <line x1="18" y1="0" x2="18" y2="54" stroke="var(--rule)" stroke-width="1"/>
-            <line x1="142" y1="0" x2="142" y2="54" stroke="var(--rule)" stroke-width="1"/>
-            <!-- three-point arc (curves toward midcourt) -->
-            <path d="M18 54 Q80 105 142 54" stroke="var(--rule)" stroke-width="1" fill="none"/>
-            <!-- center circle arc at bottom -->
-            <ellipse cx="80" cy="90" rx="20" ry="14" stroke="var(--rule)" stroke-width="1" fill="none"/>
+            <rect x="55" y="0" width="50" height="34" fill="var(--paper-2)" stroke="var(--ink-mute)" stroke-width="1"/>
+            <!-- free-throw circle (bottom half, dashed) -->
+            <path d="M67 34 A13 9 0 0 0 93 34" stroke="var(--ink-mute)" stroke-width="1" stroke-dasharray="3 2" fill="none"/>
+            <!-- three-point line: corners + arc, fully inside the viewBox -->
+            <path d="M14 0 L14 40 Q80 88 146 40 L146 0" stroke="var(--ink-mute)" stroke-width="1.2" fill="none"/>
             <!-- backboard -->
-            <rect x="68" y="0" width="24" height="3" fill="var(--ink-mute)" rx="1"/>
+            <rect x="68" y="1" width="24" height="3" fill="var(--ink-soft)" rx="1"/>
             <!-- rim -->
-            <ellipse cx="80" cy="7" rx="8" ry="3" stroke="var(--burgundy)" stroke-width="1.5" fill="none"/>
+            <ellipse cx="80" cy="8.5" rx="7" ry="2.8" stroke="var(--burgundy)" stroke-width="1.5" fill="none"/>
             <!-- net -->
-            <path d="M72 10 Q80 16 88 10" stroke="var(--rule)" stroke-width="1" fill="none"/>
+            <path d="M74.5 10.5 L77 16 M80 11.3 L80 16.5 M85.5 10.5 L83 16" stroke="var(--ink-mute)" stroke-width="0.8" fill="none"/>
             <!-- ball preview -->
-            <circle class="ball-preview" cx="80" cy="72" r="5" fill="var(--burgundy)" opacity="0.7"/>
+            <circle class="ball-preview" cx="80" cy="60" r="5" fill="var(--burgundy)" opacity="0.85"/>
           </svg>
         </div>
         <button class="card-expand" data-modal="modal-basket" data-i18n="off_game_expand">Play full game</button>
@@ -176,25 +172,25 @@
           <line x1="210" y1="54" x2="220" y2="54" stroke="var(--rule)" stroke-width="1"/>
           <line x1="210" y1="68" x2="220" y2="68" stroke="var(--rule)" stroke-width="1"/>
           <!-- free-throw line -->
-          <line x1="110" y1="80" x2="210" y2="80" stroke="var(--rule)" stroke-width="1.5"/>
+          <line x1="110" y1="80" x2="210" y2="80" stroke="var(--ink-mute)" stroke-width="1.5"/>
           <!-- free-throw circle: solid top half (inside paint), dashed bottom half -->
-          <path d="M130 80 A30 20 0 0 1 190 80" stroke="var(--rule)" stroke-width="1" fill="none"/>
-          <path d="M130 80 A30 20 0 0 0 190 80" stroke="var(--rule)" stroke-width="1" fill="none" stroke-dasharray="4 3"/>
+          <path d="M130 80 A30 20 0 0 1 190 80" stroke="var(--ink-mute)" stroke-width="1" fill="none"/>
+          <path d="M130 80 A30 20 0 0 0 190 80" stroke="var(--ink-mute)" stroke-width="1" fill="none" stroke-dasharray="4 3"/>
           <!-- restricted area (semicircle below rim) -->
           <path d="M144 14 A16 16 0 0 0 176 14" stroke="var(--rule)" stroke-width="1" fill="none"/>
           <!-- three-point corner lines -->
-          <line x1="40" y1="0" x2="40" y2="120" stroke="var(--rule)" stroke-width="1.5"/>
-          <line x1="280" y1="0" x2="280" y2="120" stroke="var(--rule)" stroke-width="1.5"/>
+          <line x1="40" y1="0" x2="40" y2="120" stroke="var(--ink-mute)" stroke-width="1.5"/>
+          <line x1="280" y1="0" x2="280" y2="120" stroke="var(--ink-mute)" stroke-width="1.5"/>
           <!-- three-point arc (curves toward midcourt) -->
-          <path d="M40 120 Q160 230 280 120" stroke="var(--rule)" stroke-width="1.5" fill="none"/>
-          <!-- center circle half visible at bottom -->
-          <ellipse cx="160" cy="200" rx="42" ry="28" stroke="var(--rule)" stroke-width="1" fill="none"/>
+          <path d="M40 120 Q160 230 280 120" stroke="var(--ink-mute)" stroke-width="1.5" fill="none"/>
+          <!-- center circle: top half only, ends cleanly at the bottom edge -->
+          <path d="M118 200 A42 28 0 0 1 202 200" stroke="var(--ink-mute)" stroke-width="1" fill="none"/>
           <!-- backboard -->
-          <rect x="136" y="0" width="48" height="6" fill="var(--ink-mute)" rx="2"/>
+          <rect x="136" y="0" width="48" height="6" fill="var(--ink-soft)" rx="2"/>
           <!-- rim -->
           <ellipse cx="160" cy="14" rx="16" ry="5" stroke="var(--burgundy)" stroke-width="2" fill="none"/>
           <!-- net -->
-          <path d="M144 19 Q160 30 176 19" stroke="var(--rule)" stroke-width="1" fill="none"/>
+          <path d="M146 18 L151 27 M160 19 L160 28 M174 18 L169 27" stroke="var(--ink-mute)" stroke-width="1" fill="none"/>
           <!-- zone overlays — deeper layers first, closer on top -->
           <!-- zone-three: corners + area below the arc (three separate subpaths) -->
           <path id="zone-three" class="zone-area"
