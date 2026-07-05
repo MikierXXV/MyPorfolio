@@ -1,0 +1,16 @@
+---
+// StoryCanvas — fixed background canvas for ink motes / paper fibers.
+// Painted below all content; the body noise texture grains over it.
+// Initialized (or skipped) by src/scripts/story/motes.ts.
+---
+
+<canvas id="story-canvas" aria-hidden="true"></canvas>
+
+<style>
+  #story-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+</style>

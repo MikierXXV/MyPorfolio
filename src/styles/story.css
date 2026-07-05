@@ -1,0 +1,97 @@
+/* =============================================
+   STORY LAYER — scroll-driven storytelling
+   All initial hidden states are gated behind html.story,
+   which is added by an inline head script ONLY when JS runs
+   and prefers-reduced-motion is not set. No JS / reduced
+   motion => class absent => everything fully visible.
+   Only opacity / transform / clip-path are animated (CLS 0).
+   ============================================= */
+
+/* ── Initial states (JS + motion allowed only) ── */
+html.story [data-story='fade-up'],
+html.story [data-story='fade'] {
+  opacity: 0;
+}
+html.story [data-story='mask-up'] {
+  clip-path: inset(0 0 100% 0);
+}
+html.story [data-story='stagger'] > * {
+  opacity: 0;
+}
+
+/* ── Section-head rule draw (data-story-rule) ──
+   The rule is the element's own border-top; we cover it with a
+   paper-colored overlay that GSAP shrinks away (scaleX 1→0). */
+html.story [data-story-rule] {
+  position: relative;
+}
+html.story [data-story-rule]::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--paper);
+  transform-origin: right;
+  transform: scaleX(1);
+  transition: transform 0.9s var(--ease);
+  z-index: 1;
+}
+html.story [data-story-rule].rule-in::before {
+  transform: scaleX(0);
+}
+
+/* ── Path chapter choreography ──
+   story/index.ts adds .story-in to section#path on enter (once).
+   We animate only .tl-axis / .tl-progress / .tl-dot — NEVER
+   .tl-dot-wrap (it carries inline positioning transforms). */
+html.story .path .tl-axis,
+html.story .path .tl-progress {
+  transform: scaleX(0);
+  transform-origin: left;
+}
+html.story .path.story-in .tl-axis {
+  animation: storyAxisGrow 0.9s var(--ease) both;
+}
+html.story .path.story-in .tl-progress {
+  animation: storyAxisGrow 0.9s var(--ease) 0.15s both;
+}
+@keyframes storyAxisGrow {
+  to { transform: scaleX(1); }
+}
+
+html.story .path .tl-dot {
+  opacity: 0;
+  transform: scale(0.3);
+}
+html.story .path.story-in .tl-dot {
+  animation: storyDotPop 0.35s var(--ease) both;
+}
+/* stagger by dot order (7 events) */
+html.story .path.story-in .tl-dot-wrap:nth-child(3) .tl-dot { animation-delay: 0.25s; }
+html.story .path.story-in .tl-dot-wrap:nth-child(4) .tl-dot { animation-delay: 0.35s; }
+html.story .path.story-in .tl-dot-wrap:nth-child(5) .tl-dot { animation-delay: 0.45s; }
+html.story .path.story-in .tl-dot-wrap:nth-child(6) .tl-dot { animation-delay: 0.55s; }
+html.story .path.story-in .tl-dot-wrap:nth-child(7) .tl-dot { animation-delay: 0.65s; }
+html.story .path.story-in .tl-dot-wrap:nth-child(8) .tl-dot { animation-delay: 0.75s; }
+html.story .path.story-in .tl-dot-wrap:nth-child(9) .tl-dot { animation-delay: 0.85s; }
+@keyframes storyDotPop {
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Mobile vertical axis grows downward */
+@media (max-width: 700px) {
+  html.story .path .tl-axis,
+  html.story .path .tl-progress {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  html.story .path.story-in .tl-axis,
+  html.story .path.story-in .tl-progress {
+    animation-name: storyAxisGrowY;
+  }
+  @keyframes storyAxisGrowY {
+    to { transform: scaleY(1); }
+  }
+}

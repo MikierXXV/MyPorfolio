@@ -5,13 +5,13 @@ const gh = (id: string) => projectLinks[id]?.github;
 ---
 
 <section class="section" id="work">
-  <div class="section-tag">
+  <div class="section-tag" data-story-rule>
     <span class="section-num">I.</span>
-    <h2 class="section-title" data-i18n="work_title">Selected <em>Work</em></h2>
+    <h2 class="section-title" data-story="mask-up" data-i18n="work_title">Selected <em>Work</em></h2>
     <span class="section-aside" data-i18n="work_aside">Seven pieces · code &amp; details on each card</span>
   </div>
 
-  <div class="work-grid">
+  <div class="work-grid" data-story="stagger" data-story-items=".work-card">
 
     <!-- 01 — BS Frontend -->
     <article class="work-card" data-project="bsfront" tabindex="0" role="button">
@@ -207,7 +207,7 @@ const gh = (id: string) => projectLinks[id]?.github;
 
 <!-- ============ PROJECT MODALS ============ -->
 <div class="modal-backdrop" id="modal-project">
-  <div class="modal" id="projectModal">
+  <div class="modal" id="projectModal" data-lenis-prevent>
     <button class="modal-close" data-close>×</button>
     <div class="modal-eyebrow" id="pmEyebrow">Project</div>
     <h2 class="modal-title" id="pmTitle"></h2>

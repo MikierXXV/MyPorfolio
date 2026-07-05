@@ -1,0 +1,26 @@
+---
+// ScrollProgress — thin burgundy reading-progress bar under the top edge.
+// Driven by a scrubbed ScrollTrigger in src/scripts/story/index.ts.
+// Hidden entirely without the html.story gate (no JS / reduced motion).
+---
+
+<div id="story-progress" aria-hidden="true"></div>
+
+<style>
+  #story-progress {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: var(--burgundy);
+    transform-origin: left;
+    transform: scaleX(0);
+    z-index: 101;
+    pointer-events: none;
+  }
+  html.story #story-progress {
+    display: block;
+  }
+</style>

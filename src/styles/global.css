@@ -1,3 +1,5 @@
+@import './story.css';
+
 /* =============================================
    DESIGN TOKENS — Renaissance
    ============================================= */
@@ -30,9 +32,8 @@
   padding: 0;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* scroll-behavior: smooth removed — Lenis handles smooth scrolling;
+   native instant jumps are the correct no-JS / reduced-motion fallback */
 
 body {
   font-family: var(--sans);

@@ -3,12 +3,12 @@
 ---
 
 <section class="off" id="off">
-  <div class="section-head">
-    <h2 class="section-title" data-i18n="off_title">Off the <em>keyboard</em></h2>
+  <div class="section-head" data-story-rule>
+    <h2 class="section-title" data-story="mask-up" data-i18n="off_title">Off the <em>keyboard</em></h2>
     <span class="section-aside" data-i18n="off_aside">Interact · play · click</span>
   </div>
 
-  <div class="off-grid">
+  <div class="off-grid" data-story="stagger" data-story-items=".off-card">
 
     <!-- I. Guitar card -->
     <article class="off-card" id="card-guitar">
@@ -78,7 +78,7 @@
 
 <!-- Modal: Guitar full chord library -->
 <div class="modal-backdrop" id="modal-guitar" role="dialog" aria-modal="true" aria-label="Guitar chord library">
-  <div class="modal-box modal-guitar-box">
+  <div class="modal-box modal-guitar-box" data-lenis-prevent>
     <button class="modal-close" aria-label="Close">✕</button>
     <p class="modal-eyebrow" data-i18n="off_sound_eyebrow">I. Sound</p>
     <h2 class="modal-title" data-i18n="modal_guitar_title">The full <em>chord library</em></h2>
@@ -128,7 +128,7 @@
 
 <!-- Modal: Philosophy quotes -->
 <div class="modal-backdrop" id="modal-phil" role="dialog" aria-modal="true" aria-label="Philosophy quotes">
-  <div class="modal-box modal-phil-box">
+  <div class="modal-box modal-phil-box" data-lenis-prevent>
     <button class="modal-close" aria-label="Close">✕</button>
     <p class="modal-eyebrow" data-i18n="off_mind_eyebrow">II. Mind</p>
     <h2 class="modal-title" data-i18n="modal_phil_title">Some <em>thoughts</em> I keep nearby</h2>
@@ -149,7 +149,7 @@
 
 <!-- Modal: Basketball full game -->
 <div class="modal-backdrop" id="modal-basket" role="dialog" aria-modal="true" aria-label="Basketball game">
-  <div class="modal-box modal-basket-box">
+  <div class="modal-box modal-basket-box" data-lenis-prevent>
     <button class="modal-close" aria-label="Close">✕</button>
     <p class="modal-eyebrow" data-i18n="off_game_eyebrow">III. Game</p>
     <h2 class="modal-title" data-i18n="modal_basket_title">The <em>three-point challenge</em></h2>

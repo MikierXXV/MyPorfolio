@@ -1,5 +1,8 @@
 ---
 import MainHead from '../components/MainHead.astro';
+import StoryCanvas from '../components/StoryCanvas.astro';
+import InkLine from '../components/InkLine.astro';
+import ScrollProgress from '../components/ScrollProgress.astro';
 
 interface Props {
   title?: string;
@@ -12,8 +15,29 @@ const { title, description } = Astro.props;
 <html lang="en">
   <head>
     <MainHead title={title} description={description} />
+    <script is:inline>
+      // Story gate: hidden initial states only apply when JS runs AND the
+      // user allows motion. No JS / reduced motion => content fully visible.
+      if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+        document.documentElement.classList.add('story');
+      }
+    </script>
   </head>
   <body>
-    <slot />
+    <StoryCanvas />
+    <ScrollProgress />
+    <main id="story-main">
+      <slot />
+      <InkLine />
+    </main>
+    <script>
+      import '../scripts/story';
+    </script>
   </body>
 </html>
+
+<style>
+  #story-main {
+    position: relative;
+  }
+</style>
