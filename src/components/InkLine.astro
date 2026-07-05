@@ -1,15 +1,19 @@
 ---
 // InkLine — full-page SVG overlay: a burgundy ink stroke drawn by scroll,
-// connecting the chapters, ending in an "MG" signature at Contact.
-// Path geometry is computed at runtime by src/scripts/story/inkline.ts.
+// meandering between chapters with a pen tip, roman-numeral marginalia
+// and manuscript glyphs, ending in an "MG" signature at Contact.
+// Geometry is computed at runtime by src/scripts/story/inkline.ts.
 ---
 
 <svg id="ink-line" aria-hidden="true">
+  <path id="ink-bleed" d="" />
   <path id="ink-path" d="" />
+  <g id="ink-marks"></g>
   <path id="ink-signature" d="" />
+  <circle id="ink-tip" r="3" />
 </svg>
 
-<style>
+<style is:global>
   #ink-line {
     position: absolute;
     inset: 0;
@@ -30,10 +34,26 @@
   }
   #ink-path {
     stroke-width: 1.75;
-    opacity: 0.45;
+    opacity: 0.5;
+  }
+  #ink-bleed {
+    stroke-width: 4.5;
+    opacity: 0.09;
+  }
+  #ink-marks path {
+    stroke-width: 1.6;
+    opacity: 0.55;
   }
   #ink-signature {
     stroke-width: 2;
     opacity: 0.7;
+  }
+  #ink-tip {
+    fill: var(--burgundy);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  #ink-tip.tip-on {
+    opacity: 0.85;
   }
 </style>

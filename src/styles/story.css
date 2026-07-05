@@ -15,6 +15,28 @@ html.story [data-story='fade'] {
 html.story [data-story='mask-up'] {
   clip-path: inset(0 0 100% 0);
 }
+
+/* ── Word-split titles (data-story="words") ──
+   Masks/words exist only after JS splits them (split.ts), so the plain
+   server-rendered text stays untouched without JS / reduced motion.
+   Padding + negative margin keep descenders (y, g, p) unclipped. */
+html.story [data-story='words'] .w-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.1em 0.02em 0.14em;
+  margin: -0.1em -0.02em -0.14em;
+}
+html.story [data-story='words'] .w {
+  display: inline-block;
+  transform: translateY(115%) rotate(4deg);
+  transform-origin: left bottom;
+  will-change: transform;
+}
+html.story [data-story='words'] em.w {
+  font-style: italic;
+  font-weight: 400;
+}
 html.story [data-story='stagger'] > * {
   opacity: 0;
 }
