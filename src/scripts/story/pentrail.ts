@@ -38,15 +38,24 @@ export function initPenTrail(gsap: any, lenis: any): void {
   let penY = 0;
   let prevX = 0;
   let prevY = 0;
+  let phase = 0;
   let init = false;
 
   function frame(): void {
-    const baseX = W - 56;
+    const baseX = W - 64;
     const doc = document.documentElement;
     const maxScroll = Math.max(1, doc.scrollHeight - H);
     const progress = clamp(window.scrollY / maxScroll, 0, 1);
-    const targetY = H * (0.12 + progress * 0.76);
-    const targetX = baseX - clamp(velocity * 0.6, -46, 46);
+    const speed = Math.abs(velocity);
+
+    // while moving, the pen carves S-curves: a wave whose amplitude grows
+    // with scroll speed, plus a pressure bend toward the page
+    phase += 0.055 + Math.min(speed * 0.0022, 0.05);
+    const wave = Math.sin(phase) * Math.min(14 + speed * 1.1, 64);
+    const bend = clamp(velocity * 1.6, -110, 110);
+
+    const targetY = H * (0.1 + progress * 0.8);
+    const targetX = baseX - bend - (speed > 1 ? wave : 0);
 
     if (!init) {
       penX = targetX;
@@ -55,12 +64,12 @@ export function initPenTrail(gsap: any, lenis: any): void {
       prevY = penY;
       init = true;
     }
-    penX += (targetX - penX) * 0.16;
-    penY += (targetY - penY) * 0.12;
+    penX += (targetX - penX) * 0.2;
+    penY += (targetY - penY) * 0.16;
 
     // fade the whole trail a little each frame (comet decay)
     ctx!.globalCompositeOperation = 'destination-out';
-    ctx!.fillStyle = 'rgba(0,0,0,0.06)';
+    ctx!.fillStyle = 'rgba(0,0,0,0.03)';
     ctx!.fillRect(0, 0, W, H);
     ctx!.globalCompositeOperation = 'source-over';
 
@@ -68,8 +77,8 @@ export function initPenTrail(gsap: any, lenis: any): void {
     const dx = penX - prevX;
     const dy = penY - prevY;
     if (Math.hypot(dx, dy) > 0.25) {
-      ctx!.strokeStyle = 'rgba(122,31,43,0.5)';
-      ctx!.lineWidth = clamp(1.5 + Math.abs(velocity) * 0.04, 1.5, 3.2);
+      ctx!.strokeStyle = 'rgba(122,31,43,0.62)';
+      ctx!.lineWidth = clamp(2.2 + speed * 0.06, 2.2, 5);
       ctx!.lineCap = 'round';
       ctx!.beginPath();
       ctx!.moveTo(prevX, prevY);
@@ -82,7 +91,7 @@ export function initPenTrail(gsap: any, lenis: any): void {
     // orient the nib along its motion (pointing down at rest)
     const angle = Math.atan2(dy, dx) * (180 / Math.PI) - 90;
     const settled = Math.hypot(dx, dy) < 0.4;
-    nib!.style.transform = `translate(${(penX - 5.5).toFixed(1)}px, ${(penY - 7.5).toFixed(1)}px) rotate(${settled ? 0 : angle.toFixed(1)}deg)`;
+    nib!.style.transform = `translate(${(penX - 7).toFixed(1)}px, ${(penY - 9.5).toFixed(1)}px) rotate(${settled ? 0 : angle.toFixed(1)}deg)`;
 
     velocity *= 0.9;
   }

@@ -8,9 +8,22 @@
   </div>
 
   <div class="contact-body">
-    <h2 class="contact-headline" data-story="words" data-i18n="contact_headline">
-      Got a project<br><em>worth building?</em>
-    </h2>
+    <div class="contact-intro">
+      <div class="contact-photo-wrap" data-story="fade-up">
+        <img
+          class="contact-photo"
+          src={`${import.meta.env.BASE_URL}assets/linkedin.png`}
+          alt="Miguel Gutiérrez"
+          width="180"
+          height="180"
+          loading="lazy"
+        />
+        <span class="contact-photo-ring" aria-hidden="true"></span>
+      </div>
+      <h2 class="contact-headline" data-story="words" data-i18n="contact_headline">
+        Got a project<br><em>worth building?</em>
+      </h2>
+    </div>
     <div class="contact-actions" data-story="fade-up">
       <a class="contact-link" href="mailto:mgutierrez@hlanalytics.org" data-i18n="contact_link">say hello →</a>
       <a class="contact-cv" href={`${import.meta.env.BASE_URL}cv/Miguel-Gutierrez-CV.pdf`} download data-i18n="contact_cv">or download my CV ↓</a>
@@ -64,9 +77,30 @@
     .contact-body { flex-direction: row; align-items: flex-end; justify-content: space-between; }
   }
 
+  .contact-intro {
+    display: flex; align-items: center; gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
+  .contact-photo-wrap {
+    position: relative; flex-shrink: 0;
+    width: clamp(110px, 14vw, 180px); height: clamp(110px, 14vw, 180px);
+  }
+  .contact-photo {
+    width: 100%; height: 100%;
+    border-radius: 50%; object-fit: cover;
+    border: 1px solid var(--rule);
+  }
+  .contact-photo-ring {
+    position: absolute; inset: -11px;
+    border: 1.5px solid var(--burgundy); border-radius: 50%;
+    opacity: 0.55;
+  }
+  @media (max-width: 560px) {
+    .contact-intro { flex-direction: column; align-items: flex-start; }
+  }
+
   .contact-headline {
     font-family: var(--serif); font-weight: 300;
-    font-size: clamp(2.5rem, 7vw, 6rem);
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
     letter-spacing: -0.03em; line-height: 1.05; color: var(--ink);
   }
   .contact-headline em { font-style: italic; font-weight: 400; }
