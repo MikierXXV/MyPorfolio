@@ -14,7 +14,6 @@
     display: none;
     position: fixed;
     pointer-events: none;
-    z-index: 50;
   }
   html.story #pen-canvas.pen-on,
   html.story #pen-nib.pen-on {
@@ -22,17 +21,25 @@
   }
   #pen-canvas {
     inset: 0;
+    /* the ink lives IN the paper: behind cards/terminal/text blocks,
+       visible only on the empty paper around them */
+    z-index: -1;
   }
   #pen-nib {
     top: 0;
     left: 0;
-    width: 14px;
-    height: 19px;
+    width: 12px;
+    height: 16px;
     background: var(--burgundy);
     /* nib / ink-drop shape, pointing down */
     clip-path: polygon(50% 100%, 4% 38%, 20% 6%, 80% 6%, 96% 38%);
-    opacity: 0.9;
-    filter: drop-shadow(0 0 4px rgba(122, 31, 43, 0.35));
+    opacity: 0.85;
+    z-index: 50;
     will-change: transform;
+    transition: opacity 0.6s ease;
+  }
+  /* while the reader is reading (no scroll ~1.5s) the pen almost vanishes */
+  #pen-nib.pen-resting {
+    opacity: 0.22;
   }
 </style>

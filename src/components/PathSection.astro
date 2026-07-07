@@ -271,7 +271,7 @@ const certsJSON = JSON.stringify(certData);
       flex-direction: column; align-items: flex-start;
     }
     .tl-label-bot { display: flex; }
-    .tl-role { text-align: left; }
+    .tl-role { text-align: left; max-width: 26ch; }
     .tl-dot { flex-shrink: 0; }
   }
 </style>
@@ -288,8 +288,8 @@ const certsJSON = JSON.stringify(certData);
   const detailInner = document.getElementById('tl-detail-inner');
   const certsGrid  = document.getElementById('certs-grid');
 
-  const MOB_PAD = 24;      // px from top of stage to first dot
-  const MOB_SPACING = 52; // px between dots
+  const MOB_PAD = 28;      // px from top of stage to first dot
+  const MOB_SPACING = 96;  // px between dots (labels are year+name+role tall)
 
   /* ─── BUILD TIMELINE ─── */
   function buildTimeline() {

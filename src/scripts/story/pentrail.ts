@@ -91,13 +91,15 @@ export function initPenTrail(gsap: any, lenis: any): PenController | null {
   let penY = 0;
   let prevX = 0;
   let prevY = 0;
-  let midX = 0;
-  let midY = 0;
   let smoothV = 0; // low-pass filtered velocity → graceful arcs, no jitter
   let angleDeg = 0;
   let idle = 0;
-  let stillFrames = 0;
+  let lastMove = 0;
+  let resting = false;
   let init = false;
+
+  const TRAIL_MS = 900; // trail lifetime — the comet tail
+  const points: { x: number; y: number; t: number }[] = [];
 
   function frame(): void {
     const doc = document.documentElement;
@@ -122,42 +124,47 @@ export function initPenTrail(gsap: any, lenis: any): PenController | null {
       penY = targetY;
       prevX = penX;
       prevY = penY;
-      midX = penX;
-      midY = penY;
       init = true;
     }
     penX += (targetX - penX) * 0.09;
     penY += (targetY - penY) * 0.11;
 
-    // fade the whole trail a little each frame (comet decay)
-    ctx!.globalCompositeOperation = 'destination-out';
-    ctx!.fillStyle = 'rgba(0,0,0,0.035)';
-    ctx!.fillRect(0, 0, W, H);
-    ctx!.globalCompositeOperation = 'source-over';
-
-    // smooth stroke: quadratic curve between consecutive midpoints,
-    // using the previous pen position as control point (no kinks)
+    const now = performance.now();
     const dx = penX - prevX;
     const dy = penY - prevY;
     const step = Math.hypot(dx, dy);
-    const newMidX = (prevX + penX) / 2;
-    const newMidY = (prevY + penY) / 2;
+
+    // ink only deliberate motion; the tail expires on its own
     if (step > 0.6) {
-      ctx!.strokeStyle = 'rgba(122,31,43,0.5)';
-      ctx!.lineWidth = clamp(2 + Math.abs(smoothV) * 0.05, 2, 4);
-      ctx!.lineCap = 'round';
-      ctx!.beginPath();
-      ctx!.moveTo(midX, midY);
-      ctx!.quadraticCurveTo(prevX, prevY, newMidX, newMidY);
-      ctx!.stroke();
-      stillFrames = 0;
-    } else if (++stillFrames === 150) {
-      // 8-bit alpha never fully fades destination-out — hard-clear the
-      // lingering ghost once the pen has been at rest for ~2.5s
-      ctx!.clearRect(0, 0, W, H);
+      lastMove = now;
+      if (Math.abs(smoothV) > 2) points.push({ x: penX, y: penY, t: now });
     }
-    midX = newMidX;
-    midY = newMidY;
+    while (points.length && now - points[0].t > TRAIL_MS) points.shift();
+
+    // redraw the living tail from scratch each frame: alpha and width
+    // taper with age — a sharp comet, zero residue by construction
+    ctx!.clearRect(0, 0, W, H);
+    ctx!.lineCap = 'round';
+    ctx!.lineJoin = 'round';
+    for (let i = 1; i < points.length; i++) {
+      const p = points[i];
+      const q = points[i - 1];
+      const life = 1 - (now - p.t) / TRAIL_MS; // 1 fresh → 0 dying
+      ctx!.strokeStyle = `rgba(122,31,43,${(0.45 * life).toFixed(3)})`;
+      ctx!.lineWidth = 1.5 + 1.7 * life;
+      ctx!.beginPath();
+      ctx!.moveTo(q.x, q.y);
+      ctx!.lineTo(p.x, p.y);
+      ctx!.stroke();
+    }
+
+    // reading mode: fade the nib away after ~1.5s without scroll
+    const shouldRest = now - lastMove > 1500;
+    if (shouldRest !== resting) {
+      resting = shouldRest;
+      nib!.classList.toggle('pen-resting', resting);
+    }
+
     prevX = penX;
     prevY = penY;
 
