@@ -24,8 +24,9 @@ html.story [data-story='words'] .w-mask {
   display: inline-block;
   overflow: hidden;
   vertical-align: bottom;
-  padding: 0.1em 0.02em 0.14em;
-  margin: -0.1em -0.02em -0.14em;
+  /* generous side padding so italic overhangs (?, f, y) never clip */
+  padding: 0.12em 0.1em 0.16em;
+  margin: -0.12em -0.1em -0.16em;
 }
 html.story [data-story='words'] .w {
   display: inline-block;
@@ -100,6 +101,31 @@ html.story .path.story-in .tl-dot-wrap:nth-child(8) .tl-dot { animation-delay: 0
 html.story .path.story-in .tl-dot-wrap:nth-child(9) .tl-dot { animation-delay: 0.85s; }
 @keyframes storyDotPop {
   to { opacity: 1; transform: scale(1); }
+}
+
+/* ── Certification cards ──
+   Children of #certs-grid are re-injected by JS on langchange, so the
+   choreography is class-driven CSS (like the timeline dots): the class
+   lives on the static .certs-section wrapper and fresh children animate
+   automatically. */
+html.story .certs-section .cert-card {
+  opacity: 0;
+  transform: translateY(22px);
+}
+html.story .certs-section.story-in .cert-card {
+  animation: storyCertIn 0.65s var(--ease) both;
+}
+html.story .certs-section.story-in .cert-card:nth-child(2)  { animation-delay: 0.08s; }
+html.story .certs-section.story-in .cert-card:nth-child(3)  { animation-delay: 0.16s; }
+html.story .certs-section.story-in .cert-card:nth-child(4)  { animation-delay: 0.24s; }
+html.story .certs-section.story-in .cert-card:nth-child(5)  { animation-delay: 0.32s; }
+html.story .certs-section.story-in .cert-card:nth-child(6)  { animation-delay: 0.4s; }
+html.story .certs-section.story-in .cert-card:nth-child(7)  { animation-delay: 0.48s; }
+html.story .certs-section.story-in .cert-card:nth-child(8)  { animation-delay: 0.56s; }
+html.story .certs-section.story-in .cert-card:nth-child(9)  { animation-delay: 0.64s; }
+html.story .certs-section.story-in .cert-card:nth-child(10) { animation-delay: 0.72s; }
+@keyframes storyCertIn {
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Mobile vertical axis grows downward */

@@ -85,6 +85,18 @@ function init(): void {
     });
   }
 
+  /* ── Certification cards: same class-driven pattern (children are
+        re-injected on langchange, CSS re-animates them automatically) ── */
+  const certsSection = document.querySelector('.certs-section');
+  if (certsSection) {
+    ScrollTrigger.create({
+      trigger: certsSection,
+      start: 'top 78%',
+      once: true,
+      onEnter: () => certsSection.classList.add('story-in'),
+    });
+  }
+
   /* ── Reading progress bar ── */
   const progress = document.getElementById('story-progress');
   if (progress) {
