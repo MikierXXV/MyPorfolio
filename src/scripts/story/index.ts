@@ -7,7 +7,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { initReveals } from './reveals';
-import { initInkLine } from './inkline';
+import { initPenTrail } from './pentrail';
 import { initMotes } from './motes';
 
 function init(): void {
@@ -95,20 +95,17 @@ function init(): void {
     });
   }
 
-  /* ── Reveals, ink line, motes ── */
+  /* ── Reveals, pen trail, motes ── */
   initReveals(gsap, ScrollTrigger);
-  const ink = initInkLine(gsap, ScrollTrigger);
+  initPenTrail(gsap, lenis);
   initMotes(gsap, lenis);
 
-  /* ── One rebuild hook: resize, More-toggle height change, langchange
+  /* ── One refresh hook: resize, More-toggle height change, langchange
         reflow and font load all land here via the main's ResizeObserver ── */
   let rebuildTimer: number;
   new ResizeObserver(() => {
     clearTimeout(rebuildTimer);
-    rebuildTimer = window.setTimeout(() => {
-      ink?.rebuild();
-      ScrollTrigger.refresh();
-    }, 250);
+    rebuildTimer = window.setTimeout(() => ScrollTrigger.refresh(), 250);
   }).observe(main);
 
   window.addEventListener('load', () => ScrollTrigger.refresh());

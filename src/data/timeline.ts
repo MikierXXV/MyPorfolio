@@ -197,6 +197,13 @@ export const tlData: Record<Lang, TimelineEvent[]> = {
 export const certData: Record<Lang, CertItem[]> = {
   en: [
     {
+      year: 'Jun 2026',
+      title: 'AWS <em>Cloud Practitioner</em> Essentials',
+      issuer: 'Amazon Web Services (AWS)',
+      tags: ['AWS', 'Cloud'],
+      url: '#',
+    },
+    {
       year: '2026',
       title: "AI Development <em>Master's Degree</em>",
       issuer: 'Big School · Universidad Isabel I',
@@ -211,6 +218,48 @@ export const certData: Record<Lang, CertItem[]> = {
       url: '#',
     },
     {
+      year: 'Apr 2026',
+      title: 'Claude introduction to <em>Model Context Protocol</em>',
+      issuer: 'Anthropic',
+      tags: ['Claude', 'MCP'],
+      url: '#',
+    },
+    {
+      year: 'Apr 2026',
+      title: 'Claude introduction to <em>subagents</em>',
+      issuer: 'Anthropic',
+      tags: ['Claude', 'Agents'],
+      url: '#',
+    },
+    {
+      year: 'Apr 2026',
+      title: 'Claude introduction to <em>agent skills</em>',
+      issuer: 'Anthropic',
+      tags: ['Claude', 'Skills'],
+      url: '#',
+    },
+    {
+      year: 'Mar 2026',
+      title: 'Claude <em>101</em>',
+      issuer: 'Anthropic',
+      tags: ['Claude', 'LLMs'],
+      url: '#',
+    },
+    {
+      year: 'Mar 2026',
+      title: 'Claude Code <em>in Action</em>',
+      issuer: 'Anthropic',
+      tags: ['Claude Code', 'CLI'],
+      url: '#',
+    },
+    {
+      year: 'Jan 2026',
+      title: 'Automation with <em>n8n</em> &amp; AI',
+      issuer: 'Raiola Networks',
+      tags: ['n8n', 'AI', 'Automation'],
+      url: '#',
+    },
+    {
       year: '2023',
       title: '<em>Software Engineering</em> Degree',
       issuer: 'Polytechnic University of Catalonia · FIB',
@@ -219,6 +268,13 @@ export const certData: Record<Lang, CertItem[]> = {
     },
   ],
   es: [
+    {
+      year: 'Jun. 2026',
+      title: 'AWS <em>Cloud Practitioner</em> Essentials',
+      issuer: 'Amazon Web Services (AWS)',
+      tags: ['AWS', 'Cloud'],
+      url: '#',
+    },
     {
       year: '2026',
       title: 'Máster en <em>Desarrollo con IA</em>',
@@ -234,6 +290,48 @@ export const certData: Record<Lang, CertItem[]> = {
       url: '#',
     },
     {
+      year: 'Abr. 2026',
+      title: 'Claude introduction to <em>Model Context Protocol</em>',
+      issuer: 'Anthropic',
+      tags: ['Claude', 'MCP'],
+      url: '#',
+    },
+    {
+      year: 'Abr. 2026',
+      title: 'Claude introduction to <em>subagents</em>',
+      issuer: 'Anthropic',
+      tags: ['Claude', 'Agentes'],
+      url: '#',
+    },
+    {
+      year: 'Abr. 2026',
+      title: 'Claude introduction to <em>agent skills</em>',
+      issuer: 'Anthropic',
+      tags: ['Claude', 'Skills'],
+      url: '#',
+    },
+    {
+      year: 'Mar. 2026',
+      title: 'Claude <em>101</em>',
+      issuer: 'Anthropic',
+      tags: ['Claude', 'LLMs'],
+      url: '#',
+    },
+    {
+      year: 'Mar. 2026',
+      title: 'Claude Code <em>in Action</em>',
+      issuer: 'Anthropic',
+      tags: ['Claude Code', 'CLI'],
+      url: '#',
+    },
+    {
+      year: 'Ene. 2026',
+      title: 'Automatizaciones con <em>n8n</em> e IA',
+      issuer: 'Raiola Networks',
+      tags: ['n8n', 'IA', 'Automatización'],
+      url: '#',
+    },
+    {
       year: '2023',
       title: 'Grado en <em>Ingeniería del Software</em>',
       issuer: 'Universitat Politècnica de Catalunya · FIB',
@@ -242,6 +340,13 @@ export const certData: Record<Lang, CertItem[]> = {
     },
   ],
   ca: [
+    {
+      year: 'Juny 2026',
+      title: 'AWS <em>Cloud Practitioner</em> Essentials',
+      issuer: 'Amazon Web Services (AWS)',
+      tags: ['AWS', 'Cloud'],
+      url: '#',
+    },
     {
       year: '2026',
       title: "Màster en <em>Desenvolupament amb IA</em>",
@@ -254,6 +359,48 @@ export const certData: Record<Lang, CertItem[]> = {
       title: 'Cambridge English <em>B2 First</em> — en curs',
       issuer: 'Cambridge University Press &amp; Assessment',
       tags: ['Anglès', 'B2', 'en curs'],
+      url: '#',
+    },
+    {
+      year: 'Abr. 2026',
+      title: 'Claude introduction to <em>Model Context Protocol</em>',
+      issuer: 'Anthropic',
+      tags: ['Claude', 'MCP'],
+      url: '#',
+    },
+    {
+      year: 'Abr. 2026',
+      title: 'Claude introduction to <em>subagents</em>',
+      issuer: 'Anthropic',
+      tags: ['Claude', 'Agents'],
+      url: '#',
+    },
+    {
+      year: 'Abr. 2026',
+      title: 'Claude introduction to <em>agent skills</em>',
+      issuer: 'Anthropic',
+      tags: ['Claude', 'Skills'],
+      url: '#',
+    },
+    {
+      year: 'Març 2026',
+      title: 'Claude <em>101</em>',
+      issuer: 'Anthropic',
+      tags: ['Claude', 'LLMs'],
+      url: '#',
+    },
+    {
+      year: 'Març 2026',
+      title: 'Claude Code <em>in Action</em>',
+      issuer: 'Anthropic',
+      tags: ['Claude Code', 'CLI'],
+      url: '#',
+    },
+    {
+      year: 'Gen. 2026',
+      title: 'Automatitzacions amb <em>n8n</em> i IA',
+      issuer: 'Raiola Networks',
+      tags: ['n8n', 'IA', 'Automatització'],
       url: '#',
     },
     {

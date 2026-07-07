@@ -1,0 +1,37 @@
+---
+// PenTrail — a fixed pen nib on the right edge of the viewport whose height
+// mirrors reading progress. While scrolling it bends inward with velocity
+// and leaves a fading ink trail on a fixed canvas (comet-style).
+// Driven by src/scripts/story/pentrail.ts; hidden without the story gate.
+---
+
+<canvas id="pen-canvas" aria-hidden="true"></canvas>
+<div id="pen-nib" aria-hidden="true"></div>
+
+<style>
+  #pen-canvas,
+  #pen-nib {
+    display: none;
+    position: fixed;
+    pointer-events: none;
+    z-index: 50;
+  }
+  html.story #pen-canvas.pen-on,
+  html.story #pen-nib.pen-on {
+    display: block;
+  }
+  #pen-canvas {
+    inset: 0;
+  }
+  #pen-nib {
+    top: 0;
+    left: 0;
+    width: 11px;
+    height: 15px;
+    background: var(--burgundy);
+    /* nib / ink-drop shape, pointing down */
+    clip-path: polygon(50% 100%, 4% 38%, 20% 6%, 80% 6%, 96% 38%);
+    opacity: 0.85;
+    will-change: transform;
+  }
+</style>

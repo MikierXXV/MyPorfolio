@@ -12,9 +12,10 @@ export function initReveals(gsap: any, ScrollTrigger: any): void {
   });
 
   /* ── Word-split titles (data-story="words") ──
+     Replays every time the section re-enters the viewport (both scroll
+     directions); resets while fully out of view, so there is no flash.
      applyLang() replaces innerHTML on [data-i18n], destroying the split
-     spans — so we re-split on 'langchange'. Already-revealed titles jump
-     straight to their final state; pending ones re-arm their trigger. */
+     spans — so we re-split synchronously on 'langchange'. */
   const wordTweens = new WeakMap<HTMLElement, any>();
 
   function setupWords(el: HTMLElement): void {
@@ -25,10 +26,6 @@ export function initReveals(gsap: any, ScrollTrigger: any): void {
     const words = splitWords(el);
     if (!words.length) return;
 
-    if (el.dataset.revealed === '1') {
-      gsap.set(words, { y: 0, rotate: 0 });
-      return;
-    }
     const tw = gsap.to(words, {
       y: 0,
       rotate: 0,
@@ -38,10 +35,8 @@ export function initReveals(gsap: any, ScrollTrigger: any): void {
       scrollTrigger: {
         trigger: el,
         start: 'top 82%',
-        once: true,
-        onEnter: () => {
-          el.dataset.revealed = '1';
-        },
+        end: 'bottom top',
+        toggleActions: 'restart reset restart reset',
       },
     });
     wordTweens.set(el, tw);
@@ -86,13 +81,13 @@ export function initReveals(gsap: any, ScrollTrigger: any): void {
     }
   });
 
-  // Section-head rule draw: toggle a class; the transition lives in story.css
+  // Section-head rule draw: redraws on every return; transition in story.css
   document.querySelectorAll<HTMLElement>('[data-story-rule]').forEach((el) => {
     ScrollTrigger.create({
       trigger: el,
       start: 'top 85%',
-      once: true,
-      onEnter: () => el.classList.add('rule-in'),
+      end: 'bottom top',
+      onToggle: (self: any) => el.classList.toggle('rule-in', self.isActive),
     });
   });
 }
