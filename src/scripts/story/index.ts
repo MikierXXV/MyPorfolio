@@ -109,7 +109,7 @@ function init(): void {
 
   /* ── Reveals, pen trail, motes ── */
   initReveals(gsap, ScrollTrigger);
-  initPenTrail(gsap, lenis);
+  const pen = initPenTrail(gsap, lenis);
   initMotes(gsap, lenis);
 
   /* ── One refresh hook: resize, More-toggle height change, langchange
@@ -117,7 +117,10 @@ function init(): void {
   let rebuildTimer: number;
   new ResizeObserver(() => {
     clearTimeout(rebuildTimer);
-    rebuildTimer = window.setTimeout(() => ScrollTrigger.refresh(), 250);
+    rebuildTimer = window.setTimeout(() => {
+      pen?.rebuild();
+      ScrollTrigger.refresh();
+    }, 250);
   }).observe(main);
 
   window.addEventListener('load', () => ScrollTrigger.refresh());
