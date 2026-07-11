@@ -1,7 +1,16 @@
 ---
-import { toolsMeta, toolsCopy } from '../data/tools';
+import { toolsMeta, toolsCopy, toolGroups } from '../data/tools';
+import { i18n } from '../scripts/i18n';
 const copyJSON = JSON.stringify(toolsCopy);
 const en = toolsCopy.en;
+const ui = i18n.en;
+
+let cursor = 0;
+const groups = toolGroups.map((g) => {
+  const items = toolsMeta.slice(cursor, cursor + g.count);
+  cursor += g.count;
+  return { ...g, items };
+});
 ---
 
 <section class="tools" id="tools">
@@ -17,35 +26,40 @@ const en = toolsCopy.en;
     </div>
 
     <div class="term-body">
-      <p class="term-cmd">
-        <span class="term-prompt" aria-hidden="true">$</span>
-        <span class="term-typed" id="term-typed">ai-stack --list --sort=usage</span><span class="term-cursor" id="term-cursor" aria-hidden="true"></span>
-      </p>
-
-      <p class="term-cols" aria-hidden="true">
-        <span>NAME</span><span>STATUS</span><span>CATEGORY</span><span>FREQ</span><span class="col-load">LOAD</span>
-      </p>
-
-      <ol class="term-list">
-        {toolsMeta.map((t) => {
-          const c = en[t.id];
-          return (
-            <li class="term-row" data-tool={t.id}>
-              <div class="row-main">
-                <span class="row-name" data-t-field="name" set:html={c.name} />
-                <span class={`row-status st-${t.status}`}>[{t.status}]</span>
-                <span class="row-cat" data-t-field="cat">{c.cat}</span>
-                <span class="row-usage" data-t-field="usage">{c.usage}</span>
-                <span class="row-load" role="img" aria-label={`usage intensity ${t.intensity} of 5`}>
-                  {[1, 2, 3, 4, 5].map((i) => <i class={i <= t.intensity ? 'on' : ''} />)}
-                </span>
-              </div>
-              <p class="row-text" data-t-field="text" set:html={c.text} />
-              <p class="row-tags" data-t-field="tags">{c.tags.map((tag) => `#${tag}`).join('  ')}</p>
-            </li>
-          );
-        })}
-      </ol>
+      {groups.map((g, gi) => (
+        <div class="term-exchange">
+          <p class="term-cmd term-q">
+            <span class="term-prompt" aria-hidden="true">$</span>
+            <span class="q-typed" data-i18n={g.qKey}>{(ui as any)[g.qKey]}</span><span class="term-cursor" aria-hidden="true"></span>
+          </p>
+          <p class="term-ans" data-i18n={g.aKey}>{(ui as any)[g.aKey]}</p>
+          {gi === 0 && (
+            <p class="term-cols" aria-hidden="true">
+              <span>NAME</span><span>STATUS</span><span>CATEGORY</span><span>FREQ</span><span class="col-load">LOAD</span>
+            </p>
+          )}
+          <ol class="term-list">
+            {g.items.map((t) => {
+              const c = en[t.id];
+              return (
+                <li class="term-row" data-tool={t.id}>
+                  <div class="row-main">
+                    <span class="row-name" data-t-field="name" set:html={c.name} />
+                    <span class={`row-status st-${t.status}`}>[{t.status}]</span>
+                    <span class="row-cat" data-t-field="cat">{c.cat}</span>
+                    <span class="row-usage" data-t-field="usage">{c.usage}</span>
+                    <span class="row-load" role="img" aria-label={`usage intensity ${t.intensity} of 5`}>
+                      {[1, 2, 3, 4, 5].map((i) => <i class={i <= t.intensity ? 'on' : ''} />)}
+                    </span>
+                  </div>
+                  <p class="row-text" data-t-field="text" set:html={c.text} />
+                  <p class="row-tags" data-t-field="tags">{c.tags.map((tag) => `#${tag}`).join('  ')}</p>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      ))}
 
       <p class="term-cmd term-end" aria-hidden="true">
         <span class="term-prompt">$</span><span class="term-cursor blink"></span>
@@ -63,19 +77,9 @@ const en = toolsCopy.en;
     padding: 6rem var(--pad) 4rem;
     max-width: var(--max); margin: 0 auto;
   }
-  .section-head {
+  .tools .section-head {
     display: flex; justify-content: space-between; align-items: baseline;
     border-top: 1px solid var(--rule); padding-top: 0.85rem; margin-bottom: 3rem;
-  }
-  .section-title {
-    font-family: var(--serif); font-weight: 300;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    letter-spacing: -0.02em; line-height: 1.1; color: var(--ink);
-  }
-  .section-title em { font-style: italic; font-weight: 400; }
-  .section-aside {
-    font-family: var(--mono); font-size: 0.68rem;
-    text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute);
   }
 
   /* ── Terminal frame ── */
@@ -114,22 +118,32 @@ const en = toolsCopy.en;
     pointer-events: none;
   }
 
-  /* ── Command lines ── */
+  /* ── Dialogue lines ── */
   .term-cmd {
     display: flex; align-items: center; gap: 0.55rem;
     font-family: var(--mono); font-size: 0.78rem;
     color: rgba(242, 238, 229, 0.85);
     min-height: 1.4em;
-    margin-bottom: 1.1rem;
+    margin-bottom: 0.5rem;
   }
-  .term-cmd.term-end { margin: 0.9rem 0 0; }
+  .term-q { margin-top: 0.9rem; }
+  .term-exchange:first-child .term-q { margin-top: 0; }
+  .term-cmd.term-end { margin: 1rem 0 0; }
   .term-prompt { color: var(--burgundy-soft); }
+  .term-ans {
+    font-family: var(--mono); font-size: 0.72rem;
+    color: rgba(242, 238, 229, 0.55);
+    margin: 0 0 0.9rem 1.15rem;
+  }
   .term-cursor {
     display: inline-block; width: 0.55em; height: 1.05em;
     background: rgba(242, 238, 229, 0.8);
     vertical-align: text-bottom;
     margin-left: 2px;
+    opacity: 0;
   }
+  .term-q.q-active .term-cursor { opacity: 1; }
+  .term-end .term-cursor { opacity: 1; }
   @media (prefers-reduced-motion: no-preference) {
     .term-cursor.blink { animation: cursor-blink 1.1s steps(1) infinite; }
   }
@@ -233,7 +247,7 @@ const en = toolsCopy.en;
 <script define:vars={{ copyJSON }}>
   const copy = JSON.parse(copyJSON);
 
-  /* ─── LANG CHANGE ─── */
+  /* ─── LANG CHANGE (tool rows; questions/answers handled by applyLang) ─── */
   window.addEventListener('langchange', (e) => {
     const lang = e.detail.lang;
     document.querySelectorAll('.term-row[data-tool]').forEach((row) => {
@@ -253,30 +267,81 @@ const en = toolsCopy.en;
     });
   });
 
-  /* ─── TYPING ANIMATION (progressive enhancement) ─── */
-  const typed = document.getElementById('term-typed');
-  const cursor = document.getElementById('term-cursor');
+  /* ─── CHAT SEQUENCE + REPLAY (progressive enhancement) ───
+     Types each question, prints its answer and its rows, exchange by
+     exchange. Resets and replays every time the terminal re-enters the
+     viewport. Without the story gate everything is visible statically. */
   const term = document.querySelector('.term');
+  const termEnd = document.querySelector('.term-cmd.term-end');
+  const exchanges = Array.from(document.querySelectorAll('.term-exchange'));
+  const gated = document.documentElement.classList.contains('story');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (typed && cursor && term && !reduced) {
-    const full = typed.textContent;
-    const observer = new IntersectionObserver((entries) => {
-      if (!entries.some((en) => en.isIntersecting)) return;
-      observer.disconnect();
-      typed.textContent = '';
-      let i = 0;
-      const tick = setInterval(() => {
-        i++;
-        typed.textContent = full.slice(0, i);
-        if (i >= full.length) {
-          clearInterval(tick);
-          cursor.classList.add('blink');
+  if (term && exchanges.length && gated && !reduced) {
+    let timeouts = [];
+    let running = false;
+    const schedule = (fn, ms) => timeouts.push(window.setTimeout(fn, ms));
+
+    const resetSeq = () => {
+      timeouts.forEach(clearTimeout);
+      timeouts = [];
+      running = false;
+      term.querySelectorAll('.row-on').forEach((el) => el.classList.remove('row-on'));
+      term.querySelectorAll('.a-on').forEach((el) => el.classList.remove('a-on'));
+      exchanges.forEach((ex) => {
+        const q = ex.querySelector('.q-typed');
+        const qLine = ex.querySelector('.term-q');
+        if (q.textContent.trim()) q.dataset.full = q.textContent;
+        q.textContent = '';
+        qLine.classList.remove('q-active');
+      });
+    };
+
+    const runSeq = () => {
+      if (running) return;
+      running = true;
+      let t = 200;
+      exchanges.forEach((ex) => {
+        const q = ex.querySelector('.q-typed');
+        const qLine = ex.querySelector('.term-q');
+        const full = q.dataset.full ?? '';
+        schedule(() => qLine.classList.add('q-active'), t);
+        for (let c = 1; c <= full.length; c++) {
+          schedule(() => { q.textContent = full.slice(0, c); }, t + c * 32);
         }
-      }, 40);
-    }, { threshold: 0.35 });
+        t += full.length * 32 + 300;
+        schedule(() => {
+          qLine.classList.remove('q-active');
+          ex.querySelector('.term-ans')?.classList.add('a-on');
+        }, t);
+        t += 260;
+        const cols = ex.querySelector('.term-cols');
+        if (cols) {
+          schedule(() => cols.classList.add('row-on'), t);
+          t += 150;
+        }
+        ex.querySelectorAll('.term-row').forEach((row) => {
+          schedule(() => row.classList.add('row-on'), t);
+          t += 130;
+        });
+        t += 420;
+      });
+      schedule(() => termEnd?.classList.add('row-on'), t);
+    };
+
+    resetSeq();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) {
+            runSeq();
+          } else {
+            resetSeq();
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
     observer.observe(term);
-  } else if (cursor) {
-    cursor.classList.add('blink');
   }
 </script>

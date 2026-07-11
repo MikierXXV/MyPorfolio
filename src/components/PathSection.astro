@@ -1,40 +1,17 @@
 ---
-import { tlData, certData } from '../data/timeline';
-const tlJSON    = JSON.stringify(tlData);
+// PathSection — now only the Licenses & Certifications block (the career
+// timeline was fused into CareerScene, chapter III). Cert cards render as
+// flippable "cards" (front = content, back = monogram) dealt in threes by
+// src/scripts/story/scenes.ts under the story gate.
+import { certData } from '../data/timeline';
 const certsJSON = JSON.stringify(certData);
 ---
 
-<section class="path" id="path">
-  <div class="section-head" data-story-rule>
-    <h2 class="section-title" data-story="words" data-i18n="path_title">The <em>path</em> so far</h2>
-    <span class="section-aside" data-i18n="path_aside">Click the dots · current role shown</span>
-  </div>
-
-  <!-- Timeline -->
-  <div class="tl-wrap" id="tl-wrap">
-    <div class="tl-scroll" id="tl-scroll">
-      <div class="tl-stage" id="tl-stage">
-        <!-- axis + dots injected by JS -->
-      </div>
-    </div>
-    <p class="tl-scroll-hint" data-i18n="path_scroll_hint">← swipe to explore →</p>
-  </div>
-
-  <!-- Detail panel -->
-  <div class="tl-detail" id="tl-detail" aria-live="polite">
-    <div class="tl-detail-inner" id="tl-detail-inner">
-      <!-- populated by JS on dot select -->
-    </div>
-  </div>
-
-  <!-- Certifications sub-section -->
+<section class="path" id="certs">
+  <!-- Certifications -->
   <div class="certs-section" id="certs-section">
     <div class="section-head certs-head" data-story-rule>
-      <div class="certs-head-left">
-        <p class="section-eyebrow" data-i18n="certs_eyebrow">III · b</p>
-        <h2 class="section-title" data-story="words" data-i18n="certs_title">Licenses &amp; <em>certifications</em></h2>
-      </div>
-      <span class="section-aside" data-i18n="certs_aside">Selected · from LinkedIn</span>
+      <h2 class="section-title" data-story="words" data-i18n="certs_title">Licenses &amp; <em>certifications</em></h2>
     </div>
     <div class="certs-grid" id="certs-grid">
       <!-- populated by JS -->
@@ -68,135 +45,7 @@ const certsJSON = JSON.stringify(certData);
     margin-bottom: 0.3rem;
   }
 
-  /* ── Timeline wrapper ── */
-  .tl-wrap { position: relative; margin-bottom: 0.5rem; }
-  .tl-scroll {
-    overflow-x: auto; overflow-y: visible;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: 2.5rem 0 1.5rem;
-  }
-  .tl-scroll::-webkit-scrollbar { display: none; }
-  .tl-scroll-hint {
-    text-align: center; font-family: var(--mono); font-size: 0.62rem;
-    text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute);
-    margin-top: 0.4rem;
-  }
-  @media (max-width: 700px)  { .tl-scroll-hint { display: none; } }
-  @media (min-width: 900px)  { .tl-scroll-hint { display: none; } }
-
-  /* ── Timeline stage ── */
-  .tl-stage {
-    position: relative; min-width: 700px;
-    height: 160px; margin: 0 var(--pad);
-  }
-
-  /* axis line */
-  .tl-axis {
-    position: absolute; top: 50%; left: 0; right: 0;
-    height: 1px; background: var(--rule); transform: translateY(-50%);
-  }
-  /* progress fill */
-  .tl-progress {
-    position: absolute; top: 50%; left: 0;
-    height: 2px; background: var(--ink); width: 0%;
-    transform: translateY(-50%); transition: width .5s var(--ease);
-  }
-
-  /* dot wrap: column, centered on axis */
-  .tl-dot-wrap {
-    position: absolute; top: 50%; transform: translate(-50%, -50%);
-    display: flex; flex-direction: column; align-items: center;
-    cursor: pointer;
-  }
-
-  /* dot */
-  .tl-dot {
-    width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
-    background: var(--paper); border: 2px solid var(--rule);
-    transition: border-color .3s, background .3s, box-shadow .3s;
-    z-index: 2; position: relative;
-  }
-  .tl-dot-wrap:hover .tl-dot,
-  .tl-dot-wrap.active .tl-dot {
-    border-color: var(--ink); background: var(--ink);
-    box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px var(--ink);
-  }
-
-  /* tick connector */
-  .tl-tick {
-    width: 1px; height: 20px; background: var(--rule);
-    flex-shrink: 0; transition: background .3s;
-  }
-  .tl-dot-wrap:hover .tl-tick,
-  .tl-dot-wrap.active .tl-tick { background: var(--ink); }
-
-  /* label (shared) */
-  .tl-label-top, .tl-label-bot {
-    display: flex; flex-direction: column; align-items: center; gap: 1px;
-    white-space: nowrap;
-  }
-  .tl-year {
-    font-family: var(--mono); font-size: 0.64rem;
-    text-transform: uppercase; letter-spacing: 0.12em;
-    color: var(--ink); font-weight: 500; transition: color .3s;
-  }
-  .tl-name {
-    font-family: var(--serif); font-style: italic; font-weight: 300;
-    font-size: 0.72rem; color: var(--ink-soft); transition: color .3s;
-  }
-  .tl-role {
-    font-family: var(--sans); font-size: 0.6rem;
-    color: var(--ink-mute); line-height: 1.35;
-    max-width: 16ch; white-space: normal; text-align: center;
-  }
-  .tl-role em { font-style: italic; }
-  .tl-dot-wrap:hover .tl-year, .tl-dot-wrap.active .tl-year { color: var(--ink); }
-  .tl-dot-wrap:hover .tl-name, .tl-dot-wrap.active .tl-name { color: var(--ink); }
-
-  /* ── Desktop: larger nodes + labels ── */
-  @media (min-width: 900px) {
-    .tl-stage { height: 190px; }
-    .tl-dot { width: 16px; height: 16px; border-width: 2px; }
-    .tl-dot-wrap:hover .tl-dot,
-    .tl-dot-wrap.active .tl-dot {
-      box-shadow: 0 0 0 4px var(--paper), 0 0 0 7px var(--ink);
-    }
-    .tl-tick { height: 26px; }
-    .tl-year { font-size: 0.82rem; letter-spacing: 0.14em; }
-    .tl-name { font-size: 0.90rem; }
-  }
-
-  /* ── Detail panel ── */
-  .tl-detail {
-    border-top: 1px solid var(--rule); padding-top: 1.75rem;
-    margin-bottom: 5rem; min-height: 9rem;
-  }
-  .tl-detail-inner { animation: fadeUp .4s var(--ease); }
-  @keyframes fadeUp { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform:none; } }
-  .detail-period {
-    font-family: var(--mono); font-size: 0.65rem;
-    text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute);
-    margin-bottom: 0.3rem;
-  }
-  .detail-place {
-    font-family: var(--mono); font-size: 0.68rem;
-    text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-mute);
-    margin-bottom: 0.65rem;
-  }
-  .detail-role {
-    font-family: var(--serif); font-weight: 300;
-    font-size: clamp(1.2rem, 2.5vw, 1.75rem); color: var(--ink);
-    line-height: 1.2; margin-bottom: 0.75rem;
-  }
-  .detail-role em { font-style: italic; font-weight: 400; }
-  .detail-desc {
-    font-family: var(--sans); font-size: 0.88rem; color: var(--ink-soft);
-    line-height: 1.7; max-width: 60ch;
-  }
-
   /* ── Certifications ── */
-  .certs-section { margin-top: 2rem; }
   .certs-head { margin-bottom: 2rem; }
   .certs-head-left { display: flex; flex-direction: column; gap: 0; }
 
@@ -204,19 +53,63 @@ const certsJSON = JSON.stringify(certData);
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
+    perspective: 1100px;
   }
   @media (min-width: 600px)  { .certs-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (min-width: 1000px) { .certs-grid { grid-template-columns: repeat(3, 1fr); } }
 
   .cert-card {
+    position: relative;
+    min-height: 172px;
+    text-decoration: none;
+    will-change: transform;
+  }
+  .cert-inner {
+    position: relative;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.65s var(--ease);
+  }
+  .cert-face {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     border: 1px solid var(--rule); border-radius: 6px;
-    background: var(--paper-2); padding: 1.4rem 1.6rem;
+    padding: 1.4rem 1.6rem;
+    overflow: hidden;
+  }
+  .cert-front {
+    background: var(--paper-2);
     display: flex; flex-direction: column; gap: 0.5rem;
     transition: border-color .3s, box-shadow .3s;
-    text-decoration: none;
   }
+  .cert-back {
+    background: var(--paper-3);
+    transform: rotateY(180deg);
+    display: flex; align-items: center; justify-content: center; gap: 0.9rem;
+    border-color: var(--burgundy);
+    box-shadow: inset 0 0 0 5px var(--paper-3), inset 0 0 0 6px rgba(122, 31, 43, 0.35);
+  }
+  .cb-mono {
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    font-size: 2.1rem; color: var(--burgundy); opacity: 0.75;
+  }
+  .cb-star {
+    font-size: 1rem; color: var(--ink-mute);
+  }
+
+  .cert-card:hover .cert-front { border-color: var(--burgundy); box-shadow: 0 10px 28px rgba(26,22,18,.09); }
+  /* sheen sweep on hover */
+  .cert-front::after {
+    content: ''; position: absolute; top: 0; bottom: 0; width: 45%;
+    left: -70%; transform: skewX(-18deg);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left .65s var(--ease);
+    pointer-events: none;
+  }
+  .cert-card:hover .cert-front::after { left: 125%; }
+
   .cert-ext { font-family: var(--mono); font-size: 0.7em; color: var(--burgundy); }
-  .cert-card:hover { border-color: var(--ink-mute); box-shadow: 0 4px 20px rgba(26,22,18,.05); }
   .cert-year {
     font-family: var(--mono); font-size: 0.6rem;
     text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink-mute);
@@ -237,233 +130,58 @@ const certsJSON = JSON.stringify(certData);
     text-transform: uppercase; letter-spacing: 0.1em;
     padding: 0.2rem 0.5rem; border: 1px solid var(--rule);
     border-radius: 100px; color: var(--ink-mute);
+    transition: background 0.25s, color 0.25s, border-color 0.25s;
+    cursor: pointer;
   }
 
-  /* ── Mobile: vertical axis line ── */
-  @media (max-width: 700px) {
-    .tl-scroll { padding: 1rem 0 1.5rem; overflow: visible; }
-    .tl-stage {
-      min-width: unset; display: block; margin: 0;
-      /* height set by JS based on event count */
-    }
-    /* axis becomes a vertical line */
-    .tl-axis {
-      top: 0; left: 30px; right: auto; bottom: 0;
-      width: 1px; height: 100%; transform: none;
-    }
-    /* progress becomes vertical fill */
-    .tl-progress {
-      top: 0; left: 29px; right: auto;
-      width: 2px; height: 0; transform: none;
-      transition: height .5s var(--ease);
-    }
-    /* dots positioned absolutely along vertical axis */
-    .tl-dot-wrap {
-      left: 30px;
-      transform: translateY(-50%);
-      flex-direction: row; gap: 0.75rem;
-      align-items: center;
-      padding: 0.25rem 1rem 0.25rem 0;
-      border-bottom: none;
-    }
-    .tl-label-top, .tl-label-bot {
-      position: static; white-space: nowrap;
-      flex-direction: column; align-items: flex-start;
-    }
-    .tl-label-bot { display: flex; }
-    .tl-role { text-align: left; max-width: 26ch; }
-    .tl-dot { flex-shrink: 0; }
+  /* ── Pill group focus: hovering/tapping a pill highlights every card
+        that shares it and dims the rest ── */
+  .cert-card { transition: opacity 0.35s var(--ease); }
+  .cert-card.tag-dim { opacity: 0.3; }
+  .cert-card.tag-match .cert-front {
+    border-color: var(--burgundy);
+    box-shadow: 0 10px 28px rgba(26, 22, 18, 0.12);
+  }
+  .cert-tag.pill-active {
+    background: var(--burgundy); color: var(--paper); border-color: var(--burgundy);
   }
 </style>
 
-<script define:vars={{ tlJSON, certsJSON }}>
-  const tlData   = JSON.parse(tlJSON);
+<script define:vars={{ certsJSON }}>
   const certData = JSON.parse(certsJSON);
 
   let currentLang = 'en';
-  // default to the most recent entry (current role), not the oldest
-  let activeIdx   = (tlData['en'] ?? []).length - 1;
+  const certsGrid = document.getElementById('certs-grid');
 
-  const stage      = document.getElementById('tl-stage');
-  const detailInner = document.getElementById('tl-detail-inner');
-  const certsGrid  = document.getElementById('certs-grid');
-
-  const MOB_PAD = 28;      // px from top of stage to first dot
-  const MOB_SPACING = 96;  // px between dots (labels are year+name+role tall)
-
-  /* ─── BUILD TIMELINE ─── */
-  function buildTimeline() {
-    if (!stage) return;
-    const events = tlData[currentLang] ?? tlData['en'];
-    const n = events.length;
-    stage.innerHTML = '';
-
-    const isMobile = window.innerWidth <= 700;
-    const dotR = (!isMobile && window.innerWidth >= 900) ? 8 : 6;
-
-    // mobile: set explicit stage height so absolutely-positioned dots fit
-    if (isMobile) {
-      stage.style.height = (MOB_PAD * 2 + (n - 1) * MOB_SPACING) + 'px';
-    } else {
-      stage.style.height = '';
-    }
-
-    // axis (always rendered; CSS controls orientation)
-    const axis = document.createElement('div');
-    axis.className = 'tl-axis';
-    stage.appendChild(axis);
-
-    // progress (always rendered; updateProgress sets width or height)
-    const prog = document.createElement('div');
-    prog.className = 'tl-progress';
-    prog.id = 'tl-progress';
-    stage.appendChild(prog);
-
-    events.forEach((ev, i) => {
-      const pct = n === 1 ? 50 : (i / (n - 1)) * 100;
-
-      const wrap = document.createElement('div');
-      wrap.className = 'tl-dot-wrap' + (i === activeIdx ? ' active' : '');
-      wrap.dataset.idx = String(i);
-
-      const dot = document.createElement('div');
-      dot.className = 'tl-dot';
-
-      const isTop = i % 2 === 0;
-      const label = document.createElement('div');
-      label.className = isTop ? 'tl-label-top' : 'tl-label-bot';
-
-      const yearSpan = document.createElement('span');
-      yearSpan.className = 'tl-year';
-      yearSpan.textContent = ev.year;
-
-      const nameSpan = document.createElement('span');
-      nameSpan.className = 'tl-name';
-      nameSpan.textContent = ev.label;
-
-      const roleSpan = document.createElement('span');
-      roleSpan.className = 'tl-role';
-      roleSpan.innerHTML = ev.role;
-
-      label.appendChild(yearSpan);
-      label.appendChild(nameSpan);
-      label.appendChild(roleSpan);
-
-      if (isMobile) {
-        // vertical layout: dot on axis, label to the right
-        const topPx = MOB_PAD + i * MOB_SPACING;
-        wrap.style.top = topPx + 'px';
-        wrap.style.transform = 'translateY(-50%)';
-        wrap.appendChild(dot);
-        wrap.appendChild(label);
-      } else {
-        wrap.style.left = pct + '%';
-        const tick = document.createElement('div');
-        tick.className = 'tl-tick';
-        if (isTop) {
-          wrap.style.transform = `translate(-50%, calc(-100% + ${dotR}px))`;
-          wrap.appendChild(label);
-          wrap.appendChild(tick);
-          wrap.appendChild(dot);
-        } else {
-          wrap.style.transform = `translate(-50%, -${dotR}px)`;
-          wrap.appendChild(dot);
-          wrap.appendChild(tick);
-          wrap.appendChild(label);
-        }
-      }
-
-      wrap.tabIndex = 0;
-      wrap.setAttribute('role', 'button');
-      wrap.addEventListener('click', () => selectEvent(i));
-      wrap.addEventListener('mouseenter', () => selectEvent(i));
-      wrap.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectEvent(i); }
-      });
-
-      stage.appendChild(wrap);
-    });
-
-    updateDetail(activeIdx);
-    updateProgress(activeIdx);
-  }
-
-  function updateProgress(idx) {
-    const prog = document.getElementById('tl-progress');
-    if (!prog) return;
-    const isMobile = window.innerWidth <= 700;
-    const events = tlData[currentLang] ?? tlData['en'];
-    const n = events.length;
-    if (isMobile) {
-      const topPx = MOB_PAD + idx * MOB_SPACING;
-      prog.style.height = topPx + 'px';
-      prog.style.width = '';
-    } else {
-      const pct = n === 1 ? 50 : (idx / (n - 1)) * 100;
-      prog.style.width = pct + '%';
-      prog.style.height = '';
-    }
-  }
-
-  function selectEvent(idx) {
-    activeIdx = idx;
-    document.querySelectorAll('.tl-dot-wrap').forEach((el, i) => {
-      el.classList.toggle('active', i === idx);
-    });
-    updateDetail(idx);
-    updateProgress(idx);
-  }
-
-  function updateDetail(idx) {
-    if (!detailInner) return;
-    const events = tlData[currentLang] ?? tlData['en'];
-    const ev = events[idx];
-    if (!ev) return;
-    detailInner.innerHTML = `
-      <p class="detail-period">${ev.period}</p>
-      <p class="detail-place">${ev.place}</p>
-      <h3 class="detail-role">${ev.role}</h3>
-      <p class="detail-desc">${ev.desc}</p>
-    `;
-    // re-trigger animation
-    detailInner.style.animation = 'none';
-    detailInner.offsetHeight; // reflow
-    detailInner.style.animation = '';
-  }
-
-  /* ─── BUILD CERTS ─── */
   function renderCerts() {
     if (!certsGrid) return;
     const certs = certData[currentLang] ?? certData['en'];
+    const norm = (t) => t.toLowerCase().replace(/\s+/g, '-');
     certsGrid.innerHTML = certs.map(c => {
       const linked = c.url && c.url !== '#';
-      const inner = `
-        <span class="cert-year">${c.year}</span>
-        <h3 class="cert-title">${c.title}${linked ? ' <span class="cert-ext">↗</span>' : ''}</h3>
-        <p class="cert-issuer">${c.issuer}</p>
-        <div class="cert-tags">${c.tags.map(t => `<span class="cert-tag">${t}</span>`).join('')}</div>
+      const front = `
+        <div class="cert-face cert-front">
+          <span class="cert-year">${c.year}</span>
+          <h3 class="cert-title">${c.title}${linked ? ' <span class="cert-ext">↗</span>' : ''}</h3>
+          <p class="cert-issuer">${c.issuer}</p>
+          <div class="cert-tags">${c.tags.map(t => `<span class="cert-tag" data-tag="${norm(t)}">${t}</span>`).join('')}</div>
+        </div>
       `;
+      const back = `
+        <div class="cert-face cert-back"><span class="cb-star">✳</span><span class="cb-mono">MG</span><span class="cb-star">✳</span></div>
+      `;
+      const inner = `<div class="cert-inner">${front}${back}</div>`;
+      const tagsAttr = c.tags.map(norm).join('|');
       return linked
-        ? `<a class="cert-card" href="${c.url}" target="_blank" rel="noopener">${inner}</a>`
-        : `<div class="cert-card">${inner}</div>`;
+        ? `<a class="cert-card" data-tags="${tagsAttr}" href="${c.url}" target="_blank" rel="noopener">${inner}</a>`
+        : `<div class="cert-card" data-tags="${tagsAttr}">${inner}</div>`;
     }).join('');
   }
 
-  /* ─── INIT ─── */
-  buildTimeline();
   renderCerts();
 
-  // rebuild on resize (mobile ↔ desktop)
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(buildTimeline, 150);
-  });
-
-  /* ─── LANG CHANGE ─── */
   window.addEventListener('langchange', (e) => {
     currentLang = e.detail.lang;
-    buildTimeline();
     renderCerts();
   });
 </script>

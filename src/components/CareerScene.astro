@@ -1,0 +1,157 @@
+---
+// CareerScene — chapter III (fused path + story): the 7 career stages in
+// giant typography with period, place and description, plus a horizontal
+// mini-path on top whose dots advance in sync with the centered entry.
+// Desktop + story gate: sticky scene (story.css). Mobile / no-JS /
+// reduced motion: a plain static vertical list.
+import { tlData } from '../data/timeline';
+const tlJSON = JSON.stringify(tlData);
+const events = tlData.en;
+---
+
+<section class="career-scene" id="path" aria-label="Career story">
+  <div class="career-stage">
+    <div class="section-head career-head" data-story-rule>
+      <h2 class="section-title" data-story="words" data-i18n="path_title">The <em>path</em> so far</h2>
+    </div>
+
+    <!-- Fused mini-path: advances dot by dot in sync with the centered entry -->
+    <div class="career-path" aria-hidden="true">
+      <div class="cp-line">
+        <div class="cp-axis"></div>
+        <div class="cp-fill" id="cp-fill"></div>
+        {events.map((ev, i) => (
+          <div class="cp-dot-wrap" style={`left: ${events.length === 1 ? 50 : (i / (events.length - 1)) * 100}%`}>
+            <span class="cp-dot"></span>
+            <span class="cp-year">{ev.year}</span>
+            <span class="cp-label">{ev.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="career-track" id="career-track">
+      {events.map((ev) => (
+        <article class="career-entry">
+          <span class="ce-period">{ev.period}</span>
+          <h3 class="ce-role" set:html={ev.role} />
+          <p class="ce-place">{ev.place}</p>
+          <p class="ce-desc">{ev.desc}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .career-scene {
+    max-width: var(--max); margin: 0 auto;
+    padding: 6rem var(--pad) 3rem;
+  }
+  .career-stage {
+    position: relative;
+  }
+  .career-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-top: 1px solid var(--rule); padding-top: 0.85rem;
+    margin-bottom: 2.5rem;
+  }
+  .career-head .section-title {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: -0.02em; line-height: 1.1; color: var(--ink);
+  }
+  .career-head .section-title em { font-style: italic; font-weight: 400; }
+
+  /* Fused mini-path pinned at the top of the stage in scene mode; the
+     giant entries slide beneath its solid paper band */
+  .career-path { display: none; }
+  .cp-line { position: relative; height: 56px; margin: 0 4.5rem; }
+  .cp-axis {
+    position: absolute; top: 6px; left: 0; right: 0;
+    height: 1px; background: var(--rule);
+  }
+  .cp-fill {
+    position: absolute; top: 5.5px; left: 0;
+    height: 2px; width: 0%; background: var(--burgundy);
+    transition: width 0.45s var(--ease);
+  }
+  .cp-dot-wrap {
+    position: absolute; top: 0;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .cp-dot {
+    width: 13px; height: 13px; border-radius: 50%;
+    background: var(--paper); border: 2px solid var(--rule);
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+  .cp-dot-wrap.done .cp-dot { background: var(--ink); border-color: var(--ink); }
+  .cp-dot-wrap.active .cp-dot {
+    background: var(--burgundy); border-color: var(--burgundy);
+    box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px var(--burgundy);
+  }
+  .cp-year {
+    font-family: var(--mono); font-size: 0.72rem;
+    letter-spacing: 0.1em; color: var(--ink-mute);
+    transition: color 0.3s;
+  }
+  .cp-label {
+    font-family: var(--serif); font-style: italic; font-weight: 300;
+    font-size: 0.82rem; color: var(--ink-mute);
+    transition: color 0.3s;
+    white-space: nowrap;
+  }
+  .cp-dot-wrap.active .cp-year,
+  .cp-dot-wrap.active .cp-label { color: var(--ink); }
+
+  .career-track {
+    will-change: transform;
+  }
+  .career-entry {
+    padding: 3rem 0;
+    border-bottom: 1px solid var(--rule);
+    will-change: transform, opacity;
+  }
+  .ce-period {
+    font-family: var(--mono); font-size: clamp(0.78rem, 1.1vw, 0.95rem);
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--burgundy);
+  }
+  .ce-role {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(2.2rem, 5.8vw, 5rem);
+    letter-spacing: -0.025em; line-height: 1.05; color: var(--ink);
+    margin: 0.35rem 0;
+  }
+  .ce-role em { font-style: italic; font-weight: 400; }
+  .ce-place {
+    font-family: var(--mono); font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-mute);
+    margin-bottom: 0.7rem;
+  }
+  .ce-desc {
+    font-family: var(--sans); font-size: 0.9rem;
+    color: var(--ink-soft); line-height: 1.7; max-width: 58ch;
+  }
+</style>
+
+<script define:vars={{ tlJSON }}>
+  const tlData = JSON.parse(tlJSON);
+  window.addEventListener('langchange', (e) => {
+    const events = tlData[e.detail.lang] ?? tlData.en;
+    document.querySelectorAll('.career-entry').forEach((el, i) => {
+      const ev = events[i];
+      if (!ev) return;
+      el.querySelector('.ce-period').textContent = ev.period;
+      el.querySelector('.ce-role').innerHTML = ev.role;
+      el.querySelector('.ce-place').textContent = ev.place;
+      el.querySelector('.ce-desc').textContent = ev.desc;
+    });
+    document.querySelectorAll('.cp-dot-wrap').forEach((el, i) => {
+      const ev = events[i];
+      if (!ev) return;
+      el.querySelector('.cp-year').textContent = ev.year;
+      el.querySelector('.cp-label').textContent = ev.label;
+    });
+  });
+</script>

@@ -7,7 +7,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { initReveals } from './reveals';
-import { initPenTrail } from './pentrail';
+import { initScenes, initCertsDeal } from './scenes';
 import { initMotes } from './motes';
 
 function init(): void {
@@ -59,44 +59,6 @@ function init(): void {
     attributeFilter: ['class', 'style'],
   });
 
-  /* ── Hero scroll-out (parent h1, never the .word spans) ── */
-  if (document.querySelector('.hero-headline')) {
-    gsap.to('.hero-headline', {
-      yPercent: -12,
-      opacity: 0.35,
-      ease: 'none',
-      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.5 },
-    });
-    gsap.to('.hero-meta', {
-      opacity: 0,
-      ease: 'none',
-      scrollTrigger: { trigger: '.hero', start: 'top top', end: '45% top', scrub: 0.5 },
-    });
-  }
-
-  /* ── Path chapter: one class, choreography lives in story.css ── */
-  const pathSection = document.querySelector('section.path');
-  if (pathSection) {
-    ScrollTrigger.create({
-      trigger: pathSection,
-      start: 'top 72%',
-      once: true,
-      onEnter: () => pathSection.classList.add('story-in'),
-    });
-  }
-
-  /* ── Certification cards: same class-driven pattern (children are
-        re-injected on langchange, CSS re-animates them automatically) ── */
-  const certsSection = document.querySelector('.certs-section');
-  if (certsSection) {
-    ScrollTrigger.create({
-      trigger: certsSection,
-      start: 'top 78%',
-      once: true,
-      onEnter: () => certsSection.classList.add('story-in'),
-    });
-  }
-
   /* ── Reading progress bar ── */
   const progress = document.getElementById('story-progress');
   if (progress) {
@@ -107,9 +69,10 @@ function init(): void {
     });
   }
 
-  /* ── Reveals, pen trail, motes ── */
+  /* ── Reveals, sticky scenes, cert deal, motes ── */
   initReveals(gsap, ScrollTrigger);
-  const pen = initPenTrail(gsap, lenis);
+  initScenes(gsap, ScrollTrigger);
+  initCertsDeal(ScrollTrigger); // all widths — mobile deals with taps
   initMotes(gsap, lenis);
 
   /* ── One refresh hook: resize, More-toggle height change, langchange
@@ -117,10 +80,7 @@ function init(): void {
   let rebuildTimer: number;
   new ResizeObserver(() => {
     clearTimeout(rebuildTimer);
-    rebuildTimer = window.setTimeout(() => {
-      pen?.rebuild();
-      ScrollTrigger.refresh();
-    }, 250);
+    rebuildTimer = window.setTimeout(() => ScrollTrigger.refresh(), 250);
   }).observe(main);
 
   window.addEventListener('load', () => ScrollTrigger.refresh());

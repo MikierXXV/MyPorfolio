@@ -2,9 +2,9 @@ import type { Lang } from '../scripts/i18n';
 
 export const ASSET_BASE = `${import.meta.env.BASE_URL}assets/`;
 
-export interface ProjectLinks {
-  github?: string;
-  demo?: string;
+export interface RepoLink {
+  url: string;
+  label?: string; // literal label (e.g. plugin name); omitted → i18n work_link_code
 }
 
 export interface ProjectCard {
@@ -14,7 +14,7 @@ export interface ProjectCard {
   titleKey: string;        // i18n key for <em> subtitle
   descKey: string;         // i18n key for description
   tags: string[];
-  links?: ProjectLinks;
+  links?: RepoLink[];
 }
 
 export const workCards: ProjectCard[] = [
@@ -42,14 +42,19 @@ export interface ProjectModalData {
   tags: string[];
   images: string[];
   prose: Record<Lang, string>;
-  links?: ProjectLinks;
+  links?: RepoLink[];
 }
 
-export const projectLinks: Record<string, ProjectLinks> = {
-  bsfront:  { github: 'https://github.com/MikierXXV/big-school-frontend' },
-  bsback:   { github: 'https://github.com/MikierXXV/big-school-backend' },
-  layup:    { github: 'https://github.com/MikierXXV/LAYUP' },
-  wishlist: { github: 'https://github.com/MikierXXV/wishlist' },
+export const projectLinks: Record<string, RepoLink[]> = {
+  bsfront:    [{ url: 'https://github.com/MikierXXV/big-school-frontend' }],
+  bsback:     [{ url: 'https://github.com/MikierXXV/big-school-backend' }],
+  unimoodle:  [
+    { url: 'https://github.com/UNIMOODLE/moodle-gradereport_gradeconfigwizard', label: 'Wizard ↗' },
+    { url: 'https://github.com/UNIMOODLE/moodle-gradeexport_groupfilter_txt', label: 'Export ↗' },
+  ],
+  greenwheel: [{ url: 'https://github.com/orgs/Green-Wheel/repositories' }],
+  layup:      [{ url: 'https://github.com/MikierXXV/LAYUP' }],
+  wishlist:   [{ url: 'https://github.com/MikierXXV/wishlist' }],
 };
 
 export const projectData: Record<string, ProjectModalData> = {

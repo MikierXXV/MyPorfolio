@@ -1,0 +1,57 @@
+---
+// StoryFrame — the persistent architectural frame (Wittig): fixed column
+// rails at the content edges + a status chip bottom-left that appears
+// once the hero is passed. Gated behind html.story; rails desktop-only.
+---
+
+<div class="story-rails" aria-hidden="true">
+  <i class="rail rail-l"></i>
+  <i class="rail rail-r"></i>
+</div>
+
+<a id="story-status" href="#contact">
+  <span class="status-dot" aria-hidden="true"></span>
+  <span data-i18n="frame_status">Open to new opportunities</span>
+</a>
+
+<style>
+  .story-rails { display: none; }
+  :global(html.story) .story-rails { display: block; }
+  .rail {
+    position: fixed; top: 74px; bottom: 0;
+    width: 1px; background: var(--rule);
+    opacity: 0.7; pointer-events: none; z-index: 5;
+  }
+  .rail-l { left: calc((100vw - min(var(--max), 100vw - 2 * var(--pad))) / 2); }
+  .rail-r { right: calc((100vw - min(var(--max), 100vw - 2 * var(--pad))) / 2); }
+  @media (max-width: 900px) {
+    :global(html.story) .story-rails { display: none; }
+  }
+
+  #story-status {
+    display: none;
+    position: fixed; left: 1.4rem; bottom: 1.3rem;
+    align-items: center; gap: 0.5rem;
+    font-family: var(--mono); font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 0.13em;
+    color: var(--ink-mute); text-decoration: none;
+    z-index: 60;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 0.5s var(--ease), transform 0.5s var(--ease), color 0.3s;
+  }
+  :global(html.story) #story-status { display: flex; }
+  #story-status.on { opacity: 1; transform: translateY(0); }
+  #story-status:hover { color: var(--burgundy); }
+  .status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--burgundy);
+    animation: statusPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes statusPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(122, 31, 43, 0.35); }
+    50% { box-shadow: 0 0 0 5px rgba(122, 31, 43, 0); }
+  }
+  @media (max-width: 700px) {
+    :global(html.story) #story-status { display: none; }
+  }
+</style>

@@ -6,17 +6,26 @@ export interface ToolMeta {
   status: 'run' | 'exp';          // terminal badge, deliberately untranslated
 }
 
-// Array order = render order (sorted by usage)
+// Array order = render order, grouped to match the terminal dialogue:
+// daily | local lab | agents & automation | exploring
 export const toolsMeta: ToolMeta[] = [
   { id: 'claudecode',  intensity: 5, status: 'run' },
   { id: 'ollama',      intensity: 4, status: 'run' },
   { id: 'lmstudio',    intensity: 4, status: 'run' },
-  { id: 'openclaw',    intensity: 3, status: 'run' },
   { id: 'hermes',      intensity: 3, status: 'run' },
+  { id: 'openclaw',    intensity: 3, status: 'run' },
   { id: 'n8n',         intensity: 3, status: 'run' },
   { id: 'genkit',      intensity: 2, status: 'exp' },
   { id: 'huggingface', intensity: 2, status: 'exp' },
   { id: 'langchain',   intensity: 2, status: 'exp' },
+];
+
+// dialogue groups: index ranges into toolsMeta
+export const toolGroups: { count: number; qKey: string; aKey: string }[] = [
+  { count: 1, qKey: 'tools_q1', aKey: 'tools_a1' },
+  { count: 3, qKey: 'tools_q2', aKey: 'tools_a2' },
+  { count: 2, qKey: 'tools_q3', aKey: 'tools_a3' },
+  { count: 3, qKey: 'tools_q4', aKey: 'tools_a4' },
 ];
 
 export interface ToolCopy {

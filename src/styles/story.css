@@ -65,81 +65,111 @@ html.story [data-story-rule].rule-in::before {
   transform: scaleX(0);
 }
 
-/* ── Path chapter choreography ──
-   story/index.ts adds .story-in to section#path on enter (once).
-   We animate only .tl-axis / .tl-progress / .tl-dot — NEVER
-   .tl-dot-wrap (it carries inline positioning transforms). */
-html.story .path .tl-axis,
-html.story .path .tl-progress {
-  transform: scaleX(0);
-  transform-origin: left;
-}
-html.story .path.story-in .tl-axis {
-  animation: storyAxisGrow 0.9s var(--ease) both;
-}
-html.story .path.story-in .tl-progress {
-  animation: storyAxisGrow 0.9s var(--ease) 0.15s both;
-}
-@keyframes storyAxisGrow {
-  to { transform: scaleX(1); }
+/* (the old interactive timeline choreography was removed with the
+   PathSection timeline — the CareerScene is chapter III now) */
+
+/* ═══ Sticky scenes (Wittig) — story gate + desktop only ═══
+   Tall wrappers with a 100vh sticky stage; scrub timelines live in
+   src/scripts/story/scenes.ts. Without the gate or below 768px the
+   sections stay in normal flow. */
+@media (min-width: 768px) {
+  /* Hero narrative scene */
+  html.story section.hero { height: 260vh; }
+  html.story section.hero .hero-stage {
+    position: sticky; top: 0;
+    height: 100vh; min-height: 0;
+    overflow: hidden;
+  }
+  html.story .hero-build { display: flex; opacity: 0; }
+
+  /* Career story scene (fused path + story) */
+  html.story .career-scene {
+    height: 400vh;
+    padding-top: 0; padding-bottom: 0;
+  }
+  html.story .career-scene .career-stage {
+    position: sticky; top: 0;
+    height: 100vh; overflow: hidden;
+  }
+  html.story .career-scene .career-head {
+    position: absolute; top: 5.6rem; left: 0; right: 0;
+    margin: 0;
+    z-index: 3;
+  }
+  html.story .career-scene .career-path {
+    display: block;
+    position: absolute; top: 0; left: 0; right: 0;
+    z-index: 2;
+    background: var(--paper);
+    padding: 12.5rem 0 1.5rem;
+  }
 }
 
-html.story .path .tl-dot {
+/* Work deck: cards stack over each other while scrolling */
+@media (min-width: 800px) {
+  html.story .work-grid:not(.work-grid-early) { display: block; }
+  html.story .work-grid:not(.work-grid-early) .work-card {
+    position: sticky;
+    top: calc(92px + var(--i, 0) * 14px);
+    height: min(76vh, 620px);
+    margin-bottom: 30px;
+    /* the art row shrinks to the remaining space; text always visible */
+    grid-template-rows: auto minmax(0, 1fr) auto;
+  }
+  html.story .work-grid:not(.work-grid-early) .work-art-frame {
+    aspect-ratio: auto;
+    min-height: 0;
+  }
+}
+
+/* ── Certification "cards" deal ──
+   Under the gate, cards are dealt face-down in threes as you scroll
+   (dealt-1..4 on the grid, set by scenes.ts), can be peeked one by one
+   (hover/tap → .peek), and flip together once all are dealt
+   (.all-revealed). States live on the GRID so the langchange re-render
+   of the cards never loses them. */
+html.story .certs-grid:not(.all-revealed) .cert-card {
   opacity: 0;
-  transform: scale(0.3);
+  transform: translateY(26px);
+  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+  pointer-events: none;
 }
-html.story .path.story-in .tl-dot {
-  animation: storyDotPop 0.35s var(--ease) both;
+html.story .certs-grid:not(.all-revealed) .cert-card .cert-inner {
+  transform: rotateY(180deg); /* dealt face-down */
 }
-/* stagger by dot order (7 events) */
-html.story .path.story-in .tl-dot-wrap:nth-child(3) .tl-dot { animation-delay: 0.25s; }
-html.story .path.story-in .tl-dot-wrap:nth-child(4) .tl-dot { animation-delay: 0.35s; }
-html.story .path.story-in .tl-dot-wrap:nth-child(5) .tl-dot { animation-delay: 0.45s; }
-html.story .path.story-in .tl-dot-wrap:nth-child(6) .tl-dot { animation-delay: 0.55s; }
-html.story .path.story-in .tl-dot-wrap:nth-child(7) .tl-dot { animation-delay: 0.65s; }
-html.story .path.story-in .tl-dot-wrap:nth-child(8) .tl-dot { animation-delay: 0.75s; }
-html.story .path.story-in .tl-dot-wrap:nth-child(9) .tl-dot { animation-delay: 0.85s; }
-@keyframes storyDotPop {
-  to { opacity: 1; transform: scale(1); }
+html.story .certs-grid.dealt-1:not(.all-revealed) .cert-card:nth-child(-n + 3),
+html.story .certs-grid.dealt-2:not(.all-revealed) .cert-card:nth-child(-n + 6),
+html.story .certs-grid.dealt-3:not(.all-revealed) .cert-card:nth-child(-n + 9),
+html.story .certs-grid.dealt-4:not(.all-revealed) .cert-card {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+/* peek one card (hover on desktop / tap on touch) */
+html.story .certs-grid:not(.all-revealed) .cert-card.peek .cert-inner {
+  transform: rotateY(0deg);
+}
+/* the collective flip once everything is dealt */
+html.story .certs-grid.all-revealed .cert-card .cert-inner {
+  transform: rotateY(0deg);
 }
 
-/* ── Certification cards ──
-   Children of #certs-grid are re-injected by JS on langchange, so the
-   choreography is class-driven CSS (like the timeline dots): the class
-   lives on the static .certs-section wrapper and fresh children animate
-   automatically. */
-html.story .certs-section .cert-card {
+/* ── Terminal prints its output ──
+   Rows hidden until the typed command "runs"; ToolsSection's own script
+   adds .row-on sequentially after the typing animation completes. */
+html.story .term-cols,
+html.story .term-row,
+html.story .term-cmd.term-end,
+html.story .term-ans {
   opacity: 0;
-  transform: translateY(22px);
+  transform: translateY(8px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
 }
-html.story .certs-section.story-in .cert-card {
-  animation: storyCertIn 0.65s var(--ease) both;
-}
-html.story .certs-section.story-in .cert-card:nth-child(2)  { animation-delay: 0.08s; }
-html.story .certs-section.story-in .cert-card:nth-child(3)  { animation-delay: 0.16s; }
-html.story .certs-section.story-in .cert-card:nth-child(4)  { animation-delay: 0.24s; }
-html.story .certs-section.story-in .cert-card:nth-child(5)  { animation-delay: 0.32s; }
-html.story .certs-section.story-in .cert-card:nth-child(6)  { animation-delay: 0.4s; }
-html.story .certs-section.story-in .cert-card:nth-child(7)  { animation-delay: 0.48s; }
-html.story .certs-section.story-in .cert-card:nth-child(8)  { animation-delay: 0.56s; }
-html.story .certs-section.story-in .cert-card:nth-child(9)  { animation-delay: 0.64s; }
-html.story .certs-section.story-in .cert-card:nth-child(10) { animation-delay: 0.72s; }
-@keyframes storyCertIn {
-  to { opacity: 1; transform: translateY(0); }
+html.story .term-cols.row-on,
+html.story .term-row.row-on,
+html.story .term-cmd.term-end.row-on,
+html.story .term-ans.a-on {
+  opacity: 1;
+  transform: none;
 }
 
-/* Mobile vertical axis grows downward */
-@media (max-width: 700px) {
-  html.story .path .tl-axis,
-  html.story .path .tl-progress {
-    transform: scaleY(0);
-    transform-origin: top;
-  }
-  html.story .path.story-in .tl-axis,
-  html.story .path.story-in .tl-progress {
-    animation-name: storyAxisGrowY;
-  }
-  @keyframes storyAxisGrowY {
-    to { transform: scaleY(1); }
-  }
-}

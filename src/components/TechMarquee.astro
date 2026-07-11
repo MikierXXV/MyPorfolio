@@ -1,0 +1,85 @@
+---
+// TechMarquee — three slow bands of technology logos under the hero:
+// the outer rows drift one way, the middle one the opposite way.
+const base = `${import.meta.env.BASE_URL}assets/logos/`;
+const rows: { src: string; alt: string }[][] = [
+  [
+    { src: 'vue.png', alt: 'Vue' },
+    { src: 'typescript_32x32.webp', alt: 'TypeScript' },
+    { src: 'nodejs_32x32.png', alt: 'Node.js' },
+    { src: 'react-nbg.png', alt: 'React' },
+    { src: 'js.png', alt: 'JavaScript' },
+    { src: 'express_32x32.webp', alt: 'Express' },
+    { src: 'postgresql-icon_32x32.webp', alt: 'PostgreSQL' },
+    { src: 'mysql_32x32.webp', alt: 'MySQL' },
+    { src: 'tailwind_32x32.webp', alt: 'Tailwind CSS' },
+  ],
+  [
+    { src: 'py.png', alt: 'Python' },
+    { src: 'php.png', alt: 'PHP' },
+    { src: 'flutter.png', alt: 'Flutter' },
+    { src: 'dart.png', alt: 'Dart' },
+    { src: 'boostrap-nbg.png', alt: 'Bootstrap' },
+    { src: 'html.png', alt: 'HTML' },
+    { src: 'css.png', alt: 'CSS' },
+    { src: 'Claude_Logo_32x32.png', alt: 'Claude' },
+  ],
+  [
+    { src: 'ollama-icon_32x32.webp', alt: 'Ollama' },
+    { src: 'n8n-icon_32x32.webp', alt: 'n8n' },
+    { src: 'langchain_32x32.webp', alt: 'LangChain' },
+    { src: 'huggingface-icon_32x32.webp', alt: 'Hugging Face' },
+    { src: 'genkit_32x32.png', alt: 'Genkit' },
+    { src: 'llmstudio_32x32.png', alt: 'LM Studio' },
+    { src: 'openclaw-logo_32x32.webp', alt: 'OpenClaw' },
+    { src: 'hermes_32x32.png', alt: 'Hermes' },
+  ],
+];
+---
+
+<div class="marquee" aria-label="Technologies I work with">
+  {rows.map((row, ri) => (
+    <div class={`marquee-row row-${ri}`}>
+      <div class="marquee-track">
+        <div class="marquee-group">
+          {row.map((l) => <img src={`${base}${l.src}`} alt={l.alt} loading="lazy" height="32" />)}
+        </div>
+        <div class="marquee-group" aria-hidden="true">
+          {row.map((l) => <img src={`${base}${l.src}`} alt="" loading="lazy" height="32" />)}
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 1.2rem 0;
+    background: var(--paper);
+    display: grid;
+    gap: 1.4rem;
+  }
+  .marquee-row { overflow: hidden; }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+  }
+  .marquee-group {
+    display: flex; align-items: center;
+    gap: 3.6rem; padding-right: 3.6rem;
+  }
+  .marquee img {
+    height: 32px; width: auto;
+    filter: grayscale(1); opacity: 0.55;
+  }
+  /* motion only under the story gate — static rows otherwise */
+  :global(html.story) .row-0 .marquee-track { animation: marqueeScroll 32s linear infinite; }
+  :global(html.story) .row-1 .marquee-track { animation: marqueeScroll 38s linear infinite reverse; }
+  :global(html.story) .row-2 .marquee-track { animation: marqueeScroll 34s linear infinite; }
+  @keyframes marqueeScroll {
+    to { transform: translateX(-50%); }
+  }
+</style>

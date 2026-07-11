@@ -1,20 +1,19 @@
 ---
 // WorkSection — responsive grid with 7 project cards + project modals
 import { projectLinks } from '../data/projects';
-const gh = (id: string) => projectLinks[id]?.github;
+const links = (id: string) => projectLinks[id] ?? [];
 ---
 
 <section class="section" id="work">
   <div class="section-tag" data-story-rule>
-    <span class="section-num">I.</span>
     <h2 class="section-title" data-story="words" data-i18n="work_title">Selected <em>Work</em></h2>
     <span class="section-aside" data-i18n="work_aside">Seven pieces · code &amp; details on each card</span>
   </div>
 
-  <div class="work-grid" data-story="stagger" data-story-items=".work-card">
+  <div class="work-grid">
 
     <!-- 01 — BS Frontend -->
-    <article class="work-card" data-project="bsfront" tabindex="0" role="button">
+    <article class="work-card" data-project="bsfront" tabindex="0" role="button" style="--i: 0">
       <div class="work-card-head"><span class="work-card-num">01</span><span class="work-card-year">2026 · May</span></div>
       <div class="work-art-frame">
         <svg class="work-art" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet">
@@ -40,14 +39,16 @@ const gh = (id: string) => projectLinks[id]?.github;
         <p class="work-card-desc" data-i18n="work_bsfront_desc">Hospital-management SPA shipped to Vercel: Vue 3 + TypeScript in a 5-layer Clean Architecture. 24 views, 33+ components, RBAC, OAuth2, dark mode, 3-language i18n. Vitest (80% coverage target) + Playwright E2E.</p>
         <div class="work-card-foot">
           <span class="tag">Vue 3</span><span class="tag">TypeScript</span><span class="tag">Pinia</span><span class="tag">Tailwind</span>
-          <a class="tag tag-link" href={gh('bsfront')} target="_blank" rel="noopener" data-i18n="work_link_code">Code ↗</a>
+          {links('bsfront').map((l) => l.label
+            ? <a class="tag tag-link" href={l.url} target="_blank" rel="noopener">{l.label}</a>
+            : <a class="tag tag-link" href={l.url} target="_blank" rel="noopener" data-i18n="work_link_code">Code ↗</a>)}
           <span class="arrow">→</span>
         </div>
       </div>
     </article>
 
     <!-- 02 — BS Backend -->
-    <article class="work-card" data-project="bsback" tabindex="0" role="button">
+    <article class="work-card" data-project="bsback" tabindex="0" role="button" style="--i: 1">
       <div class="work-card-head"><span class="work-card-num">02</span><span class="work-card-year">2026 · May</span></div>
       <div class="work-art-frame">
         <svg class="work-art" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet">
@@ -67,14 +68,16 @@ const gh = (id: string) => projectLinks[id]?.github;
         <p class="work-card-desc" data-i18n="work_bsback_desc">Enterprise-grade auth API: hexagonal architecture with 30 use cases, JWT with refresh-token rotation, OAuth2, RBAC, progressive account lockout, rate limiting. Node + TypeScript + PostgreSQL, Dockerized.</p>
         <div class="work-card-foot">
           <span class="tag">Node</span><span class="tag">TypeScript</span><span class="tag">Express</span><span class="tag">PostgreSQL</span>
-          <a class="tag tag-link" href={gh('bsback')} target="_blank" rel="noopener" data-i18n="work_link_code">Code ↗</a>
+          {links('bsback').map((l) => l.label
+            ? <a class="tag tag-link" href={l.url} target="_blank" rel="noopener">{l.label}</a>
+            : <a class="tag tag-link" href={l.url} target="_blank" rel="noopener" data-i18n="work_link_code">Code ↗</a>)}
           <span class="arrow">→</span>
         </div>
       </div>
     </article>
 
     <!-- 03 — Unimoodle -->
-    <article class="work-card" data-project="unimoodle" tabindex="0" role="button">
+    <article class="work-card" data-project="unimoodle" tabindex="0" role="button" style="--i: 2">
       <div class="work-card-head"><span class="work-card-num">03</span><span class="work-card-year">2024 · Jan</span></div>
       <div class="work-art-frame">
         <svg class="work-art" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet">
@@ -94,13 +97,16 @@ const gh = (id: string) => projectLinks[id]?.github;
         <p class="work-card-desc" data-i18n="work_1_desc">Grading-formula editor and data-export plugins for Moodle, built for a consortium of 15 Spanish universities — integrated into Moodle core UI without breaking accessibility.</p>
         <div class="work-card-foot">
           <span class="tag">PHP</span><span class="tag">Moodle</span><span class="tag">JS</span>
+          {links('unimoodle').map((l) => l.label
+            ? <a class="tag tag-link" href={l.url} target="_blank" rel="noopener">{l.label}</a>
+            : <a class="tag tag-link" href={l.url} target="_blank" rel="noopener" data-i18n="work_link_code">Code ↗</a>)}
           <span class="arrow">→</span>
         </div>
       </div>
     </article>
 
     <!-- 04 — Green Wheel -->
-    <article class="work-card" data-project="greenwheel" tabindex="0" role="button">
+    <article class="work-card" data-project="greenwheel" tabindex="0" role="button" style="--i: 3">
       <div class="work-card-head"><span class="work-card-num">04</span><span class="work-card-year">2023 · May</span></div>
       <div class="work-art-frame">
         <svg class="work-art" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet">
@@ -124,13 +130,16 @@ const gh = (id: string) => projectLinks[id]?.github;
         <p class="work-card-desc" data-i18n="work_2_desc">Led the frontend team of a 7-person squad building a Flutter app to reserve EV chargers and bikes — maps, reservations, chat and ratings delivered across three Agile sprints.</p>
         <div class="work-card-foot">
           <span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">Python</span>
+          {links('greenwheel').map((l) => l.label
+            ? <a class="tag tag-link" href={l.url} target="_blank" rel="noopener">{l.label}</a>
+            : <a class="tag tag-link" href={l.url} target="_blank" rel="noopener" data-i18n="work_link_code">Code ↗</a>)}
           <span class="arrow">→</span>
         </div>
       </div>
     </article>
 
     <!-- 05 — Data Mining -->
-    <article class="work-card" data-project="datamining" tabindex="0" role="button">
+    <article class="work-card" data-project="datamining" tabindex="0" role="button" style="--i: 4">
       <div class="work-card-head"><span class="work-card-num">05</span><span class="work-card-year">2023 · May</span></div>
       <div class="work-art-frame">
         <svg class="work-art" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet">
@@ -181,7 +190,7 @@ const gh = (id: string) => projectLinks[id]?.github;
         <p class="work-card-desc" data-i18n="work_4_desc">Where it started — ecommerce frontend for a fashion brand with login and cart. HTML, CSS, JS, Bootstrap.</p>
         <div class="work-card-foot">
           <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span><span class="tag">Bootstrap</span>
-          <a class="tag tag-link" href={gh('layup')} target="_blank" rel="noopener" data-i18n="work_link_code">Code ↗</a>
+          {links('layup').map((l) => <a class="tag tag-link" href={l.url} target="_blank" rel="noopener" data-i18n="work_link_code">Code ↗</a>)}
           <span class="arrow">→</span>
         </div>
       </div>
@@ -195,7 +204,7 @@ const gh = (id: string) => projectLinks[id]?.github;
         <p class="work-card-desc" data-i18n="work_5_desc">A React study in making time visible — items decay green→orange→red as they wait.</p>
         <div class="work-card-foot">
           <span class="tag">React</span><span class="tag">JS</span>
-          <a class="tag tag-link" href={gh('wishlist')} target="_blank" rel="noopener" data-i18n="work_link_code">Code ↗</a>
+          {links('wishlist').map((l) => <a class="tag tag-link" href={l.url} target="_blank" rel="noopener" data-i18n="work_link_code">Code ↗</a>)}
           <span class="arrow">→</span>
         </div>
       </div>
@@ -222,7 +231,7 @@ const gh = (id: string) => projectLinks[id]?.github;
   /* ===== SECTION HEADER (shared pattern) ===== */
   .section { max-width: var(--max); margin: 0 auto; padding: 7rem var(--pad) 3rem; position: relative; }
   .section-tag {
-    display: grid; grid-template-columns: auto 1fr auto;
+    display: grid; grid-template-columns: 1fr auto;
     gap: 1.5rem; align-items: baseline;
     margin-bottom: 4rem;
     border-top: 1px solid var(--ink); padding-top: 1rem;
@@ -419,13 +428,12 @@ const gh = (id: string) => projectLinks[id]?.github;
     document.getElementById('pmTitle')!.innerHTML = p.title[currentLang];
     document.getElementById('pmTags')!.innerHTML  = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
 
-    const links = projectLinks[key];
+    const repoLinks = projectLinks[key] ?? [];
     const linksEl = document.getElementById('pmLinks')!;
     const t = i18n[currentLang];
-    linksEl.innerHTML = [
-      links?.github ? `<a class="project-link" href="${links.github}" target="_blank" rel="noopener">${t.work_link_code ?? 'Code ↗'}</a>` : '',
-      links?.demo   ? `<a class="project-link" href="${links.demo}" target="_blank" rel="noopener">${t.work_link_live ?? 'Live ↗'}</a>` : '',
-    ].join('');
+    linksEl.innerHTML = repoLinks
+      .map(l => `<a class="project-link" href="${l.url}" target="_blank" rel="noopener">${l.label ?? t.work_link_code ?? 'Code ↗'}</a>`)
+      .join('');
 
     const galleryEl = document.getElementById('pmGallery')!;
     if (p.images.length) {
