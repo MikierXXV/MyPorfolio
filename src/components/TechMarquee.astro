@@ -1,6 +1,7 @@
 ---
-// TechMarquee — three slow bands of technology logos under the hero:
-// the outer rows drift one way, the middle one the opposite way.
+// TechMarquee — two opposite-drifting bands of technology logos under the
+// hero. Each group renders its logo list TWICE so the group is always
+// wider than the viewport — the -50% loop never shows a gap.
 const base = `${import.meta.env.BASE_URL}assets/logos/`;
 const rows: { src: string; alt: string }[][] = [
   [
@@ -13,18 +14,16 @@ const rows: { src: string; alt: string }[][] = [
     { src: 'postgresql-icon_32x32.webp', alt: 'PostgreSQL' },
     { src: 'mysql_32x32.webp', alt: 'MySQL' },
     { src: 'tailwind_32x32.webp', alt: 'Tailwind CSS' },
-  ],
-  [
     { src: 'py.png', alt: 'Python' },
     { src: 'php.png', alt: 'PHP' },
     { src: 'flutter.png', alt: 'Flutter' },
     { src: 'dart.png', alt: 'Dart' },
+  ],
+  [
     { src: 'boostrap-nbg.png', alt: 'Bootstrap' },
     { src: 'html.png', alt: 'HTML' },
     { src: 'css.png', alt: 'CSS' },
     { src: 'Claude_Logo_32x32.png', alt: 'Claude' },
-  ],
-  [
     { src: 'ollama-icon_32x32.webp', alt: 'Ollama' },
     { src: 'n8n-icon_32x32.webp', alt: 'n8n' },
     { src: 'langchain_32x32.webp', alt: 'LangChain' },
@@ -38,18 +37,21 @@ const rows: { src: string; alt: string }[][] = [
 ---
 
 <div class="marquee" aria-label="Technologies I work with">
-  {rows.map((row, ri) => (
-    <div class={`marquee-row row-${ri}`}>
-      <div class="marquee-track">
-        <div class="marquee-group">
-          {row.map((l) => <img src={`${base}${l.src}`} alt={l.alt} loading="lazy" height="32" />)}
-        </div>
-        <div class="marquee-group" aria-hidden="true">
-          {row.map((l) => <img src={`${base}${l.src}`} alt="" loading="lazy" height="32" />)}
+  {rows.map((row) => {
+    const doubled = [...row, ...row, ...row];
+    return (
+      <div class="marquee-row">
+        <div class="marquee-track">
+          <div class="marquee-group">
+            {doubled.map((l) => <img src={`${base}${l.src}`} alt={l.alt} loading="lazy" height="32" />)}
+          </div>
+          <div class="marquee-group" aria-hidden="true">
+            {doubled.map((l) => <img src={`${base}${l.src}`} alt="" loading="lazy" height="32" />)}
+          </div>
         </div>
       </div>
-    </div>
-  ))}
+    );
+  })}
 </div>
 
 <style>
@@ -76,9 +78,8 @@ const rows: { src: string; alt: string }[][] = [
     filter: grayscale(1); opacity: 0.55;
   }
   /* motion only under the story gate — static rows otherwise */
-  :global(html.story) .row-0 .marquee-track { animation: marqueeScroll 32s linear infinite; }
-  :global(html.story) .row-1 .marquee-track { animation: marqueeScroll 38s linear infinite reverse; }
-  :global(html.story) .row-2 .marquee-track { animation: marqueeScroll 34s linear infinite; }
+  :global(html.story) .marquee-row:nth-child(1) .marquee-track { animation: marqueeScroll 36s linear infinite; }
+  :global(html.story) .marquee-row:nth-child(2) .marquee-track { animation: marqueeScroll 42s linear infinite reverse; }
   @keyframes marqueeScroll {
     to { transform: translateX(-50%); }
   }

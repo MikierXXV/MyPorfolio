@@ -4,7 +4,10 @@
 
 <section class="contact" id="contact">
   <div class="section-head">
-    <p class="contact-eyebrow" data-i18n="contact_eyebrow">VI. Let's talk</p>
+    <p class="contact-eyebrow contact-status">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span data-i18n="frame_status">Open to new opportunities</span>
+    </p>
   </div>
 
   <div class="contact-body">
@@ -31,8 +34,6 @@
       -->
     </div>
   </div>
-
-  <p class="contact-note" data-story="fade-up" data-i18n="contact_note">Currently Software Engineer &amp; AI Developer at Health Lean Analytics — open to conversations about full-stack and AI engineering roles.</p>
 
   <div class="contact-socials" data-story="fade-up">
     <a class="social-link" href="https://github.com/MikierXXV" target="_blank" rel="noopener">
@@ -69,6 +70,18 @@
   .contact-eyebrow {
     font-family: var(--mono); font-size: 0.65rem;
     text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink-mute);
+  }
+  .contact-status {
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--burgundy);
+    animation: statusPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes statusPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(122, 31, 43, 0.35); }
+    50% { box-shadow: 0 0 0 5px rgba(122, 31, 43, 0); }
   }
 
   .contact-body {
@@ -131,11 +144,6 @@
   }
   .contact-cv:hover { color: var(--burgundy); border-color: var(--burgundy); }
 
-  .contact-note {
-    font-family: var(--sans); font-size: 0.82rem;
-    color: var(--ink-mute); line-height: 1.7; max-width: 52ch;
-    margin: -2.5rem 0 3rem;
-  }
 
   .contact-socials {
     display: flex; gap: 1.5rem; flex-wrap: wrap;

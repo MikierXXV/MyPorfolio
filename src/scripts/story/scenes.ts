@@ -108,16 +108,6 @@ export function initScenes(gsap: any, ScrollTrigger: any): void {
     });
   }
 
-  /* ── 4. Status chip appears once the hero is behind ── */
-  const chip = document.getElementById('story-status');
-  if (chip && hero) {
-    ScrollTrigger.create({
-      trigger: hero,
-      start: 'bottom 70%',
-      onEnter: () => chip.classList.add('on'),
-      onLeaveBack: () => chip.classList.remove('on'),
-    });
-  }
 }
 
 /* ── Certification cards deal (all widths — mobile taps included) ──
@@ -135,11 +125,20 @@ export function initCertsDeal(ScrollTrigger: any): void {
      three-by-three deal is always visible. */
   const DEAL_GAP = 520;
   let lastDealAt = 0;
+  let dealt4At = Infinity;
+  let revealRequested = false;
   const applyDeal = (k: number) => {
     grid.classList.add(`dealt-${k}`);
     if (k === 4) {
-      window.setTimeout(() => grid.classList.add('all-revealed'), 1000);
+      dealt4At = performance.now();
+      if (revealRequested) scheduleReveal();
     }
+  };
+  // the pack never opens sooner than 1.2s after the last batch is dealt,
+  // so fast scrollers still get a glimpse of the face-down envelopes
+  const scheduleReveal = () => {
+    const wait = Math.max(0, dealt4At + 1200 - performance.now());
+    window.setTimeout(() => grid.classList.add('all-revealed'), wait);
   };
   const queueDeal = (k: number) => {
     const now = performance.now();
@@ -156,6 +155,18 @@ export function initCertsDeal(ScrollTrigger: any): void {
       once: true,
       onEnter: () => queueDeal(i + 1),
     });
+  });
+
+  // the collective reveal only happens when the reader keeps scrolling
+  // past the grid — like opening the whole pack at once
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'bottom 62%',
+    once: true,
+    onEnter: () => {
+      revealRequested = true;
+      if (dealt4At !== Infinity) scheduleReveal();
+    },
   });
 
   const hoverCapable = window.matchMedia('(hover: hover)').matches;
@@ -196,22 +207,17 @@ export function initCertsDeal(ScrollTrigger: any): void {
     });
   }
 
-  // peek a single card before the collective reveal
-  const peek = (e: Event) => {
+  // envelope opening: while face-down, clicking/tapping a card flips it
+  // permanently (hover only teases via CSS — the reveal is the press)
+  grid.addEventListener('click', (e) => {
     if (grid.classList.contains('all-revealed')) return;
     const card = (e.target as HTMLElement).closest<HTMLElement>('.cert-card');
-    if (card) card.classList.add('peek');
-  };
-  if (hoverCapable) {
-    grid.addEventListener('pointerover', peek);
-  } else {
-    grid.addEventListener('click', (e) => {
-      if (!grid.classList.contains('all-revealed')) {
-        e.preventDefault(); // don't follow cert links while face-down
-        peek(e);
-      }
-    });
-  }
+    if (!card) return;
+    if (!card.classList.contains('peek')) {
+      e.preventDefault(); // don't follow cert links while face-down
+      card.classList.add('peek');
+    }
+  });
 
   // cursor-follow 3D tilt, active after the collective reveal (delegated)
   if (hoverCapable) {
