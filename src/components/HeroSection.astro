@@ -68,9 +68,11 @@
 <style>
   .hero-stage {
     min-height: 100vh;
-    padding: 8.75rem var(--pad) 4rem;
+    /* vh-aware spacing: the sticky scene locks this stage to exactly 100vh
+       (story.css), so everything must fit on short viewports (~800-910px) */
+    padding: clamp(6rem, 12vh, 8.75rem) var(--pad) clamp(2.5rem, 6vh, 4rem);
     max-width: var(--max); margin: 0 auto;
-    display: grid; gap: 2.5rem; align-content: center;
+    display: grid; gap: clamp(1.25rem, 3vh, 2.5rem); align-content: center;
     position: relative;
   }
 
@@ -118,7 +120,7 @@
 
   .hero-headline {
     font-family: var(--serif); font-weight: 300;
-    font-size: clamp(3rem, 10vw, 10rem);
+    font-size: clamp(3rem, min(10vw, 16vh), 10rem);
     line-height: 1; letter-spacing: -0.035em; color: var(--ink);
   }
   .hero-headline .italic   { font-style: italic; font-weight: 400; }
@@ -150,9 +152,9 @@
   }
 
   .hero-roles {
-    font-family: var(--serif); font-size: clamp(1.05rem, 1.5vw, 1.4rem);
+    font-family: var(--serif); font-size: clamp(0.95rem, 1.1vw, 1.15rem);
     font-style: italic; font-weight: 300; color: var(--ink-soft);
-    line-height: 1.7; max-width: 32ch;
+    line-height: 1.6; max-width: 32ch;
   }
   .hero-roles .num {
     font-family: var(--mono); font-style: normal;
